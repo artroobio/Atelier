@@ -27,8 +27,10 @@ export default function Hero() {
 
   useEffect(() => {
     const bar = document.getElementById('progress-bar');
+    const percentText = document.getElementById('loader-percentage');
     const overlay = document.getElementById('loader');
     if(bar) bar.style.width = `${progress}%`;
+    if(percentText) percentText.innerText = `${Math.round(progress)}%`;
     if(progress === 100) {
        setTimeout(() => { if(overlay) overlay.style.opacity = '0'; setLoaded(true); }, 500);
        setTimeout(() => { if(overlay) overlay.style.display = 'none'; }, 1300);
@@ -72,6 +74,7 @@ export default function Hero() {
       <div id="loader" className="loader-overlay">
         <div className="loader-text">Loading Experience</div>
         <div className="loader-bar"><div className="loader-progress" id="progress-bar"></div></div>
+        <div id="loader-percentage" className="loader-percentage">0%</div>
       </div>
 
       <div className="ui-layer">
