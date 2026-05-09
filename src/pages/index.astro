@@ -11,10 +11,9 @@ import Sections from '../components/Sections.jsx';
     <meta name="generator" content={Astro.generator} />
     <title>Architectural Glass Hero</title>
 
-    <!-- Optimizations: Preload critical assets -->
-    <link rel="preload" href="https://ik.imagekit.io/artroobeo/Green%20Checklist%20Minimalist%20Business%20Furniture%20&%20Interior%20Design%20Video.webm" as="video" type="video/webm" crossorigin="anonymous" />
+    <!-- Preload critical assets. crossorigin must match how the asset is fetched at runtime. -->
     <link rel="preload" href="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg" as="image" crossorigin="anonymous" />
-    <link rel="preload" href="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg" as="image" crossorigin="anonymous" />
+    <link rel="preload" href="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg" as="image" />
   </head>
   <body>
     <Sections client:only="react" />

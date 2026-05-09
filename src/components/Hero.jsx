@@ -39,6 +39,12 @@ export default function Hero() {
   }, []);
 
   useEffect(() => {
+    if (isMobile) {
+      setLoaded(true);
+    }
+  }, [isMobile]);
+
+  useEffect(() => {
     const bar = document.getElementById('progress-bar');
     const percentText = document.getElementById('loader-percentage');
     const overlay = document.getElementById('loader');
@@ -107,11 +113,15 @@ export default function Hero() {
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-      <div id="loader" className="loader-overlay">
-        <div className="loader-text">Loading Experience</div>
-        <div className="loader-bar"><div className="loader-progress" id="progress-bar"></div></div>
-        <div id="loader-percentage" className="loader-percentage">0%</div>
-      </div>
+      {!isMobile && (
+        <div id="loader" className="loader-overlay">
+          <div className="loader-text">Loading Experience</div>
+          <div className="loader-bar"><div className="loader-progress" id="progress-bar"></div></div>
+          <div id="loader-percentage" className="loader-percentage">0%</div>
+        </div>
+      )}
+
+      {isMobile && <div className="hero-mobile-bg"></div>}
 
       <div className="ui-layer">
         <div className="menu-btn" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? "Close" : "Menu"}</div>
@@ -144,17 +154,19 @@ export default function Hero() {
         </div>
       </div>
 
-      <Canvas dpr={isMobile ? [1, 1.5] : window.devicePixelRatio} camera={{ position: [0, 0, 10.5], fov: 35 }}>
-        <ambientLight intensity={1} />
-        <spotLight position={[10, 10, 10]} intensity={2} angle={0.2} penumbra={1} color="white" />
-        <spotLight position={[-10, 10, -5]} intensity={2} angle={0.2} penumbra={1} color="white" />
-        <React.Suspense fallback={null}>
-          <Background menuOpen={menuOpen} />
-          <group ref={orbGroupRef} position={[3.5, 0, 0]}>
-            <Paperweight loaded={loaded} menuOpen={menuOpen} />
-          </group>
-        </React.Suspense>
-      </Canvas>
+      {!isMobile && (
+        <Canvas dpr={window.devicePixelRatio} camera={{ position: [0, 0, 10.5], fov: 35 }}>
+          <ambientLight intensity={1} />
+          <spotLight position={[10, 10, 10]} intensity={2} angle={0.2} penumbra={1} color="white" />
+          <spotLight position={[-10, 10, -5]} intensity={2} angle={0.2} penumbra={1} color="white" />
+          <React.Suspense fallback={null}>
+            <Background menuOpen={menuOpen} />
+            <group ref={orbGroupRef} position={[3.5, 0, 0]}>
+              <Paperweight loaded={loaded} menuOpen={menuOpen} />
+            </group>
+          </React.Suspense>
+        </Canvas>
+      )}
     </div>
   );
 }
