@@ -19,11 +19,24 @@ const SplitText = ({ children, className }) => {
   );
 };
 
+function detectMobile() {
+  if (typeof window === 'undefined') return false;
+  return window.matchMedia('(max-width: 768px)').matches;
+}
+
 export default function Hero() {
   const [loaded, setLoaded] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => detectMobile());
   const orbGroupRef = useRef();
   const { progress } = useProgress();
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    const update = () => setIsMobile(mq.matches);
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
 
   useEffect(() => {
     const bar = document.getElementById('progress-bar');
@@ -38,20 +51,43 @@ export default function Hero() {
   }, [progress]);
 
   useLayoutEffect(() => {
-    if (loaded) {
-      const tl = gsap.timeline();
-      tl.to(".menu-btn", { y: 0, opacity: 1, duration: 1, ease: "power3.out" });
-      tl.to(".tagline", { opacity: 1, duration: 1, ease: "power2.out" }, "-=0.5");
-      tl.fromTo(".hero-header .char", { x: -40, opacity: 0, filter: "blur(12px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 1.2, stagger: 0.03, ease: "power2.out" }, "-=0.8");
-      tl.to(".glass-card", { y: 0, opacity: 1, duration: 1, ease: "power3.out" }, "-=0.5");
+    if (!loaded) return;
+    if (isMobile) {
+      gsap.set(".menu-btn", { y: 0, opacity: 1 });
+      gsap.set(".tagline", { opacity: 1 });
+      gsap.set(".hero-header .char", { x: 0, opacity: 1, filter: "blur(0px)" });
+      gsap.set(".glass-card", { y: 0, opacity: 1 });
+      return;
     }
-  }, [loaded]);
+    const tl = gsap.timeline();
+    tl.to(".menu-btn", { y: 0, opacity: 1, duration: 1, ease: "power3.out" });
+    tl.to(".tagline", { opacity: 1, duration: 1, ease: "power2.out" }, "-=0.5");
+    tl.fromTo(".hero-header .char", { x: -40, opacity: 0, filter: "blur(12px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 1.2, stagger: 0.03, ease: "power2.out" }, "-=0.8");
+    tl.to(".glass-card", { y: 0, opacity: 1, duration: 1, ease: "power3.out" }, "-=0.5");
+  }, [loaded, isMobile]);
 
   useEffect(() => {
     const overlay = document.querySelector('.menu-overlay');
     const items = document.querySelectorAll('.menu-item-link');
     const footer = document.querySelector('.menu-footer-right');
-    
+
+    if (isMobile) {
+      if (menuOpen) {
+        gsap.set(overlay, { right: 0 });
+        gsap.set(items, { opacity: 1, x: 0 });
+        gsap.set(footer, { opacity: 1, y: 0 });
+        gsap.set(".hero-header", { opacity: 0 });
+        gsap.set(".glass-card", { opacity: 0 });
+      } else {
+        gsap.set(overlay, { right: "-100%" });
+        gsap.set(items, { opacity: 0, x: 50 });
+        gsap.set(footer, { opacity: 0, y: 20 });
+        gsap.set(".hero-header", { opacity: 1 });
+        gsap.set(".glass-card", { opacity: 1 });
+      }
+      return;
+    }
+
     if (menuOpen) {
       const tl = gsap.timeline();
       tl.to(overlay, { right: 0, duration: 1.2, ease: "expo.inOut" });
@@ -67,7 +103,7 @@ export default function Hero() {
       gsap.to(".hero-header", { opacity: 1, filter: "blur(0px)", duration: 1, ease: "power2.out" });
       gsap.to(".glass-card", { opacity: 1, y: 0, duration: 1 });
     }
-  }, [menuOpen]);
+  }, [menuOpen, isMobile]);
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
@@ -108,7 +144,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <Canvas dpr={window.devicePixelRatio} camera={{ position: [0, 0, 10.5], fov: 35 }}>
+      <Canvas dpr={isMobile ? [1, 1.5] : window.devicePixelRatio} camera={{ position: [0, 0, 10.5], fov: 35 }}>
         <ambientLight intensity={1} />
         <spotLight position={[10, 10, 10]} intensity={2} angle={0.2} penumbra={1} color="white" />
         <spotLight position={[-10, 10, -5]} intensity={2} angle={0.2} penumbra={1} color="white" />

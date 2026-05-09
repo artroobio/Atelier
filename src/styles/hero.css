@@ -1,7 +1,12 @@
 /* 1. RESET & THEME */
-body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #f2f2f2; }
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
-#root { width: 100%; height: 100%; }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+body, html { margin: 0; padding: 0; width: 100%; overflow-x: hidden; background: #f2f2f2; }
+#root { width: 100%; }
+
+/* SECTION SLOTS */
+.hero-slot { position: relative; width: 100%; height: 100vh; }
+.hero-slot > div { width: 100%; height: 100%; }
+.philosophy-slot { position: relative; width: 100%; }
 
 /* 2. LOADER */
 .loader-overlay {
@@ -121,9 +126,176 @@ h1 i { font-family: 'Playfair Display', serif; font-weight: 400; color: #ffffff;
 .btn:hover { background: #333; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
 @media (max-width: 900px) {
-  .ui-layer { align-items: center; text-align: center; padding-top: 0; padding-bottom: 40px; justify-content: center; gap: 40px;}
-  .menu-btn { top: 20px; right: 20px; }
-  h1 { font-size: 3rem; }
-  .glass-card { text-align: left; }
-  .hero-header { margin-top: 0; }
+  .ui-layer { align-items: center; text-align: center; padding: 80px 24px 40px; justify-content: center; gap: 32px;}
+  .menu-btn { top: 20px; right: 20px; padding: 10px 22px; font-size: 0.7rem; }
+  h1 { font-size: 2.4rem; }
+  .glass-card { text-align: left; max-width: 100%; }
+  .hero-header { margin-top: 0; max-width: 100%; }
+  .menu-overlay { padding: 0 32px; }
+  .menu-item-link { font-size: 2.6rem; }
+  .menu-footer-right { bottom: 32px; right: 32px; }
+}
+
+/* ============================================ */
+/* SECTION 2 — PHILOSOPHY                       */
+/* ============================================ */
+.philosophy-section {
+  position: relative;
+  min-height: 120vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 80px 80px 80px 80px;
+  overflow: hidden;
+  color: #1A1A1A;
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+}
+
+.bg-architectural {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background-image: url('https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+.line-accent {
+  position: absolute;
+  left: 24px;
+  top: 0;
+  width: 1px;
+  height: 0%;
+  background: linear-gradient(to bottom, transparent, #1A1A1A, transparent);
+  opacity: 0.5;
+  z-index: 1;
+}
+@media (min-width: 768px) { .line-accent { left: 40px; } }
+
+.philosophy-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.blur-reveal { filter: blur(20px); opacity: 0; transform: translateY(30px); }
+
+.reveal-word {
+  display: inline-block;
+  white-space: pre;
+  will-change: transform, opacity, filter;
+  filter: blur(15px);
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.philosophy-tagline {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  margin-bottom: 56px;
+}
+
+.philosophy-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4.2vw, 4rem);
+  line-height: 1.2;
+  margin: 0 0 56px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  color: #ffffff;
+}
+.philosophy-heading i { font-style: italic; font-weight: 300; color: #ffffff; opacity: 0.9; }
+.philosophy-heading i:first-of-type { opacity: 0.75; }
+
+.glass-card-premium {
+  padding: 36px 40px;
+  border-radius: 16px;
+  max-width: 520px;
+  width: 100%;
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.philosophy-paragraph {
+  font-weight: 300;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin: 0 0 32px;
+  color: #1A1A1A;
+  clip-path: inset(0 100% 0 0);
+  will-change: clip-path;
+}
+.philosophy-paragraph .emphasis { font-weight: 600; font-style: italic; }
+.philosophy-section.no-anim .philosophy-paragraph {
+  clip-path: inset(0 0 0 0);
+}
+
+.philosophy-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 28px;
+}
+@media (min-width: 768px) { .philosophy-grid { grid-template-columns: 1fr 1fr; } }
+
+.philosophy-grid .reveal-item { display: flex; flex-direction: column; gap: 16px; }
+.grid-heading-row { display: flex; align-items: center; gap: 12px; }
+.grid-rule { width: 32px; height: 1px; background: rgba(26, 26, 26, 0.4); }
+.philosophy-grid h4 {
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin: 0;
+}
+.philosophy-grid p {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: rgba(26, 26, 26, 0.8);
+  margin: 0;
+}
+
+/* Mobile / reduced-motion: skip animations, render final state */
+.philosophy-section.no-anim .blur-reveal,
+.philosophy-section.no-anim .reveal-word,
+.philosophy-section.no-anim .reveal-item {
+  filter: none;
+  opacity: 1;
+  transform: none;
+}
+.philosophy-section.no-anim #vertical-line { height: 100%; }
+
+@media (max-width: 1023px) {
+  .philosophy-section { padding: 80px 56px 80px 56px; }
+  .philosophy-inner { max-width: 600px; }
+}
+@media (max-width: 767px) {
+  .philosophy-section {
+    padding: 64px 24px;
+    min-height: auto;
+  }
+  .philosophy-inner { max-width: 100%; }
+  .bg-architectural {
+    background-attachment: scroll; /* fixed is janky on iOS */
+  }
+  .philosophy-tagline { margin-bottom: 32px; font-size: 10px; letter-spacing: 0.4em; }
+  .philosophy-heading { margin-bottom: 40px; font-size: clamp(1.8rem, 8vw, 2.6rem); line-height: 1.25; }
+  .glass-card-premium { padding: 24px; border-radius: 14px; max-width: 100%; }
+  .philosophy-paragraph { font-size: 0.95rem; line-height: 1.65; margin-bottom: 24px; clip-path: inset(0 0 0 0); }
+  .philosophy-grid { gap: 20px; padding-top: 20px; }
 }

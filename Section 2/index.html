@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philosophy | L'Atelier Transparent</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Three.js Import Map for Module Support -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.skypack.dev/three@0.136.0"
+            }
+        }
+    </script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        concrete: '#F2F2F2',
+                        obsidian: '#1A1A1A',
+                        charcoal: '#333333',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F2F2F2;
+            overflow-x: hidden;
+        }
+
+        /* Hero-style Background Material */
+        .bg-architectural {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .blur-reveal {
+            filter: blur(20px);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* Cinematic Word wrapper */
+        .reveal-word {
+            display: inline-block;
+            white-space: pre;
+            will-change: transform, opacity, filter;
+            filter: blur(15px);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Thick Glass Effect - Updated Dimensions */
+        .glass-card-premium {
+            backdrop-filter: blur(40px) saturate(150%);
+            -webkit-backdrop-filter: blur(40px) saturate(150%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.1),
+                inset 0 0 20px rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            /* Taller and Wider */
+            height: 70vh; 
+            min-height: 500px;
+        }
+
+        .line-accent {
+            width: 1px; height: 0%;
+            background: linear-gradient(to bottom, transparent, #1A1A1A, transparent);
+            opacity: 0.5;
+        }
+
+        /* Canvas Container inside the glass */
+        #three-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Overlay Text for "Click to Reveal" */
+        #loading-overlay {
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            color: #1A1A1A; 
+            font-family: 'Inter', sans-serif; 
+            font-size: 13px; 
+            letter-spacing: 3px;
+            pointer-events: none; 
+            text-transform: uppercase;
+            opacity: 0.8; 
+            transition: opacity 0.8s;
+            z-index: 20;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="font-sans text-obsidian selection:bg-obsidian selection:text-white">
+
+    <!-- Philosophy Section -->
+    <section id="philosophy" class="relative min-h-[120vh] flex flex-col justify-center px-4 py-20 md:px-10 lg:px-20 overflow-hidden">
+        
+        <!-- Background Layer -->
+        <div class="bg-architectural"></div>
+
+        <!-- Structural Line -->
+        <div class="absolute left-6 md:left-20 top-0 line-accent" id="vertical-line"></div>
+
+        <div class="relative z-10 w-full max-w-[90vw] mx-auto">
+            <!-- Tagline with reveal -->
+            <span class="block font-sans font-semibold text-[10px] md:text-xs tracking-[0.6em] uppercase mb-8 md:mb-10 blur-reveal" id="tagline">
+                01 — The Philosophy of Clarity
+            </span>
+
+            <!-- High Impact Heading - SMALLER SIZE -->
+            <h2 class="font-serif text-3xl md:text-5xl lg:text-6xl leading-[1.2] mb-10 md:mb-14 tracking-tighter" id="heading">
+                Structure is <i class="font-serif italic font-light opacity-70">silent</i>. <br/>
+                Transparency is <i class="font-serif italic font-light">infinite</i>.
+            </h2>
+
+            <!-- Premium Glass Card - Taller, Wider, Empty of Content -->
+            <div class="glass-card-premium rounded-2xl blur-reveal flex items-center justify-center" id="body-card">
+                <div id="loading-overlay">Click to Reveal</div>
+                <div id="three-container"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GSAP Animations -->
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        function wrapWords(elementId) {
+            const el = document.getElementById(elementId);
+            const text = el.innerHTML;
+            const words = text.split(/(\s+|<br\/?>|<\/?[^>]+>)/g);
+            
+            el.innerHTML = words.map(word => {
+                if (word.trim().length > 0 && !word.startsWith('<')) {
+                    return `<span class="reveal-word">${word}</span>`;
+                }
+                return word;
+            }).join('');
+        }
+
+        window.onload = () => {
+            wrapWords('heading');
+
+            const entryTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#philosophy",
+                    start: "top 60%",
+                }
+            });
+
+            entryTl.to("#vertical-line", { height: "100%", duration: 2, ease: "power4.inOut" });
+            entryTl.to("#tagline", { filter: "blur(0px)", opacity: 1, y: 0, duration: 1, ease: "power2.out" }, "-=1.5");
+            entryTl.to("#heading .reveal-word", { filter: "blur(0px)", opacity: 1, y: 0, duration: 1.5, stagger: 0.04, ease: "power4.out" }, "-=1.4");
+            entryTl.to("#body-card", { filter: "blur(0px)", opacity: 1, y: 0, duration: 1.2, ease: "power3.out" }, "-=1.2");
+        };
+    </script>
+
+    <!-- Three.js Logic (Module) -->
+    <script type="module">
+        import * as THREE from 'three';
+
+        // Configuration
+        const container = document.getElementById('three-container');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        
+        // We reduce grid size slightly for the smaller embedded view relative to full screen
+        const GRID_X = 48;
+        const GRID_Y = 27;
+        const TOTAL_TILES = GRID_X * GRID_Y;
+        const VIDEO_URL = 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/grey-home-interior-design-video-d7HbYOHcdg9Fplu5.mp4';
+        
+        const ANIMATION_SPEED = 0.05; 
+        const COLUMN_DELAY = 0.04;      
+        const START_Z_OFFSET = 60.0;
+        
+        // Scene Setup
+        const scene = new THREE.Scene();
+        // Set background to null (transparent) so it blends with glass card if needed, 
+        // or keep black if you want high contrast. Let's use transparent to mix with glass.
+        // Actually, for video visibility, black or dark is usually better, but let's try 
+        // completely clear so we see the frosted glass until the tiles appear.
+        scene.background = null; 
+
+        const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+        const camDist = 20;
+        camera.position.set(0, 0, camDist);
+
+        // Alpha: true allows the glass effect to show through the empty space between tiles
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        // Video Texture
+        const video = document.createElement('video');
+        video.src = VIDEO_URL;
+        video.crossOrigin = "anonymous";
+        video.loop = true;
+        video.muted = true;
+        video.playsInline = true;
+        
+        const videoTexture = new THREE.VideoTexture(video);
+        videoTexture.minFilter = THREE.LinearFilter;
+        videoTexture.magFilter = THREE.LinearFilter;
+        
+        // Material
+        const material = new THREE.MeshBasicMaterial({ 
+            map: videoTexture, 
+            side: THREE.DoubleSide
+        });
+
+        const gridSizeUniform = { value: new THREE.Vector2(GRID_X, GRID_Y) };
+
+        material.onBeforeCompile = (shader) => {
+            shader.uniforms.gridSize = gridSizeUniform;
+            shader.vertexShader = `
+                attribute vec2 instanceGridPos;
+                uniform vec2 gridSize;
+            ` + shader.vertexShader;
+
+            shader.vertexShader = shader.vertexShader.replace(
+                '#include <uv_vertex>',
+                `
+                #include <uv_vertex>
+                vUv.x = (instanceGridPos.x + uv.x) / gridSize.x;
+                vUv.y = 1.0 - ((instanceGridPos.y + (1.0 - uv.y)) / gridSize.y);
+                `
+            );
+        };
+
+        // Geometry & InstancedMesh
+        // We calculate geometry based on the camera view at the specific distance
+        const vFOV = THREE.MathUtils.degToRad(camera.fov); 
+        const visibleHeight = 2 * Math.tan(vFOV / 2) * camDist;
+        const visibleWidth = visibleHeight * camera.aspect;
+        
+        // Slightly adjust geometry to fit container
+        const tileWidth = visibleWidth / GRID_X;
+        const tileHeight = visibleHeight / GRID_Y;
+        const baseGeometry = new THREE.PlaneGeometry(tileWidth, tileHeight);
+
+        const instancedMesh = new THREE.InstancedMesh(baseGeometry, material, TOTAL_TILES);
+        scene.add(instancedMesh);
+
+        const instanceGridPosArray = new Float32Array(TOTAL_TILES * 2); 
+        baseGeometry.setAttribute('instanceGridPos', new THREE.InstancedBufferAttribute(instanceGridPosArray, 2));
+
+        // Animation Data
+        const startX = -visibleWidth / 2 + tileWidth / 2;
+        const startY = visibleHeight / 2 - tileHeight / 2;
+        const dummy = new THREE.Object3D(); 
+        const tileData = new Array(TOTAL_TILES);
+
+        let index = 0;
+        for (let y = 0; y < GRID_Y; y++) {
+            for (let x = 0; x < GRID_X; x++) {
+                instanceGridPosArray[index * 2] = x;
+                instanceGridPosArray[index * 2 + 1] = y;
+
+                const targetX = startX + x * tileWidth;
+                const targetY = startY - y * tileHeight;
+                const targetZ = 0;
+
+                const targetPosVec = new THREE.Vector3(targetX, targetY, targetZ);
+                const targetRotVec = new THREE.Vector3(0,0,0);
+                const targetScaleVec = new THREE.Vector3(1.005, 1.005, 1); 
+
+                // Start state
+                dummy.position.set(targetX, targetY, targetZ + START_Z_OFFSET + Math.random() * 10);
+                dummy.rotation.set((Math.random() - 0.5) * 2.0, (Math.random() - 0.5) * 2.0, 0);
+                dummy.scale.set(0.85, 0.85, 1);
+                dummy.updateMatrix();
+
+                instancedMesh.setMatrixAt(index, dummy.matrix);
+
+                tileData[index] = {
+                    currentPos: dummy.position.clone(),
+                    currentRot: new THREE.Vector3(dummy.rotation.x, dummy.rotation.y, dummy.rotation.z),
+                    currentScale: dummy.scale.clone(),
+                    targetPos: targetPosVec,
+                    targetRot: targetRotVec,
+                    targetScale: targetScaleVec,
+                    delay: x * COLUMN_DELAY + (Math.random() * 0.05),
+                    speed: ANIMATION_SPEED + Math.random() * 0.01,
+                    isSettled: false
+                };
+                index++;
+            }
+        }
+        baseGeometry.attributes.instanceGridPos.needsUpdate = true;
+
+        // Animation Loop
+        let isPlaying = false;
+        let startTime = 0;
+        const clock = new THREE.Clock();
+
+        // Trigger on container click
+        container.addEventListener('click', () => {
+            if (!isPlaying) {
+                video.play();
+                loadingOverlay.style.opacity = '0'; 
+                setTimeout(() => loadingOverlay.style.display = 'none', 1000);
+                isPlaying = true;
+                startTime = clock.getElapsedTime();
+            }
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            if (isPlaying) {
+                const currentTime = clock.getElapsedTime();
+                const elapsed = currentTime - startTime;
+                let needsMatrixUpdate = false;
+
+                for (let i = 0; i < TOTAL_TILES; i++) {
+                    const data = tileData[i];
+                    if(data.isSettled) continue;
+
+                    if (elapsed >= data.delay) {
+                        const speed = data.speed;
+                        data.currentPos.lerp(data.targetPos, speed);
+                        data.currentRot.lerp(data.targetRot, speed);
+                        data.currentScale.lerp(data.targetScale, speed);
+
+                        dummy.position.copy(data.currentPos);
+                        dummy.rotation.setFromVector3(data.currentRot);
+                        dummy.scale.copy(data.currentScale);
+                        dummy.updateMatrix();
+
+                        instancedMesh.setMatrixAt(i, dummy.matrix);
+                        needsMatrixUpdate = true;
+
+                        if (Math.abs(data.currentPos.z) < 0.05 && !data.isSettled) {
+                             dummy.position.copy(data.targetPos);
+                             dummy.rotation.set(0,0,0);
+                             dummy.scale.copy(data.targetScale);
+                             dummy.updateMatrix();
+                             instancedMesh.setMatrixAt(i, dummy.matrix);
+                             data.isSettled = true;
+                             needsMatrixUpdate = true;
+                        }
+                    }
+                }
+                if(needsMatrixUpdate) {
+                    instancedMesh.instanceMatrix.needsUpdate = true;
+                }
+            }
+            renderer.render(scene, camera);
+        }
+
+        // Resize Logic
+        const observer = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                const width = entry.contentRect.width;
+                const height = entry.contentRect.height;
+                
+                renderer.setSize(width, height);
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+
+                // Recalculate geometry for new aspect ratio
+                const vFOV = THREE.MathUtils.degToRad(camera.fov); 
+                const visibleHeight = 2 * Math.tan(vFOV / 2) * camDist;
+                const visibleWidth = visibleHeight * camera.aspect;
+                
+                const newTileWidth = visibleWidth / GRID_X;
+                const newTileHeight = visibleHeight / GRID_Y;
+                const newStartX = -visibleWidth / 2 + newTileWidth / 2;
+                const newStartY = visibleHeight / 2 - newTileHeight / 2;
+
+                instancedMesh.geometry.dispose();
+                instancedMesh.geometry = new THREE.PlaneGeometry(newTileWidth, newTileHeight);
+                instancedMesh.geometry.setAttribute('instanceGridPos', new THREE.InstancedBufferAttribute(instanceGridPosArray, 2));
+
+                let index = 0;
+                for (let y = 0; y < GRID_Y; y++) {
+                    for (let x = 0; x < GRID_X; x++) {
+                        const data = tileData[index];
+                        data.targetPos.x = newStartX + x * newTileWidth;
+                        data.targetPos.y = newStartY - y * newTileHeight;
+                        
+                        if(data.isSettled) {
+                            dummy.position.copy(data.targetPos);
+                            dummy.rotation.set(0,0,0);
+                            dummy.scale.set(1.005, 1.005, 1); 
+                            dummy.updateMatrix();
+                            instancedMesh.setMatrixAt(index, dummy.matrix);
+                        }
+                        index++;
+                    }
+                }
+                instancedMesh.instanceMatrix.needsUpdate = true;
+            }
+        });
+        
+        observer.observe(container);
+        animate();
+    </script>
+</body>
+</html>
