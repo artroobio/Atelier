@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Architectural Glass Hero & Philosophy</title>
+  
+  <!-- 1. EXTERNAL DEPENDENCIES -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  
+  <!-- TAILWIND (For Philosophy Section) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            concrete: '#F2F2F2',
+            obsidian: '#1A1A1A',
+            charcoal: '#333333',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- REACT IMPORT MAP -->
+  <script type="importmap">
+  {
+    "imports": {
+      "react": "https://esm.sh/react@18.2.0",
+      "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+      "three": "https://esm.sh/three@0.160.0",
+      "@react-three/fiber": "https://esm.sh/@react-three/fiber@8.15.12?external=react,react-dom,three",
+      "@react-three/drei": "https://esm.sh/@react-three/drei@9.96.1?external=react,react-dom,three,@react-three/fiber"
+    }
+  }
+  </script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- 2. STYLES -->
+  <style>
+    /* RESET & GLOBAL */
+    body, html { 
+      margin: 0; 
+      padding: 0; 
+      width: 100%; 
+      height: auto; 
+      overflow-x: hidden; 
+      background: #f2f2f2; 
+    }
+
+    /* --- REACT HERO STYLES --- */
+    #root { 
+      width: 100%; 
+      height: 100vh; /* Takes up full viewport initially */
+      position: relative;
+      z-index: 10;
+    }
+
+    /* LOADER */
+    .loader-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: #f2f2f2; z-index: 1000;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      transition: opacity 0.8s ease; pointer-events: none;
+    }
+    .loader-bar { width: 200px; height: 2px; background: rgba(0,0,0,0.1); margin-top: 20px; border-radius: 2px; }
+    .loader-progress { height: 100%; background: #1a1a1a; width: 0%; transition: width 0.2s; }
+    .loader-text { color: #1a1a1a; font-family: 'Inter', sans-serif; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+
+    /* UI LAYER (REACT) */
+    .ui-layer {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      padding: 60px; padding-bottom: 40px;
+      box-sizing: border-box; z-index: 10;
+      display: flex; flex-direction: column; 
+      justify-content: space-between; 
+    }
+
+    /* MENU BUTTON */
+    .menu-btn {
+      position: absolute; top: 40px; right: 40px;
+      padding: 12px 30px;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+      border-radius: 100px; pointer-events: auto; cursor: pointer;
+      color: #1a1a1a; font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+      transition: all 0.3s ease;
+      opacity: 0; transform: translateY(-20px);
+      z-index: 80;
+    }
+    .menu-btn:hover { background: rgba(255, 255, 255, 0.6); transform: translateY(-2px); }
+
+    /* FULLSCREEN SLIDE MENU */
+    .menu-overlay {
+      position: fixed; top: 0; right: -100%; width: 100%; height: 100%;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);
+      z-index: 70; display: flex;
+      flex-direction: row; align-items: center;
+      padding: 0 100px; box-sizing: border-box;
+      pointer-events: auto;
+    }
+
+    .menu-left-side { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+    .menu-item-link {
+      color: #000; font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 400;
+      text-decoration: none; line-height: 1; opacity: 0; transform: translateX(50px);
+      transition: color 0.3s ease; display: block; width: fit-content;
+    }
+    .menu-item-link:hover { color: #666; }
+
+    .menu-footer-right {
+      position: absolute; bottom: 60px; right: 60px; text-align: right;
+      font-family: 'Inter', sans-serif; color: #1a1a1a; opacity: 0; transform: translateY(20px);
+    }
+    .brand-title { font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 4px; display: block; margin-bottom: 8px; }
+    .address-line { font-size: 0.8rem; font-weight: 300; line-height: 1.6; display: block; letter-spacing: 1px; }
+
+    /* HERO HEADER (Top Left) */
+    .hero-header { 
+      /* FIXED: Increased max-width significantly to prevent wrapping at large font sizes */
+      max-width: 1200px; 
+      width: 100%;
+      pointer-events: auto; 
+      margin-top: -10px; 
+    }
+    
+    .tagline { 
+      color: #333; 
+      font-family: 'Inter', sans-serif; 
+      font-size: 0.85rem; 
+      letter-spacing: 4px; 
+      text-transform: uppercase; 
+      margin-bottom: 24px; 
+      display: block; 
+      font-weight: 500; 
+      opacity: 0; 
+    }
+
+    /* FIXED: Added specific class selector to override Tailwind's generic reset */
+    .hero-header h1 { 
+      color: #ffffff; 
+      font-family: 'Playfair Display', serif; 
+      font-size: 6.5rem; /* Large size for desktop */
+      line-height: 1.05; 
+      margin: 0; 
+      font-weight: 400; 
+      letter-spacing: -2px; 
+    }
+
+    .char { display: inline-block; white-space: pre; will-change: transform, opacity, filter; }
+    .hero-header h1 i { font-family: 'Playfair Display', serif; font-weight: 400; color: #ffffff; }
+    
+    /* GLASS CARD (Bottom Left) */
+    .glass-card {
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+      color: #333; font-family: 'Inter', sans-serif; font-weight: 300; line-height: 1.5; font-size: 0.85rem;
+      border-radius: 12px; max-width: 400px;
+      opacity: 0; transform: translateY(20px);
+      pointer-events: auto;
+    }
+
+    .btn {
+      margin-top: 15px; display: inline-block; padding: 10px 24px;
+      background: #1a1a1a; color: white; text-decoration: none;
+      font-family: 'Inter', sans-serif; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; font-weight: 500;
+      transition: all 0.3s ease; border-radius: 4px;
+    }
+    .btn:hover { background: #333; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+    /* --- PHILOSOPHY SECTION STYLES (STATIC) --- */
+    .bg-architectural {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background-image: url('https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg');
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .blur-reveal { filter: blur(20px); opacity: 0; transform: translateY(30px); }
+
+    .reveal-word {
+        display: inline-block;
+        white-space: pre;
+        will-change: transform, opacity, filter;
+        filter: blur(15px);
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    .glass-card-premium {
+        backdrop-filter: blur(40px) saturate(150%);
+        -webkit-backdrop-filter: blur(40px) saturate(150%);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.3);
+        position: relative;
+        overflow: hidden;
+        min-height: 400px;
+    }
+
+    .line-accent {
+        width: 1px; height: 0%;
+        background: linear-gradient(to bottom, transparent, #1A1A1A, transparent);
+        opacity: 0.5;
+    }
+
+    /* --- SELECTED WORKS SECTION STYLES (STATIC) --- */
+    #works-section-root {
+        background-color: #000;
+        overflow-x: hidden;
+        position: relative;
+        /* Ensure the root element takes full viewport height */
+        height: 100vh;
+        height: 100dvh; /* Modern mobile browser fix */
+        width: 100%;
+    }
+
+    /* Video Background Container */
+    .video-hero-container {
+        position: relative;
+        width: 100%;
+        height: 100%; /* Fill the parent 100vh */
+        overflow: hidden;
+        background: #000;
+    }
+
+    .video-bg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+        opacity: 0.85;
+    }
+
+    /* Floating Overlay Elements */
+    .cinematic-text-overlay {
+        position: absolute;
+        z-index: 20;
+        max-width: 500px;
+        pointer-events: none;
+        will-change: transform, opacity;
+    }
+
+    .glass-morphism-card {
+        position: absolute;
+        z-index: 20;
+        padding: 32px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(40px) saturate(150%);
+        -webkit-backdrop-filter: blur(40px) saturate(150%);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 12px;
+        width: 340px;
+        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.3);
+        pointer-events: auto;
+        will-change: transform, opacity;
+    }
+
+    /* Layout Positioning Utility */
+    .pos-tl { top: 12%; left: 8%; text-align: left; }
+    .pos-br { bottom: 12%; right: 8%; text-align: right; }
+    .pos-tr { top: 12%; right: 8%; text-align: right; }
+    .pos-bl { bottom: 12%; left: 8%; text-align: left; }
+
+    /* --- PROCESS SECTION STYLES (STATIC) --- */
+    #process-section-root {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('https://assets.zyrosite.com/AGBzPMBJDQiwDGny/office-APoihTZDRsIY69FW.png');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-color: #1A1A1A;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .horizontal-container {
+        display: flex;
+        height: 100vh;
+        width: 360vw; /* 4 panels * 90vw */
+        will-change: transform;
+    }
+
+    .process-panel {
+        width: 90vw;
+        height: 100vh;
+        flex-shrink: 0;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 4%;
+        overflow: hidden;
+        background: transparent;
+    }
+
+    .bg-grid {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                          linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+        background-size: 100px 100px;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    /* Glass Annotation Card Override */
+    .glass-annotation {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        padding: 24px;
+        border-radius: 4px;
+        width: 100%;
+        max-width: 320px;
+        opacity: 0;
+        will-change: transform, opacity;
+    }
+
+    .process-image-wrap {
+        position: relative;
+        width: 100%;
+        height: 55vh;
+        overflow: visible;
+        border-radius: 2px;
+        perspective: 2000px;
+    }
+
+    .main-process-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 1s ease;
+        border-radius: 2px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+    }
+
+    /* 3D POP OUT GALLERY STYLES */
+    .pop-out-gallery {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: auto;
+        transform-style: preserve-3d;
+        z-index: 20;
+    }
+
+    .gallery-pane {
+        position: absolute;
+        width: 220px;
+        height: 300px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 6px;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateZ(-200px);
+        box-shadow: 0 15px 45px rgba(0,0,0,0.4);
+        cursor: zoom-in;
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        will-change: transform, opacity;
+    }
+
+    .gallery-pane.focused {
+        cursor: zoom-out;
+        z-index: 100 !important;
+        border-color: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 50px 100px rgba(0,0,0,0.6);
+    }
+
+    .gallery-pane img, .gallery-pane video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.9;
+        transition: opacity 0.3s ease;
+    }
+
+    .gallery-pane:hover img, .gallery-pane:hover video {
+        opacity: 1;
+    }
+
+    .progress-track {
+        position: absolute;
+        bottom: 40px;
+        left: 10%;
+        width: 80%;
+        height: 1px;
+        background: rgba(255,255,255,0.1);
+        z-index: 50;
+    }
+    .progress-bar {
+        height: 100%;
+        background: #fff;
+        width: 0%;
+        will-change: width;
+    }
+
+    .panel-number {
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        font-size: 8rem;
+        line-height: 0.8;
+        letter-spacing: -0.05em;
+        color: rgba(255,255,255,0.05);
+        position: absolute;
+        top: 8%;
+        right: 5%;
+        z-index: 0;
+    }
+
+    /* --- ARCHIVE GRID STYLES (STATIC) --- */
+    #archive-grid-root {
+        /* Fixed Background Image */
+        background-image: url('https://assets.zyrosite.com/A3QlOV94WLSaL6xE/2151349266-p2WPDi5e7Y44mOvf.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        position: relative;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+    .content-relative {
+        position: relative;
+        z-index: 10;
+    }
+
+    .filter-btn {
+        position: relative;
+        overflow: hidden;
+        transition: color 0.4s ease;
+    }
+
+    .filter-btn::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0%;
+        height: 1px;
+        background-color: #000;
+        transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .filter-btn.active::after, .filter-btn:hover::after {
+        width: 100%;
+    }
+
+    /* Cinematic Letterbox Grid Items */
+    .grid-item {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px) saturate(140%);
+        -webkit-backdrop-filter: blur(20px) saturate(140%);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform, opacity;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    @media (min-width: 1024px) {
+        .grid-item {
+            flex-direction: row;
+            /* 21:9 Aspect Ratio style height */
+            height: 480px; 
+        }
+    }
+
+    .grid-item:hover {
+        border-color: rgba(255, 255, 255, 0.6);
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 70% Cinematic Image area */
+    .item-image-wrap {
+        width: 100%;
+        height: 300px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    @media (min-width: 1024px) {
+        .item-image-wrap {
+            width: 70%;
+            height: 100%;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    }
+
+    .item-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .grid-item:hover .item-image {
+        transform: scale(1.05);
+    }
+
+    /* 30% Information Sidebar */
+    .item-info {
+        width: 100%;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    @media (min-width: 1024px) {
+        .item-info {
+            width: 30%;
+        }
+    }
+
+    .project-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.5rem;
+        line-height: 1.1;
+        letter-spacing: -1px;
+        color: #000;
+        transition: all 0.4s ease;
+        margin-bottom: 12px;
+    }
+
+    .grid-item:hover .project-name {
+        font-style: italic;
+    }
+
+    .metadata {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.3em;
+        color: rgba(0, 0, 0, 0.5);
+        font-weight: 600;
+    }
+
+    .desc-text {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.85rem;
+        line-height: 1.6;
+        color: rgba(0, 0, 0, 0.6);
+        font-weight: 300;
+        margin-top: 20px;
+        max-width: 90%;
+    }
+
+    /* Crystallize Effect Classes */
+    .reveal-item {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    @media (max-width: 900px) {
+      .ui-layer { align-items: center; text-align: center; padding-top: 0; padding-bottom: 40px; justify-content: center; gap: 40px;}
+      .menu-btn { top: 20px; right: 20px; }
+      /* Responsive fix for mobile */
+      .hero-header h1 { font-size: 3rem; }
+      .glass-card { text-align: left; }
+      .hero-header { margin-top: 0; max-width: 100%; }
+      /* Works Section Mobile */
+      .glass-morphism-card { width: 90%; left: 5%; right: 5%; bottom: 5%; padding: 20px; }
+      .cinematic-text-overlay { width: 90%; left: 5%; top: 15%; text-align: center; }
+      .pos-br, .pos-tl { top: auto; bottom: auto; left: auto; right: auto; } /* Reset positioning for mobile js override */
+      /* Process Section Mobile */
+      .process-panel { width: 100vw; }
+      .horizontal-container { width: 400vw; }
+    }
+  </style>
+</head>
+<body class="font-sans text-obsidian selection:bg-obsidian selection:text-white">
+
+  <!-- PART 1: REACT HERO SECTION (100vh) -->
+  <div id="root"></div>
+
+  <!-- LOADER (Covers both React and Static load) -->
+  <div id="loader" class="loader-overlay">
+    <div class="loader-text">Loading Experience</div>
+    <div class="loader-bar"><div class="loader-progress" id="progress-bar"></div></div>
+  </div>
+
+  <!-- PART 2: STATIC PHILOSOPHY SECTION (Pure HTML) -->
+  <section id="philosophy" class="relative min-h-[120vh] flex flex-col justify-center px-6 py-20 md:px-20 lg:px-40 overflow-hidden">
+    <div class="bg-architectural"></div>
+    <div class="absolute left-6 md:left-20 top-0 line-accent" id="vertical-line"></div>
+
+    <div class="relative z-10 max-w-5xl">
+        <span class="block font-sans font-semibold text-[10px] md:text-xs tracking-[0.6em] uppercase mb-10 md:mb-14 blur-reveal" id="tagline">
+            01 — The Philosophy of Clarity
+        </span>
+
+        <h2 class="font-serif text-5xl md:text-7xl lg:text-8xl leading-[1.2] mb-12 md:mb-20 tracking-tighter" id="heading">
+            Structure is <i class="font-serif italic font-light opacity-70">silent</i>. <br/>
+            Transparency is <i class="font-serif italic font-light">infinite</i>.
+        </h2>
+
+        <div class="glass-card-premium p-10 md:p-16 rounded-2xl max-w-3xl blur-reveal" id="body-card">
+            <p class="text-obsidian font-light text-lg md:text-2xl leading-[1.8] mb-12" id="card-paragraph">
+                We don't build walls; we define atmospheres. By stripping away the opaque, we invite the horizon inside. Architecture is no longer a barrier, but a <span class="font-semibold italic">dialogue</span> between the human soul and the surrounding void.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 border-t border-black/10 pt-10" id="card-grid">
+                <div class="space-y-4 reveal-item">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-[1px] bg-obsidian/40"></div>
+                        <h4 class="font-semibold text-[11px] uppercase tracking-[0.3em]">The Lens</h4>
+                    </div>
+                    <p class="text-sm font-normal leading-relaxed text-obsidian/80">A medium that amplifies natural light and frames existence without interference.</p>
+                </div>
+                <div class="space-y-4 reveal-item">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-[1px] bg-obsidian/40"></div>
+                        <h4 class="font-semibold text-[11px] uppercase tracking-[0.3em]">Raw Honesty</h4>
+                    </div>
+                    <p class="text-sm font-normal leading-relaxed text-obsidian/80">Honoring the structural integrity of glass, steel, and air in their purest states.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- PART 3: SELECTED WORKS SECTION (Pure HTML) -->
+  <div id="works-section-root" class="font-sans text-obsidian">
+    <div class="video-hero-container">
+        <video class="video-bg" autoplay muted loop playsinline preload="auto">
+            <source src="https://assets.zyrosite.com/AGBzPMBJDQiwDGny/grey-home-interior-design-video-M13Xi8TTbaVTMRqP.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div id="dynamic-text" class="cinematic-text-overlay pos-tl text-white">
+            <span class="block font-sans font-semibold text-xs tracking-[0.6em] uppercase mb-6 opacity-60" id="text-tagline">02 — Selected Portfolios</span>
+            <h1 class="font-serif text-6xl md:text-8xl tracking-tighter leading-tight" id="hero-reveal-title">
+                The Art of <i class="italic font-light">Void</i>.
+            </h1>
+        </div>
+        <div id="dynamic-card" class="glass-morphism-card pos-br text-white">
+            <span class="text-[10px] uppercase tracking-[0.3em] mb-3 block font-semibold opacity-60" id="card-tagline">Featured Study</span>
+            <h3 class="font-serif text-3xl mb-4 italic" id="card-title">Materiality</h3>
+            <p class="text-sm font-light leading-relaxed opacity-80" id="card-desc">Exploring how light interacts with translucent surfaces in modern commercial spaces.</p>
+            <div class="mt-8 pt-4 border-t border-white/20">
+                <a href="#" class="text-[10px] uppercase tracking-[0.4em] hover:opacity-100 opacity-60 transition-opacity">Explore Detail —</a>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- PART 4: PROCESS SECTION (Pure HTML) -->
+  <div id="process-section-root">
+    <div class="bg-grid"></div>
+    <div class="progress-track"><div class="progress-bar" id="process-progress"></div></div>
+    
+    <div class="horizontal-container" id="horizontal-container">
+        <!-- PANEL 01 -->
+        <section class="process-panel" id="panel-01">
+            <span class="panel-number">01</span>
+            <div class="flex flex-col md:flex-row items-center gap-10 lg:gap-24 z-10 w-full max-w-7xl mx-auto">
+                <div class="w-full md:w-1/2">
+                    <div class="process-image-wrap group" id="trigger-01">
+                        <div class="pop-out-gallery" id="gallery-01">
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg" alt="1"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg" alt="2"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg" alt="3"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg" alt="4"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg" alt="5"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg" alt="6"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg" alt="7"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg" alt="8"></div>
+                        </div>
+                        <img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg" alt="Sketch" class="main-process-img" id="img-01">
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2">
+                    <span class="block font-sans font-semibold text-[10px] tracking-[0.6em] uppercase mb-6 text-white/60">The Genesis</span>
+                    <h2 class="font-serif text-5xl lg:text-7xl xl:text-8xl tracking-tighter mb-8 text-white" id="title-1">Raw <i class="italic font-light">Sketch</i>.</h2>
+                    <div class="glass-annotation annotation-1">
+                        <p class="text-xs lg:text-sm font-light leading-relaxed text-obsidian text-left">Every structure begins with a gesture. Hover to explore our structural iterations through the lens of early drafts.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL 02 -->
+        <section class="process-panel" id="panel-02">
+            <span class="panel-number">02</span>
+            <div class="flex flex-col md:flex-row-reverse items-center gap-10 lg:gap-24 z-10 w-full max-w-7xl mx-auto">
+                <div class="w-full md:w-1/2">
+                    <div class="process-image-wrap group" id="trigger-02">
+                        <div class="pop-out-gallery" id="gallery-02">
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg" alt="1"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg" alt="2"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg" alt="3"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg" alt="4"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg" alt="5"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg" alt="6"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg" alt="7"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg" alt="8"></div>
+                        </div>
+                        <img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg" alt="Wireframe" class="main-process-img" id="img-02">
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 text-left md:text-right">
+                    <span class="block font-sans font-semibold text-[10px] tracking-[0.6em] uppercase mb-6 text-white/60">Precision</span>
+                    <h2 class="font-serif text-5xl lg:text-7xl xl:text-8xl tracking-tighter mb-8 text-white" id="title-2">Digital <i class="italic font-light">Void</i>.</h2>
+                    <div class="glass-annotation annotation-2 md:ml-auto">
+                        <p class="text-xs lg:text-sm font-light leading-relaxed text-obsidian text-right md:text-right">Calculated transparency. We map the refractive index of every pane, ensuring the "disappearance" of the boundary is absolute.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL 03 -->
+        <section class="process-panel" id="panel-03">
+            <span class="panel-number">03</span>
+            <div class="flex flex-col md:flex-row items-center gap-10 lg:gap-24 z-10 w-full max-w-7xl mx-auto">
+                <div class="w-full md:w-1/2">
+                    <div class="process-image-wrap group" id="trigger-03">
+                        <div class="pop-out-gallery" id="gallery-03">
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg" alt="1"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg" alt="2"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg" alt="3"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg" alt="4"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg" alt="5"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg" alt="6"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg" alt="7"></div>
+                            <div class="gallery-pane"><img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg" alt="8"></div>
+                        </div>
+                        <img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg" alt="Material" class="main-process-img" id="img-03">
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2">
+                    <span class="block font-sans font-semibold text-[10px] tracking-[0.6em] uppercase mb-6 text-white/60">Selection</span>
+                    <h2 class="font-serif text-5xl lg:text-7xl xl:text-8xl tracking-tighter mb-8 text-white" id="title-3">Solid <i class="italic font-light">Glass</i>.</h2>
+                    <div class="glass-annotation annotation-3">
+                        <p class="text-xs lg:text-sm font-light leading-relaxed text-obsidian text-left">We curate high-iron glass and obsidian-grade steel. Hover to see the tactile journey of material selection.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL 04 -->
+        <section class="process-panel" id="panel-04">
+            <span class="panel-number" style="color: rgba(255,255,255,0.05)">04</span>
+            <div class="flex flex-col md:flex-row-reverse items-center gap-10 lg:gap-24 z-10 w-full max-w-7xl mx-auto">
+                <div class="w-full md:w-1/2">
+                    <div class="process-image-wrap group" id="trigger-04">
+                        <div class="pop-out-gallery" id="gallery-04">
+                            <div class="gallery-pane"><video src="https://assets.zyrosite.com/AGBzPMBJDQiwDGny/grey-home-interior-design-video-M13Xi8TTbaVTMRqP.mp4" autoplay muted loop playsinline></video></div>
+                            <div class="gallery-pane"><video src="https://assets.zyrosite.com/AGBzPMBJDQiwDGny/grey-home-interior-design-video-M13Xi8TTbaVTMRqP.mp4" autoplay muted loop playsinline></video></div>
+                            <div class="gallery-pane"><video src="https://assets.zyrosite.com/AGBzPMBJDQiwDGny/grey-home-interior-design-video-M13Xi8TTbaVTMRqP.mp4" autoplay muted loop playsinline></video></div>
+                            <div class="gallery-pane"><video src="https://assets.zyrosite.com/AGBzPMBJDQiwDGny/grey-home-interior-design-video-M13Xi8TTbaVTMRqP.mp4" autoplay muted loop playsinline></video></div>
+                            <div class="gallery-pane"><video src="https://assets.zyrosite.com/AGBzPMBJDQiwDGny/grey-home-interior-design-video-M13Xi8TTbaVTMRqP.mp4" autoplay muted loop playsinline></video></div>
+                            <div class="gallery-pane"><video src="https://assets.zyrosite.com/AGBzPMBJDQiwDGny/grey-home-interior-design-video-M13Xi8TTbaVTMRqP.mp4" autoplay muted loop playsinline></video></div>
+                            <div class="gallery-pane"><video src="https://assets.zyrosite.com/AGBzPMBJDQiwDGny/grey-home-interior-design-video-M13Xi8TTbaVTMRqP.mp4" autoplay muted loop playsinline></video></div>
+                            <div class="gallery-pane"><video src="https://assets.zyrosite.com/AGBzPMBJDQiwDGny/grey-home-interior-design-video-M13Xi8TTbaVTMRqP.mp4" autoplay muted loop playsinline></video></div>
+                        </div>
+                        <div class="main-process-img border border-white/10 overflow-hidden" id="img-04">
+                            <video class="w-full h-full object-cover" autoplay muted loop playsinline>
+                                <source src="https://assets.zyrosite.com/AGBzPMBJDQiwDGny/grey-home-interior-design-video-M13Xi8TTbaVTMRqP.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 text-left md:text-right">
+                    <span class="block font-sans font-semibold text-[10px] tracking-[0.6em] uppercase mb-6 text-white/60">Manifestation</span>
+                    <h2 class="font-serif text-5xl lg:text-7xl xl:text-8xl tracking-tighter mb-8 text-white" id="title-4">Living <i class="italic font-light">Space</i>.</h2>
+                    <div class="glass-annotation annotation-4 md:ml-auto">
+                        <p class="text-xs lg:text-sm font-light leading-relaxed text-obsidian text-right md:text-right">The final atmosphere. Architecture manifested through structural honesty and cinematic presence.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+  </div>
+
+  <!-- PART 5: ARCHIVE GRID SECTION (Pure HTML) -->
+  <div id="archive-grid-root" class="py-32 px-6 md:px-12 lg:px-24">
+    <div class="max-w-[1500px] mx-auto content-relative">
+        <!-- Section Header & Filters -->
+        <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
+            <div class="max-w-xl">
+                <span class="block font-sans font-semibold text-[10px] tracking-[0.6em] uppercase mb-6 opacity-40">The Archive</span>
+                <h2 class="font-serif text-5xl md:text-7xl tracking-tighter text-black">Ledger of <i class="italic font-light">Void</i>.</h2>
+            </div>
+            
+            <!-- Technical Filter Bar -->
+            <div class="flex flex-wrap gap-8 md:gap-12 pb-2 text-black">
+                <button class="filter-btn active font-sans font-semibold text-[10px] uppercase tracking-[0.3em]" data-filter="all">All Works</button>
+                <button class="filter-btn font-sans font-semibold text-[10px] uppercase tracking-[0.3em]" data-filter="glass">Glass</button>
+                <button class="filter-btn font-sans font-semibold text-[10px] uppercase tracking-[0.3em]" data-filter="obsidian">Obsidian</button>
+                <button class="filter-btn font-sans font-semibold text-[10px] uppercase tracking-[0.3em]" data-filter="light">Light</button>
+                <button class="filter-btn font-sans font-semibold text-[10px] uppercase tracking-[0.3em]" data-filter="void">Void</button>
+            </div>
+        </div>
+
+        <!-- The Cinematic Letterbox List -->
+        <div id="project-grid" class="flex flex-col gap-10 lg:gap-16">
+            <!-- Items injected by JS -->
+        </div>
+
+        <!-- Full Archive Link -->
+        <div class="mt-24 flex justify-between items-center border-t border-black/10 pt-12">
+            <span class="font-sans text-[10px] uppercase tracking-[0.2em] opacity-40">©2026 Atelier Transparent / Systems</span>
+            <a href="#" class="font-sans font-semibold text-[10px] uppercase tracking-[0.6em] border-b border-black pb-2 hover:opacity-50 transition-opacity">Request Full Ledger</a>
+        </div>
+    </div>
+  </div>
+
+  <!-- LOGIC: STATIC SECTIONS ANIMATIONS -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- HELPER: Wrap Words ---
+        function wrapWords(elementId) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            const text = el.innerHTML;
+            const words = text.split(/(\s+|<br\/?>|<\/?[^>]+>)/g);
+            el.innerHTML = words.map(word => {
+                if (word.trim().length > 0 && !word.startsWith('<')) {
+                    return `<span class="reveal-word">${word}</span>`;
+                }
+                return word;
+            }).join('');
+        }
+
+        // --- PHILOSOPHY SECTION LOGIC ---
+        const initPhilosophy = () => {
+            wrapWords('heading');
+            wrapWords('card-paragraph');
+
+            const entryTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#philosophy",
+                    start: "top 60%",
+                }
+            });
+
+            entryTl.to("#vertical-line", { height: "100%", duration: 2, ease: "power4.inOut" });
+            entryTl.to("#tagline", { filter: "blur(0px)", opacity: 1, y: 0, duration: 1, ease: "power2.out" }, "-=1.5");
+            entryTl.to("#heading .reveal-word", { filter: "blur(0px)", opacity: 1, y: 0, duration: 1.5, stagger: 0.04, ease: "power4.out" }, "-=1.4");
+            entryTl.to("#body-card", { filter: "blur(0px)", opacity: 1, y: 0, duration: 1.2, ease: "power3.out" }, "-=1.2");
+            entryTl.to("#card-paragraph .reveal-word", { filter: "blur(0px)", opacity: 1, y: 0, duration: 1.2, stagger: 0.015, ease: "power3.out" }, "-=0.8");
+            entryTl.fromTo("#card-grid .reveal-item", { opacity: 0, y: 20, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 1, stagger: 0.2, ease: "power2.out" }, "-=0.6");
+        };
+
+        // --- SELECTED WORKS SECTION LOGIC ---
+        const initWorksSection = () => {
+            // Pin the section so it "settles" into view
+            ScrollTrigger.create({
+                trigger: "#works-section-root",
+                start: "top top",
+                end: "+=150%", // Keeps the section pinned for 1.5x viewport height of scrolling
+                pin: true,
+                pinSpacing: true
+            });
+
+            const segments = [
+                { title: 'The Art of <i class="italic font-light">Void</i>.', tagline: '02 — Selected Portfolios', cardTitle: 'Materiality', cardDesc: 'Exploring how light interacts with translucent surfaces in modern commercial spaces.', cardTag: 'Featured Study' },
+                { title: 'Monolithic <i class="italic font-light">Forms</i>.', tagline: '03 — Living Systems', cardTitle: 'Raw Textures', cardDesc: 'A deep contrast between heavy stone foundations and the lightness of architectural glass.', cardTag: 'Material Integrity' },
+                { title: 'Infinite <i class="italic font-light">Flow</i>.', tagline: '04 — Spatial Dialogue', cardTitle: 'Soft Geometry', cardDesc: 'Dissolving the boundary between the internal lounge and the surrounding urban horizon.', cardTag: 'Atmospheric Design' },
+                { title: 'Silent <i class="italic font-light">Sanctuary</i>.', tagline: '05 — Private Archive', cardTitle: 'Filtered Light', cardDesc: 'Designing the quiet intersection of restorative rest and structural transparency.', cardTag: 'Intimate Voids' }
+            ];
+
+            const video = document.querySelector('.video-bg');
+            if (video) video.play().catch(e => console.log("Autoplay blocked."));
+
+            wrapWords('hero-reveal-title');
+
+            // Initial Works Animation
+            gsap.to("#hero-reveal-title .reveal-word", {
+                filter: "blur(0px)", opacity: 1, y: 0, duration: 1.5, stagger: 0.08, ease: "power3.out",
+                scrollTrigger: { trigger: "#works-section-root", start: "top 60%" }
+            });
+
+            const textOverlay = document.getElementById('dynamic-text');
+            const cardOverlay = document.getElementById('dynamic-card');
+
+            const updateContent = (index) => {
+                const data = segments[index % segments.length];
+                document.getElementById('text-tagline').innerText = data.tagline;
+                const titleEl = document.getElementById('hero-reveal-title');
+                titleEl.innerHTML = data.title;
+                wrapWords('hero-reveal-title');
+                document.getElementById('card-tagline').innerText = data.cardTag;
+                document.getElementById('card-title').innerText = data.cardTitle;
+                document.getElementById('card-desc').innerText = data.cardDesc;
+            };
+
+            const worksTl = gsap.timeline({ repeat: -1 });
+
+            segments.forEach((_, i) => {
+                worksTl.to({}, { duration: 3.5 }); 
+                worksTl.to([textOverlay, cardOverlay], {
+                    opacity: 0, scale: 0.95, filter: "blur(20px)", duration: 0.8, ease: "power2.inOut",
+                    onComplete: () => {
+                        const nextIndex = (i + 1) % segments.length;
+                        updateContent(nextIndex);
+                        // Swap positions
+                        if (window.innerWidth > 900) { // Only swap on desktop
+                            if (nextIndex % 2 !== 0) {
+                                textOverlay.className = "cinematic-text-overlay pos-br text-white";
+                                cardOverlay.className = "glass-morphism-card pos-tl text-white";
+                            } else {
+                                textOverlay.className = "cinematic-text-overlay pos-tl text-white";
+                                cardOverlay.className = "glass-morphism-card pos-br text-white";
+                            }
+                        }
+                    }
+                });
+                worksTl.to([textOverlay, cardOverlay], {
+                    opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.8, ease: "power2.out",
+                    onStart: () => {
+                        gsap.fromTo("#hero-reveal-title .reveal-word", 
+                            { opacity: 0, y: 15, filter: "blur(10px)" },
+                            { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.0, stagger: 0.04 }
+                        );
+                    }
+                });
+            });
+        };
+
+        // --- PROCESS SECTION LOGIC ---
+        const initProcessSection = () => {
+            ['title-1', 'title-2', 'title-3', 'title-4'].forEach(wrapWords);
+
+            const container = document.getElementById("horizontal-container");
+            const panels = gsap.utils.toArray(".process-panel");
+            const progressBar = document.getElementById("process-progress");
+
+            const scrollTween = gsap.to(container, {
+                x: () => -(container.scrollWidth - window.innerWidth),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#process-section-root",
+                    pin: true,
+                    scrub: 0.8, 
+                    start: "top top",
+                    end: () => "+=" + (container.scrollWidth), 
+                    onUpdate: (self) => {
+                        progressBar.style.width = `${self.progress * 100}%`;
+                    }
+                }
+            });
+
+            panels.forEach((panel, i) => {
+                const titleWords = panel.querySelectorAll(".reveal-word");
+                const annotation = panel.querySelector(".glass-annotation");
+                const imageWrap = panel.querySelector(".process-image-wrap");
+                const isOddPanel = i % 2 !== 0;
+
+                const panelTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: panel,
+                        containerAnimation: scrollTween,
+                        start: "left 90%",
+                        end: "right center",
+                        toggleActions: "play reverse play reverse",
+                    }
+                });
+
+                panelTl.fromTo(titleWords, 
+                    { opacity: 0, y: 30, filter: "blur(15px)" }, 
+                    { opacity: 1, y: 0, filter: "blur(0px)", duration: 1, stagger: 0.05, ease: "power4.out" }
+                )
+                .fromTo(annotation, { opacity: 0, x: isOddPanel ? -60 : 60, y: 10 }, { opacity: 1, x: 0, y: 0, duration: 1.2, ease: "power3.out" }, "-=0.6" )
+                .fromTo(imageWrap, { scale: 1.1, opacity: 0, x: isOddPanel ? 50 : -50 }, { scale: 1, opacity: 1, x: 0, duration: 1.5, ease: "expo.out" }, "-=1.2");
+            });
+
+            // 3D Gallery Logic
+            const setupGallery = (triggerId, galleryId, mainImgId) => {
+                const trigger = document.getElementById(triggerId);
+                const galleryPanes = gsap.utils.toArray(`#${galleryId} .gallery-pane`);
+                const mainImg = document.getElementById(mainImgId);
+                if (!trigger || !mainImg) return;
+
+                let isHovered = false;
+                let currentRotation = 0;
+                let focusedElement = null;
+                const radius = 450;
+                const centerZ = 350;
+
+                const updateGallery = (instant = false) => {
+                    if (focusedElement) return;
+                    galleryPanes.forEach((pane, i) => {
+                        const angle = (i * (360 / galleryPanes.length)) + currentRotation;
+                        const radian = (angle * Math.PI) / 180;
+                        const x = Math.sin(radian) * radius;
+                        const z = Math.cos(radian) * radius + centerZ;
+                        gsap.to(pane, { x, z, rotationY: angle, opacity: (isHovered ? (z > centerZ ? 1 : 0.4) : 0), duration: instant ? 0 : 0.8, ease: "power3.out" });
+                    });
+                };
+
+                const resetFocus = () => {
+                    if (!focusedElement) return;
+                    focusedElement.classList.remove('focused');
+                    focusedElement = null;
+                    updateGallery();
+                    gsap.to(mainImg, { opacity: 0.3, duration: 0.5 });
+                };
+
+                galleryPanes.forEach(pane => {
+                    pane.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (focusedElement === pane) { resetFocus(); return; }
+                        if (focusedElement) focusedElement.classList.remove('focused');
+                        focusedElement = pane;
+                        pane.classList.add('focused');
+                        gsap.to(pane, { x: 0, y: 0, z: 800, rotationY: 0, opacity: 1, duration: 1.2, ease: "expo.out" });
+                        galleryPanes.forEach(p => { if (p !== pane) gsap.to(p, { opacity: 0, duration: 0.4 }); });
+                    });
+                });
+
+                trigger.addEventListener('mouseenter', () => { isHovered = true; gsap.to(mainImg, { scale: 0.7, opacity: 0.3, duration: 0.8, ease: "power3.inOut" }); updateGallery(); });
+                trigger.addEventListener('mouseleave', () => { if (focusedElement) return; isHovered = false; gsap.to(mainImg, { scale: 1, opacity: 1, duration: 0.8, ease: "power3.inOut" }); updateGallery(); });
+                trigger.addEventListener('wheel', (e) => { if (!isHovered || focusedElement) return; e.preventDefault(); currentRotation += e.deltaY * 0.1; updateGallery(); }, { passive: false });
+            };
+
+            setupGallery('trigger-01', 'gallery-01', 'img-01');
+            setupGallery('trigger-02', 'gallery-02', 'img-02');
+            setupGallery('trigger-03', 'gallery-03', 'img-03');
+            setupGallery('trigger-04', 'gallery-04', 'img-04');
+        };
+
+        // --- ARCHIVE GRID SECTION LOGIC ---
+        const initArchiveGrid = () => {
+            const projectData = [
+                { id: 0, year: '2024', name: 'Obsidian House', loc: 'Zurich, CH', tag: 'obsidian', img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg', desc: 'A residence carved from dark stone, where light is treated as material.' },
+                { id: 1, year: '2023', name: 'Glass Pavilion', loc: 'Kyoto, JP', tag: 'glass', img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg', desc: 'Merging traditional aesthetics with total transparency.' },
+                { id: 2, year: '2023', name: 'Void Tower', loc: 'Berlin, DE', tag: 'void', img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg', desc: 'A vertical exploration of negative space silhouettes.' },
+                { id: 3, year: '2022', name: 'Crystal Gallery', loc: 'New York, US', tag: 'glass', img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg', desc: 'A museum where every surface refracts the city motion.' },
+                { id: 4, year: '2022', name: 'The Prism', loc: 'London, UK', tag: 'light', img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg', desc: 'Atmospheric volume through multi-layered glass facades.' },
+                { id: 5, year: '2021', name: 'Basalt Studio', loc: 'Reykjavik, IS', tag: 'obsidian', img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg', desc: 'Subterranean creative volcanic rock.' },
+                { id: 6, year: '2021', name: 'Ethereal Wing', loc: 'Paris, FR', tag: 'void', img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg', desc: 'Floating minimalist workspace.' },
+                { id: 7, year: '2020', name: 'Lustre Centre', loc: 'Milan, IT', tag: 'glass', img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg', desc: 'Italian design enclosed in glass.' },
+                { id: 8, year: '2020', name: 'Monolith Loft', loc: 'Oslo, NO', tag: 'obsidian', img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg', desc: 'Sharp geometric volumes, Nordic silence.' },
+                { id: 9, year: '2019', name: 'Horizon Loft', loc: 'Sydney, AU', tag: 'light', img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg', desc: 'Infinite glass coastal spans.' }
+            ];
+
+            const grid = document.getElementById('project-grid');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            
+            // Fix B: Race Condition Flag
+            let isAnimating = false;
+
+            const createCardHTML = (project) => `
+                <div class="item-image-wrap"><img src="${project.img}" class="item-image" alt="${project.name}"></div>
+                <div class="item-info">
+                    <div><div class="metadata mb-6"><span>${project.year} — ${project.tag}</span></div><h3 class="project-name">${project.name}</h3><p class="desc-text">${project.desc}</p></div>
+                    <div class="flex justify-between items-end border-t border-black/10 pt-6 mt-6"><span class="metadata">${project.loc}</span><span class="font-sans text-[9px] uppercase tracking-[0.2em] font-semibold">View Case —</span></div>
+                </div>`;
+
+            const renderGrid = (filter = 'all') => {
+                if (isAnimating) return; // Prevent race condition
+                isAnimating = true;
+
+                const filtered = filter === 'all' ? projectData : projectData.filter(p => p.tag === filter);
+                
+                gsap.to(".grid-item", {
+                    opacity: 0, filter: "blur(20px)", scale: 0.98, duration: 0.4, stagger: 0.02, ease: "power2.in",
+                    onComplete: () => {
+                        grid.innerHTML = '';
+                        filtered.forEach(project => {
+                            const item = document.createElement('div');
+                            item.className = 'grid-item group';
+                            item.dataset.tag = project.tag;
+                            item.innerHTML = createCardHTML(project);
+                            grid.appendChild(item);
+                        });
+                        gsap.fromTo(".grid-item", { opacity: 0, filter: "blur(20px)", scale: 0.98, y: 30 }, { opacity: 1, filter: "blur(0px)", scale: 1, y: 0, duration: 0.8, stagger: 0.05, ease: "power3.out", onComplete: () => { isAnimating = false; } });
+                    }
+                });
+            };
+
+            // Initial Render
+            projectData.forEach(project => {
+                const item = document.createElement('div');
+                item.className = 'grid-item group reveal-item';
+                item.innerHTML = createCardHTML(project);
+                grid.appendChild(item);
+            });
+
+            gsap.to(".reveal-item", {
+                opacity: 1, y: 0, duration: 1.2, stagger: 0.1, ease: "power3.out",
+                scrollTrigger: { trigger: "#project-grid", start: "top 80%" }
+            });
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (isAnimating || btn.classList.contains('active')) return;
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderGrid(btn.dataset.filter);
+                });
+            });
+        };
+
+        // Initialize all static sections
+        initPhilosophy();
+        initWorksSection();
+        initProcessSection();
+        initArchiveGrid();
+    });
+  </script>
+
+  <!-- LOGIC: REACT HERO SECTION (Top) -->
+  <script type="text/babel" data-type="module">
+    import React, { useRef, useEffect, useState, useLayoutEffect, useMemo } from 'react';
+    import { createRoot } from 'react-dom/client';
+    import { Canvas, useFrame, useThree } from '@react-three/fiber';
+    import { MeshTransmissionMaterial, Float, useTexture, useVideoTexture, Environment, useProgress } from '@react-three/drei';
+    import * as THREE from 'three';
+
+    const ORB_URL = "https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg";
+    const BG_VIDEO_URL = "https://assets.zyrosite.com/A3QlOV94WLSaL6xE/green-checklist-minimalist-business-furniture-interior-design-video-evdVciJfiRtceRPj.mp4";
+
+    // Fix C: Accessibility
+    const SplitText = ({ children, className }) => {
+      return (
+        <span className={className} aria-label={children}>
+          {children.split("").map((char, index) => (
+            <span key={index} className="char" aria-hidden="true" style={{ opacity: 0, display: 'inline-block' }}>
+              {char}
+            </span>
+          ))}
+        </span>
+      );
+    };
+
+    function AppContent() {
+      const [loaded, setLoaded] = useState(false);
+      const [domLoaded, setDomLoaded] = useState(false); // Fix A: Loader Logic
+      const [menuOpen, setMenuOpen] = useState(false);
+      const orbGroupRef = useRef();
+      const { progress } = useProgress();
+
+      // Fix A: Check DOM Readiness
+      useEffect(() => {
+        if (document.readyState === 'complete') {
+            setDomLoaded(true);
+        } else {
+            const handleLoad = () => setDomLoaded(true);
+            window.addEventListener('load', handleLoad);
+            return () => window.removeEventListener('load', handleLoad);
+        }
+      }, []);
+
+      useEffect(() => {
+        const bar = document.getElementById('progress-bar');
+        const overlay = document.getElementById('loader');
+        if(bar) bar.style.width = `${progress}%`;
+        
+        // Fix A: Only remove loader if BOTH 3D and DOM are ready
+        if(progress === 100 && domLoaded) {
+           setTimeout(() => { if(overlay) overlay.style.opacity = '0'; setLoaded(true); }, 500);
+           setTimeout(() => { 
+               if(overlay) overlay.style.display = 'none'; 
+               // Fix D: Refresh ScrollTrigger after loader vanishes to ensure accurate pinning
+               if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+           }, 1300);
+        }
+      }, [progress, domLoaded]);
+
+      useLayoutEffect(() => {
+        if (loaded) {
+          const tl = gsap.timeline();
+          tl.to(".menu-btn", { y: 0, opacity: 1, duration: 1, ease: "power3.out" });
+          tl.to(".tagline", { opacity: 1, duration: 1, ease: "power2.out" }, "-=0.5");
+          tl.fromTo(".hero-header .char", { x: -40, opacity: 0, filter: "blur(12px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 1.2, stagger: 0.03, ease: "power2.out" }, "-=0.8");
+          tl.to(".glass-card", { y: 0, opacity: 1, duration: 1, ease: "power3.out" }, "-=0.5");
+        }
+      }, [loaded]);
+
+      useEffect(() => {
+        const overlay = document.querySelector('.menu-overlay');
+        const items = document.querySelectorAll('.menu-item-link');
+        const footer = document.querySelector('.menu-footer-right');
+        
+        if (menuOpen) {
+          const tl = gsap.timeline();
+          tl.to(overlay, { right: 0, duration: 1.2, ease: "expo.inOut" });
+          tl.to(items, { opacity: 1, x: 0, duration: 1, stagger: 0.08, ease: "expo.out" }, "-=0.6");
+          tl.to(footer, { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8");
+          gsap.to(".hero-header", { opacity: 0, filter: "blur(20px)", duration: 1, ease: "power2.inOut" });
+          gsap.to(".glass-card", { opacity: 0, y: 20, duration: 0.8 });
+        } else {
+          const tl = gsap.timeline();
+          tl.to(items, { opacity: 0, x: 50, duration: 0.6, stagger: 0.05, ease: "power2.in" });
+          tl.to(footer, { opacity: 0, y: 20, duration: 0.6 }, "-=0.6");
+          tl.to(overlay, { right: "-100%", duration: 1, ease: "expo.inOut" }, "-=0.4");
+          gsap.to(".hero-header", { opacity: 1, filter: "blur(0px)", duration: 1, ease: "power2.out" });
+          gsap.to(".glass-card", { opacity: 1, y: 0, duration: 1 });
+        }
+      }, [menuOpen]);
+
+      return (
+        <>
+          <div className="ui-layer">
+            <div className="menu-btn" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? "Close" : "Menu"}</div>
+            
+            <div className="menu-overlay">
+              <div className="menu-left-side">
+                <a href="#" className="menu-item-link" onClick={() => setMenuOpen(false)}>Projects</a>
+                <a href="#" className="menu-item-link" onClick={() => setMenuOpen(false)}>Studio</a>
+                <a href="#" className="menu-item-link" onClick={() => setMenuOpen(false)}>Archive</a>
+                <a href="#" className="menu-item-link" onClick={() => setMenuOpen(false)}>Vision</a>
+                <a href="#" className="menu-item-link" onClick={() => setMenuOpen(false)}>Contact</a>
+              </div>
+              <div className="menu-footer-right">
+                <span className="brand-title">L'Atelier Transparent</span>
+                <span className="address-line">42nd Penthouse Floor, Void Tower<br/>Zurich, Switzerland 8001</span>
+              </div>
+            </div>
+
+            <div className="hero-header">
+              <span className="tagline">Collection 2026</span>
+              <h1>
+                <div style={{ overflow: 'hidden' }}><SplitText>Structure &</SplitText></div>
+                <div style={{ overflow: 'hidden' }}><i><SplitText>Transparency.</SplitText></i></div>
+              </h1>
+            </div>
+
+            <div className="glass-card">
+              <p>We design spaces that breathe. By dissolving the boundary between structure and environment, we create clarity. Explore the "Paperweight" archive below.</p>
+              <a href="#philosophy" className="btn">Explore Collection</a>
+            </div>
+          </div>
+
+          <Canvas dpr={window.devicePixelRatio} camera={{ position: [0, 0, 10.5], fov: 35 }}>
+            <ambientLight intensity={1} />
+            <spotLight position={[10, 10, 10]} intensity={2} angle={0.2} penumbra={1} color="white" />
+            <spotLight position={[-10, 10, -5]} intensity={2} angle={0.2} penumbra={1} color="white" />
+            <React.Suspense fallback={null}>
+              <Background menuOpen={menuOpen} />
+              <group ref={orbGroupRef} position={[3.5, 0, 0]}>
+                <Paperweight loaded={loaded} menuOpen={menuOpen} />
+              </group>
+            </React.Suspense>
+          </Canvas>
+        </>
+      );
+    }
+
+    function Paperweight({ loaded, menuOpen }) {
+      const outerRef = useRef();
+      const innerRef = useRef();
+      const { gl } = useThree();
+      const texture = useTexture(ORB_URL);
+
+      useEffect(() => {
+        if(texture) {
+          texture.anisotropy = gl.capabilities.getMaxAnisotropy();
+          texture.generateMipmaps = true;
+          texture.minFilter = THREE.LinearMipMapLinearFilter;
+          texture.magFilter = THREE.LinearFilter;
+        }
+      }, [texture, gl]);
+
+      useFrame((state, delta) => {
+        if (outerRef.current) {
+           outerRef.current.rotation.y += delta * 0.2;
+           innerRef.current.rotation.y += delta * 0.2;
+           const targetScale = loaded ? 2.7 : 0;
+           const speed = delta * 3;
+           innerRef.current.scale.setScalar(THREE.MathUtils.lerp(innerRef.current.scale.x, targetScale, speed));
+           outerRef.current.scale.setScalar(THREE.MathUtils.lerp(outerRef.current.scale.x, targetScale * 1.005, speed));
+        }
+      });
+
+      return (
+        <group>
+          <Environment preset="city" background={false} />
+          <Float speed={2} rotationIntensity={0.2} floatIntensity={1}>
+            <group>
+              <mesh ref={innerRef} scale={0}><sphereGeometry args={[1, 64, 64]} /><meshBasicMaterial map={texture} toneMapped={false} /></mesh>
+              <mesh ref={outerRef} scale={0}>
+                <sphereGeometry args={[1, 64, 64]} />
+                <MeshTransmissionMaterial ior={1.0} thickness={0.0} chromaticAberration={0.0} distortion={0.0} roughness={0.0} transmission={1.0} anisotropy={20} clearcoat={1.0} reflectivity={0.5} color="#ffffff" />
+              </mesh>
+            </group>
+          </Float>
+        </group>
+      );
+    }
+
+    function Background({ menuOpen }) {
+      const { viewport, camera } = useThree();
+      const texture = useVideoTexture(BG_VIDEO_URL, {
+        unsuspend: 'canplay',
+        muted: true,
+        loop: true,
+        start: true,
+        crossOrigin: 'Anonymous',
+        playsInline: true,
+      });
+      const meshRef = useRef();
+
+      const distance = 20.5; 
+      const fov = 35;
+      const vHeight = 2 * Math.tan((fov * Math.PI) / 180 / 2) * distance;
+      const vWidth = vHeight * viewport.aspect;
+
+      // "COVER" Scaling Logic for Video
+      const videoAspect = 16 / 9;
+      let scaleX = vWidth;
+      let scaleY = vHeight;
+
+      if (vWidth / vHeight > videoAspect) {
+        scaleY = vWidth / videoAspect; 
+      } else {
+        scaleX = vHeight * videoAspect;
+      }
+
+      useEffect(() => {
+        if (meshRef.current) {
+          gsap.to(meshRef.current.material, {
+            opacity: menuOpen ? 0.3 : 1,
+            duration: 1.5,
+            ease: "power2.inOut"
+          });
+          gsap.to(meshRef.current.scale, {
+            x: menuOpen ? (scaleX * 1.1) : scaleX,
+            y: menuOpen ? (scaleY * 1.1) : scaleY,
+            duration: 1.5,
+            ease: "power2.inOut"
+          });
+        }
+      }, [menuOpen, scaleX, scaleY]);
+
+      return (
+        <mesh ref={meshRef} position={[0, 0, -10]} scale={[scaleX, scaleY, 1]}>
+          <planeGeometry />
+          <meshBasicMaterial map={texture} toneMapped={false} transparent={true} />
+        </mesh>
+      )
+    }
+
+    const root = createRoot(document.getElementById('root'));
+    root.render(<AppContent />);
+  </script>
+</body>
+</html>

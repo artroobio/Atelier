@@ -1,0 +1,275 @@
+<!-- Selected Works Section Component Fragment -->
+
+<!-- 1. External Dependencies -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- 2. Tailwind Configuration -->
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    concrete: '#F2F2F2',
+                    obsidian: '#1A1A1A',
+                },
+                fontFamily: {
+                    sans: ['Inter', 'sans-serif'],
+                    serif: ['Playfair Display', 'serif'],
+                },
+            }
+        }
+    }
+</script>
+
+<!-- 3. Required Styles for this Section -->
+<style>
+    #works-section-root {
+        background-color: #000;
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    /* Video Background Container */
+    .video-hero-container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        background: #000;
+    }
+
+    .video-bg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+        opacity: 0.85;
+    }
+
+    /* Cinematic Word wrapper */
+    .reveal-word {
+        display: inline-block;
+        white-space: pre;
+        will-change: transform, opacity, filter;
+        filter: blur(15px);
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    /* Floating Overlay Elements */
+    .cinematic-text-overlay {
+        position: absolute;
+        z-index: 20;
+        max-width: 500px;
+        pointer-events: none;
+        will-change: transform, opacity;
+    }
+
+    .glass-morphism-card {
+        position: absolute;
+        z-index: 20;
+        padding: 32px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(40px) saturate(150%);
+        -webkit-backdrop-filter: blur(40px) saturate(150%);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 12px;
+        width: 340px;
+        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.3);
+        pointer-events: auto;
+        will-change: transform, opacity;
+    }
+
+    /* Layout Positioning Utility */
+    .pos-tl { top: 12%; left: 8%; text-align: left; }
+    .pos-br { bottom: 12%; right: 8%; text-align: right; }
+    .pos-tr { top: 12%; right: 8%; text-align: right; }
+    .pos-bl { bottom: 12%; left: 8%; text-align: left; }
+</style>
+
+<!-- 4. Component HTML -->
+<div id="works-section-root" class="font-sans text-obsidian">
+    
+    <!-- Cinematic Video Hero -->
+    <div class="video-hero-container">
+        <!-- New Interior Design Video -->
+        <video class="video-bg" autoplay muted loop playsinline preload="auto">
+            <source src="https://assets.zyrosite.com/AGBzPMBJDQiwDGny/grey-home-interior-design-video-M13Xi8TTbaVTMRqP.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <!-- Dynamic Overlay: Text -->
+        <div id="dynamic-text" class="cinematic-text-overlay pos-tl text-white">
+            <span class="block font-sans font-semibold text-xs tracking-[0.6em] uppercase mb-6 opacity-60" id="text-tagline">02 — Selected Portfolios</span>
+            <h1 class="font-serif text-6xl md:text-8xl tracking-tighter leading-tight" id="hero-reveal-title">
+                The Art of <i class="italic font-light">Void</i>.
+            </h1>
+        </div>
+
+        <!-- Dynamic Overlay: Card -->
+        <div id="dynamic-card" class="glass-morphism-card pos-br text-white">
+            <span class="text-[10px] uppercase tracking-[0.3em] mb-3 block font-semibold opacity-60" id="card-tagline">Featured Study</span>
+            <h3 class="font-serif text-3xl mb-4 italic" id="card-title">Materiality</h3>
+            <p class="text-sm font-light leading-relaxed opacity-80" id="card-desc">Exploring how light interacts with translucent surfaces in modern commercial spaces.</p>
+            <div class="mt-8 pt-4 border-t border-white/20">
+                <a href="#" class="text-[10px] uppercase tracking-[0.4em] hover:opacity-100 opacity-60 transition-opacity">Explore Detail —</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 5. Component Logic -->
+<script>
+    (function() {
+        const segments = [
+            {
+                title: 'The Art of <i class="italic font-light">Void</i>.',
+                tagline: '02 — Selected Portfolios',
+                cardTitle: 'Materiality',
+                cardDesc: 'Exploring how light interacts with translucent surfaces in modern commercial spaces.',
+                cardTag: 'Featured Study'
+            },
+            {
+                title: 'Monolithic <i class="italic font-light">Forms</i>.',
+                tagline: '03 — Living Systems',
+                cardTitle: 'Raw Textures',
+                cardDesc: 'A deep contrast between heavy stone foundations and the lightness of architectural glass.',
+                cardTag: 'Material Integrity'
+            },
+            {
+                title: 'Infinite <i class="italic font-light">Flow</i>.',
+                tagline: '04 — Spatial Dialogue',
+                cardTitle: 'Soft Geometry',
+                cardDesc: 'Dissolving the boundary between the internal lounge and the surrounding urban horizon.',
+                cardTag: 'Atmospheric Design'
+            },
+            {
+                title: 'Silent <i class="italic font-light">Sanctuary</i>.',
+                tagline: '05 — Private Archive',
+                cardTitle: 'Filtered Light',
+                cardDesc: 'Designing the quiet intersection of restorative rest and structural transparency.',
+                cardTag: 'Intimate Voids'
+            }
+        ];
+
+        function wrapWords(elementId) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            const text = el.innerHTML;
+            const words = text.split(/(\s+|<br\/?>|<\/?[^>]+>)/g);
+            
+            el.innerHTML = words.map(word => {
+                if (word.trim().length > 0 && !word.startsWith('<')) {
+                    return `<span class="reveal-word">${word}</span>`;
+                }
+                return word;
+            }).join('');
+        }
+
+        const updateContent = (index) => {
+            const data = segments[index % segments.length];
+            
+            // Update Text Overlay
+            document.getElementById('text-tagline').innerText = data.tagline;
+            const titleEl = document.getElementById('hero-reveal-title');
+            titleEl.innerHTML = data.title;
+            wrapWords('hero-reveal-title');
+
+            // Update Card
+            document.getElementById('card-tagline').innerText = data.cardTag;
+            document.getElementById('card-title').innerText = data.cardTitle;
+            document.getElementById('card-desc').innerText = data.cardDesc;
+        };
+
+        const initWorksSection = () => {
+            if (typeof gsap === 'undefined') {
+                setTimeout(initWorksSection, 100);
+                return;
+            }
+
+            const video = document.querySelector('.video-bg');
+            if (video) {
+                video.play().catch(e => console.log("Autoplay blocked."));
+            }
+
+            // Initial Content Wrap
+            wrapWords('hero-reveal-title');
+
+            // Initial Animation (Slightly slower entry)
+            gsap.to("#hero-reveal-title .reveal-word", {
+                filter: "blur(0px)",
+                opacity: 1,
+                y: 0,
+                duration: 1.5,
+                stagger: 0.08,
+                ease: "power3.out"
+            });
+
+            const textOverlay = document.getElementById('dynamic-text');
+            const cardOverlay = document.getElementById('dynamic-card');
+
+            // Master Timeline
+            const masterTimeline = gsap.timeline({ repeat: -1 });
+
+            segments.forEach((_, i) => {
+                // Increased visible duration for better readability (3.5s)
+                masterTimeline.to({}, { duration: 3.5 }); 
+
+                // Slower exit transition (0.8s)
+                masterTimeline.to([textOverlay, cardOverlay], {
+                    opacity: 0,
+                    scale: 0.95,
+                    filter: "blur(20px)",
+                    duration: 0.8,
+                    ease: "power2.inOut",
+                    onComplete: () => {
+                        const nextIndex = (i + 1) % segments.length;
+                        updateContent(nextIndex);
+                        
+                        // Swap positions
+                        if (nextIndex % 2 !== 0) {
+                            textOverlay.className = "cinematic-text-overlay pos-br text-white";
+                            cardOverlay.className = "glass-morphism-card pos-tl text-white";
+                        } else {
+                            textOverlay.className = "cinematic-text-overlay pos-tl text-white";
+                            cardOverlay.className = "glass-morphism-card pos-br text-white";
+                        }
+                    }
+                });
+
+                // Slower entry transition (0.8s)
+                masterTimeline.to([textOverlay, cardOverlay], {
+                    opacity: 1,
+                    scale: 1,
+                    filter: "blur(0px)",
+                    duration: 0.8,
+                    ease: "power2.out",
+                    onStart: () => {
+                        // Re-trigger title animation for new text (relaxed pace)
+                        gsap.fromTo("#hero-reveal-title .reveal-word", 
+                            { opacity: 0, y: 15, filter: "blur(10px)" },
+                            { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.0, stagger: 0.04 }
+                        );
+                    }
+                });
+            });
+        };
+
+        if (document.readyState === "complete" || document.readyState === "interactive") {
+            initWorksSection();
+        } else {
+            window.addEventListener('DOMContentLoaded', initWorksSection);
+        }
+    })();
+</script>

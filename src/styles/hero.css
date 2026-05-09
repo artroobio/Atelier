@@ -1,0 +1,121 @@
+/* 1. RESET & THEME */
+body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #f2f2f2; }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+#root { width: 100%; height: 100%; }
+
+/* 2. LOADER */
+.loader-overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: #f2f2f2; z-index: 100;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  transition: opacity 0.8s ease; pointer-events: none;
+}
+.loader-bar { width: 200px; height: 2px; background: rgba(0,0,0,0.1); margin-top: 20px; border-radius: 2px; }
+.loader-progress { height: 100%; background: #1a1a1a; width: 0%; transition: width 0.2s; }
+.loader-text { color: #1a1a1a; font-family: 'Inter', sans-serif; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+
+/* 3. UI LAYER */
+.ui-layer {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  padding: 60px; padding-bottom: 40px;
+  box-sizing: border-box; z-index: 10;
+  display: flex; flex-direction: column; 
+  justify-content: space-between; 
+}
+
+/* MENU BUTTON */
+.menu-btn {
+  position: absolute; top: 40px; right: 40px;
+  padding: 12px 30px;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  border-radius: 100px; pointer-events: auto; cursor: pointer;
+  color: #1a1a1a; font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  transition: all 0.3s ease;
+  opacity: 0; transform: translateY(-20px);
+  z-index: 80;
+}
+.menu-btn:hover { background: rgba(255, 255, 255, 0.6); transform: translateY(-2px); }
+
+/* FULLSCREEN SLIDE MENU */
+.menu-overlay {
+  position: fixed; top: 0; right: -100%; width: 100%; height: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);
+  z-index: 70; display: flex;
+  flex-direction: row; align-items: center;
+  padding: 0 100px; box-sizing: border-box;
+  pointer-events: auto;
+}
+
+.menu-left-side { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+.menu-item-link {
+  color: #000; font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 400;
+  text-decoration: none; line-height: 1; opacity: 0; transform: translateX(50px);
+  transition: color 0.3s ease; display: block; width: fit-content;
+}
+.menu-item-link:hover { color: #666; }
+
+.menu-footer-right {
+  position: absolute; bottom: 60px; right: 60px; text-align: right;
+  font-family: 'Inter', sans-serif; color: #1a1a1a; opacity: 0; transform: translateY(20px);
+}
+.brand-title { font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 4px; display: block; margin-bottom: 8px; }
+.address-line { font-size: 0.8rem; font-weight: 300; line-height: 1.6; display: block; letter-spacing: 1px; }
+
+/* HERO HEADER (Top Left) */
+.hero-header { 
+  max-width: 600px; 
+  pointer-events: auto; 
+  margin-top: -10px; 
+}
+
+.tagline { 
+  color: #333; font-family: 'Inter', sans-serif; font-size: 0.85rem; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 24px; display: block; font-weight: 500; 
+  opacity: 0; 
+}
+
+h1 { 
+  color: #ffffff; 
+  font-family: 'Playfair Display', serif; font-size: 4.5rem; line-height: 1.1; margin: 0; font-weight: 400; letter-spacing: -1px; 
+}
+
+.char {
+  display: inline-block;
+  white-space: pre; 
+  will-change: transform, opacity, filter;
+}
+
+h1 i { font-family: 'Playfair Display', serif; font-weight: 400; color: #ffffff; }
+
+/* GLASS CARD (Bottom Left) */
+.glass-card {
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+  color: #333; font-family: 'Inter', sans-serif; font-weight: 300; line-height: 1.5; font-size: 0.85rem;
+  border-radius: 12px; max-width: 400px;
+  opacity: 0; transform: translateY(20px);
+  pointer-events: auto;
+}
+
+.btn {
+  margin-top: 15px; display: inline-block; padding: 10px 24px;
+  background: #1a1a1a; color: white; text-decoration: none;
+  font-family: 'Inter', sans-serif; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; font-weight: 500;
+  transition: all 0.3s ease; border-radius: 4px;
+}
+.btn:hover { background: #333; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+@media (max-width: 900px) {
+  .ui-layer { align-items: center; text-align: center; padding-top: 0; padding-bottom: 40px; justify-content: center; gap: 40px;}
+  .menu-btn { top: 20px; right: 20px; }
+  h1 { font-size: 3rem; }
+  .glass-card { text-align: left; }
+  .hero-header { margin-top: 0; }
+}

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Architectural Glass Hero</title>
+  <style>
+    /* 1. LIGHT THEME & FONTS */
+    body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #f2f2f2; }
+    
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+    #root { width: 100%; height: 100%; }
+
+    /* 2. LOADER */
+    .loader-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: #f2f2f2; z-index: 100;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      transition: opacity 0.5s ease; pointer-events: none;
+    }
+    .loader-bar { width: 200px; height: 2px; background: rgba(0,0,0,0.1); margin-top: 20px; border-radius: 2px; }
+    .loader-progress { height: 100%; background: #1a1a1a; width: 0%; transition: width 0.2s; }
+    .loader-text { color: #1a1a1a; font-family: 'Inter', sans-serif; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+
+    /* 3. UI LAYER */
+    .ui-layer {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      padding: 60px; 
+      /* CHANGED: Added specific bottom padding to prevent cutoff */
+      padding-bottom: 40px; 
+      box-sizing: border-box; z-index: 10;
+      display: flex; flex-direction: column; 
+      /* CHANGED: Pushes content to the bottom */
+      justify-content: flex-end; 
+    }
+
+    /* FROSTED GLASS MENU BUTTON */
+    .menu-btn {
+      position: absolute; top: 40px; right: 40px;
+      padding: 12px 30px;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+      border-radius: 100px;
+      pointer-events: auto; cursor: pointer;
+      color: #1a1a1a; font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+      transition: all 0.3s ease;
+    }
+    .menu-btn:hover { background: rgba(255, 255, 255, 0.6); transform: translateY(-2px); }
+
+    /* Hero Text Content */
+    .hero-content {
+      max-width: 550px;
+      pointer-events: auto;
+      /* Removed the negative top margin since we are now aligning to bottom */
+      margin-top: 0; 
+    }
+    
+    .tagline {
+      color: #666; font-family: 'Inter', sans-serif; font-size: 0.85rem; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 24px; display: block; font-weight: 500;
+    }
+
+    h1 {
+      color: #111; font-family: 'Playfair Display', serif; font-size: 4.5rem; line-height: 1.1; margin: 0; font-weight: 400;
+      letter-spacing: -1px;
+    }
+    h1 i { font-family: 'Playfair Display', serif; font-weight: 400; color: #444; }
+    
+    /* Glass Info Card */
+    .glass-card {
+      margin-top: 40px;
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+      color: #333;
+      font-family: 'Inter', sans-serif; font-weight: 300;
+      line-height: 1.5; font-size: 0.85rem;
+      border-radius: 12px;
+      max-width: 400px;
+    }
+
+    .btn {
+      margin-top: 15px; display: inline-block;
+      padding: 10px 24px; 
+      background: #1a1a1a; color: white; text-decoration: none;
+      font-family: 'Inter', sans-serif; text-transform: uppercase; 
+      font-size: 0.7rem; letter-spacing: 2px; font-weight: 500;
+      transition: all 0.3s ease;
+      border-radius: 4px;
+    }
+    .btn:hover { background: #333; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+    @media (max-width: 900px) {
+      .ui-layer { align-items: center; text-align: center; padding-top: 0; padding-bottom: 40px; }
+      .menu-btn { top: 20px; right: 20px; }
+      h1 { font-size: 3rem; }
+      .glass-card { text-align: left; }
+    }
+  </style>
+  
+  <script type="importmap">
+  {
+    "imports": {
+      "react": "https://esm.sh/react@18.2.0",
+      "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+      "three": "https://esm.sh/three@0.160.0",
+      "@react-three/fiber": "https://esm.sh/@react-three/fiber@8.15.12?external=react,react-dom,three",
+      "@react-three/drei": "https://esm.sh/@react-three/drei@9.96.1?external=react,react-dom,three,@react-three/fiber"
+    }
+  }
+  </script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <div id="loader" class="loader-overlay">
+    <div class="loader-text">Loading Space</div>
+    <div class="loader-bar"><div class="loader-progress" id="progress-bar"></div></div>
+  </div>
+
+  <div class="ui-layer">
+    <div class="menu-btn">Menu</div>
+    <div class="hero-content">
+      <span class="tagline">Collection 2026</span>
+      <h1>Structure &<br/><i>Transparency.</i></h1>
+      <div class="glass-card">
+        <p>
+          We design spaces that breathe. By dissolving the boundary between structure and environment, we create clarity.
+          Explore the "Paperweight" archive below.
+        </p>
+        <a href="#" class="btn">Explore Collection</a>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/babel" data-type="module">
+    import React, { useRef, useEffect, useMemo } from 'react';
+    import { createRoot } from 'react-dom/client';
+    import { Canvas, useFrame, useThree } from '@react-three/fiber';
+    import { MeshTransmissionMaterial, Float, useTexture, Environment, useProgress } from '@react-three/drei';
+    import * as THREE from 'three';
+
+    const ORB_URL = "https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg";
+    const BG_URL = "https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg";
+
+    function Loader() {
+      const { progress } = useProgress();
+      useEffect(() => {
+        const bar = document.getElementById('progress-bar');
+        const overlay = document.getElementById('loader');
+        if(bar) bar.style.width = `${progress}%`;
+        if(progress === 100 && overlay) {
+           setTimeout(() => { overlay.style.opacity = '0'; }, 500);
+           setTimeout(() => { overlay.style.display = 'none'; }, 1000);
+        }
+      }, [progress]);
+      return null;
+    }
+
+    function Paperweight() {
+      const outerRef = useRef();
+      const innerRef = useRef();
+      const { gl } = useThree();
+      
+      const texture = useTexture(ORB_URL);
+
+      useEffect(() => {
+        if(texture) {
+          texture.anisotropy = gl.capabilities.getMaxAnisotropy();
+          texture.generateMipmaps = true;
+          texture.minFilter = THREE.LinearMipMapLinearFilter;
+          texture.magFilter = THREE.LinearFilter;
+        }
+      }, [texture, gl]);
+
+      useFrame((state, delta) => {
+        if (outerRef.current) {
+           outerRef.current.rotation.y += delta * 0.2;
+           innerRef.current.rotation.y += delta * 0.2;
+        }
+      });
+
+      return (
+        <group>
+          <Environment preset="city" background={false} />
+
+          <Float speed={2} rotationIntensity={0.2} floatIntensity={1}>
+            <group>
+              <mesh ref={innerRef} scale={2.7}>
+                <sphereGeometry args={[1, 64, 64]} />
+                <meshBasicMaterial map={texture} toneMapped={false} />
+              </mesh>
+
+              <mesh ref={outerRef} scale={2.71}>
+                <sphereGeometry args={[1, 64, 64]} />
+                <MeshTransmissionMaterial 
+                  ior={1.0}            
+                  thickness={0.0}      
+                  chromaticAberration={0.0} 
+                  distortion={0.0}     
+                  roughness={0.0}      
+                  transmission={1.0}   
+                  anisotropy={20}
+                  clearcoat={1.0}      
+                  clearcoatRoughness={0.0}
+                  reflectivity={0.5}
+                  color="#ffffff"
+                />
+              </mesh>
+            </group>
+          </Float>
+        </group>
+      );
+    }
+
+    function Background() {
+      const { viewport } = useThree();
+      const texture = useTexture(BG_URL);
+
+      useMemo(() => {
+        if (texture) {
+          texture.anisotropy = 16;
+          texture.minFilter = THREE.LinearFilter;
+          texture.magFilter = THREE.LinearFilter;
+        }
+      }, [texture]);
+
+      // EXACT SCREEN MAPPING
+      const distance = 20.5; 
+      const fov = 35;
+      const vHeight = 2 * Math.tan((fov * Math.PI) / 180 / 2) * distance;
+      const vWidth = vHeight * viewport.aspect;
+
+      return (
+        <mesh position={[0, 0, -10]} scale={[vWidth, vHeight, 1]}>
+          <planeGeometry />
+          <meshBasicMaterial map={texture} toneMapped={false} />
+        </mesh>
+      )
+    }
+
+    function App() {
+      return (
+        <Canvas 
+          dpr={window.devicePixelRatio} 
+          camera={{ position: [0, 0, 10.5], fov: 35 }} 
+        >
+          <ambientLight intensity={1} />
+          <spotLight position={[10, 10, 10]} intensity={2} angle={0.2} penumbra={1} color="white" />
+          <spotLight position={[-10, 10, -5]} intensity={2} angle={0.2} penumbra={1} color="white" />
+          
+          <React.Suspense fallback={null}>
+            <Loader />
+            <Background />
+            <group position={[3.5, 0, 0]}>
+              <Paperweight />
+            </group>
+          </React.Suspense>
+        </Canvas>
+      );
+    }
+
+    const root = createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

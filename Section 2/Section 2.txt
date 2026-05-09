@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philosophy | L'Atelier Transparent</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        concrete: '#F2F2F2',
+                        obsidian: '#1A1A1A',
+                        charcoal: '#333333',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F2F2F2;
+            overflow-x: hidden;
+        }
+
+        /* Hero-style Background Material */
+        .bg-architectural {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .blur-reveal {
+            filter: blur(20px);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* Cinematic Word wrapper */
+        .reveal-word {
+            display: inline-block;
+            white-space: pre;
+            will-change: transform, opacity, filter;
+            filter: blur(15px);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Thick Glass Effect */
+        .glass-card-premium {
+            backdrop-filter: blur(40px) saturate(150%);
+            -webkit-backdrop-filter: blur(40px) saturate(150%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.1),
+                inset 0 0 20px rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            min-height: 400px;
+        }
+
+        .line-accent {
+            width: 1px; height: 0%;
+            background: linear-gradient(to bottom, transparent, #1A1A1A, transparent);
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body class="font-sans text-obsidian selection:bg-obsidian selection:text-white">
+
+    <!-- Philosophy Section -->
+    <section id="philosophy" class="relative min-h-[120vh] flex flex-col justify-center px-6 py-20 md:px-20 lg:px-40 overflow-hidden">
+        
+        <!-- Background Layer -->
+        <div class="bg-architectural"></div>
+
+        <!-- Structural Line -->
+        <div class="absolute left-6 md:left-20 top-0 line-accent" id="vertical-line"></div>
+
+        <div class="relative z-10 max-w-5xl">
+            <!-- Tagline with reveal -->
+            <span class="block font-sans font-semibold text-[10px] md:text-xs tracking-[0.6em] uppercase mb-10 md:mb-14 blur-reveal" id="tagline">
+                01 — The Philosophy of Clarity
+            </span>
+
+            <!-- High Impact Heading -->
+            <h2 class="font-serif text-5xl md:text-7xl lg:text-8xl leading-[1.2] mb-12 md:mb-20 tracking-tighter" id="heading">
+                Structure is <i class="font-serif italic font-light opacity-70">silent</i>. <br/>
+                Transparency is <i class="font-serif italic font-light">infinite</i>.
+            </h2>
+
+            <!-- Premium Glass Card -->
+            <div class="glass-card-premium p-10 md:p-16 rounded-2xl max-w-3xl blur-reveal" id="body-card">
+                <p class="text-obsidian font-light text-lg md:text-2xl leading-[1.8] mb-12" id="card-paragraph">
+                    We don't build walls; we define atmospheres. By stripping away the opaque, we invite the horizon inside. Architecture is no longer a barrier, but a <span class="font-semibold italic">dialogue</span> between the human soul and the surrounding void.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 border-t border-black/10 pt-10" id="card-grid">
+                    <div class="space-y-4 reveal-item">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-[1px] bg-obsidian/40"></div>
+                            <h4 class="font-semibold text-[11px] uppercase tracking-[0.3em]">The Lens</h4>
+                        </div>
+                        <p class="text-sm font-normal leading-relaxed text-obsidian/80">A medium that amplifies natural light and frames existence without interference.</p>
+                    </div>
+                    <div class="space-y-4 reveal-item">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-[1px] bg-obsidian/40"></div>
+                            <h4 class="font-semibold text-[11px] uppercase tracking-[0.3em]">Raw Honesty</h4>
+                        </div>
+                        <p class="text-sm font-normal leading-relaxed text-obsidian/80">Honoring the structural integrity of glass, steel, and air in their purest states.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Helper to wrap words for cinematic reveal
+        function wrapWords(elementId) {
+            const el = document.getElementById(elementId);
+            const text = el.innerHTML;
+            const words = text.split(/(\s+|<br\/?>|<\/?[^>]+>)/g);
+            
+            el.innerHTML = words.map(word => {
+                if (word.trim().length > 0 && !word.startsWith('<')) {
+                    return `<span class="reveal-word">${word}</span>`;
+                }
+                return word;
+            }).join('');
+        }
+
+        window.onload = () => {
+            // Prepare cinematic elements
+            wrapWords('heading');
+            wrapWords('card-paragraph');
+
+            const entryTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#philosophy",
+                    start: "top 60%",
+                }
+            });
+
+            // 1. Structural Line reveal
+            entryTl.to("#vertical-line", {
+                height: "100%",
+                duration: 2,
+                ease: "power4.inOut"
+            });
+
+            // 2. Tagline reveal
+            entryTl.to("#tagline", {
+                filter: "blur(0px)",
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "power2.out"
+            }, "-=1.5");
+
+            // 3. Cinematic Heading Reveal (Word by Word)
+            entryTl.to("#heading .reveal-word", {
+                filter: "blur(0px)",
+                opacity: 1,
+                y: 0,
+                duration: 1.5,
+                stagger: 0.04,
+                ease: "power4.out"
+            }, "-=1.4");
+
+            // 4. Glass Card Entrance
+            entryTl.to("#body-card", {
+                filter: "blur(0px)",
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: "power3.out"
+            }, "-=1.2");
+
+            // 5. Cinematic Paragraph Reveal (Word by Word)
+            entryTl.to("#card-paragraph .reveal-word", {
+                filter: "blur(0px)",
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                stagger: 0.015,
+                ease: "power3.out"
+            }, "-=0.8");
+
+            // 6. Grid items reveal
+            entryTl.fromTo("#card-grid .reveal-item", 
+                { opacity: 0, y: 20, filter: "blur(10px)" },
+                {
+                    opacity: 1,
+                    y: 0,
+                    filter: "blur(0px)",
+                    duration: 1,
+                    stagger: 0.2,
+                    ease: "power2.out"
+                }, 
+                "-=0.6"
+            );
+        };
+    </script>
+</body>
+</html>

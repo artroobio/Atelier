@@ -1,0 +1,57 @@
+Design System: L'Atelier Transparent
+
+This system is designed to maintain the high-end, minimalist aesthetic of the "Architectural Glass Hero" section while ensuring the rest of the website feels structurally sound and visually clear.
+
+1. Core Color Palette
+
+The Neutral Base (The "Concrete")
+
+Primary Base: #F2F2F2 (Soft Concrete) - Use for main section backgrounds. It provides a softer, more premium feel than pure white.
+
+Secondary Base: #EBEBEB (Cool Grey) - Use for alternating sections to create subtle structural depth.
+
+Dark Base: #1A1A1A (Obsidian) - Use for the footer and high-impact "intermission" sections.
+
+Typography & Ink
+
+Primary Text: #000000 (Pure Black) - Used for headers and main navigation to maintain maximum contrast.
+
+Body Text: #333333 (Deep Charcoal) - Used for long-form paragraphs to reduce eye strain.
+
+Metadata/Taglines: #666666 (Steel Grey) - For dates, labels, and secondary information.
+
+The "Glass" Accents
+
+Refraction Blue: #D4E6F1 (Glass Tint) - Use sparingly as a subtle background glow or hover state to mimic the edge of a thick glass pane.
+
+Frosted Surface: rgba(255, 255, 255, 0.3) - The primary material for cards and UI components over images.
+
+2. Typography System
+
+Headlines (H1, H2): Playfair Display (Regular 400 / Italic 400). Letter-spacing: -1px or -2px for a compressed, editorial look.
+
+Navigation & Buttons: Inter (Semi-Bold 600). Text-transform: uppercase. Letter-spacing: 2px to 4px.
+
+Body Copy: Inter (Light 300). Line-height: 1.6. This ensures the "airiness" of the brand.
+
+3. Materiality & Interaction Rules
+
+The "Border" Rule: All glass elements should have a 1px solid rgba(255, 255, 255, 0.5) border to simulate the physical edge of glass.
+
+The "Motion" Rule: Use GSAP for all section reveals. Elements should "emerge" from a blur rather than just fading in.
+
+The "Stagger" Rule: Avoid perfect vertical alignment in project galleries. Offset images and text to mimic architectural blueprints.
+
+4. Suggested Section Flow
+
+Hero Section: (Existing) Structure & Transparency.
+
+The Philosophy: Large typography section over a semi-transparent background.
+
+Selected Works: A refractive grid of project thumbnails with glassmorphism hover states.
+
+The Process: A horizontal scroll section showing the journey from "Sketch to Structure."
+
+The Archive: A list-based view of all projects using the bold typography style of your menu.
+
+Contact/Footer: High-contrast Obsidian section with minimal white text.

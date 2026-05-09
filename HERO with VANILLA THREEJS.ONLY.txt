@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Architectural Glass Hero (Vanilla JS)</title>
+  <style>
+    /* 1. RESET & THEME */
+    body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #f2f2f2; }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+    
+    #canvas-container { 
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; 
+    }
+
+    /* 2. LOADER */
+    .loader-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: #f2f2f2; z-index: 100;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      transition: opacity 0.8s ease; pointer-events: none;
+    }
+    .loader-bar { width: 200px; height: 2px; background: rgba(0,0,0,0.1); margin-top: 20px; border-radius: 2px; }
+    .loader-progress { height: 100%; background: #1a1a1a; width: 0%; transition: width 0.1s; }
+    .loader-text { color: #1a1a1a; font-family: 'Inter', sans-serif; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+
+    /* 3. UI LAYER */
+    .ui-layer {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      padding: 60px; padding-bottom: 40px;
+      box-sizing: border-box; z-index: 10;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+
+    /* MENU BUTTON */
+    .menu-btn {
+      position: absolute; top: 40px; right: 40px;
+      padding: 12px 30px;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+      border-radius: 100px; pointer-events: auto; cursor: pointer;
+      color: #1a1a1a; font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+      transition: all 0.3s ease;
+      opacity: 0; transform: translateY(-20px);
+      z-index: 80;
+    }
+    .menu-btn:hover { background: rgba(255, 255, 255, 0.6); transform: translateY(-2px); }
+
+    /* FULLSCREEN SLIDE MENU */
+    .menu-overlay {
+      position: fixed; top: 0; right: -100%; width: 100%; height: 100%;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);
+      z-index: 70; display: flex;
+      flex-direction: row; align-items: center;
+      padding: 0 100px; box-sizing: border-box;
+      pointer-events: auto;
+    }
+
+    .menu-left-side {
+      flex: 1;
+      display: flex; flex-direction: column; gap: 15px;
+    }
+
+    .menu-item-link {
+      color: #000; font-family: 'Playfair Display', serif; font-size: 5rem;
+      font-weight: 400; text-decoration: none; line-height: 1;
+      opacity: 0; transform: translateX(50px);
+      transition: color 0.3s ease; display: block; width: fit-content;
+    }
+    .menu-item-link:hover { color: #666; }
+
+    .menu-footer-right {
+      position: absolute; bottom: 60px; right: 60px;
+      text-align: right; font-family: 'Inter', sans-serif; color: #1a1a1a;
+      opacity: 0; transform: translateY(20px);
+    }
+    .brand-title { font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 4px; display: block; margin-bottom: 8px; }
+    .address-line { font-size: 0.8rem; font-weight: 300; line-height: 1.6; display: block; letter-spacing: 1px; }
+
+    /* HERO CONTENT */
+    .hero-content { max-width: 550px; pointer-events: auto; }
+     
+    .tagline { 
+      color: #333; font-family: 'Inter', sans-serif; font-size: 0.85rem; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 24px; display: block; font-weight: 500; 
+      opacity: 0; 
+    }
+
+    h1 { 
+      color: #000000; font-family: 'Playfair Display', serif; font-size: 4.5rem; line-height: 1.1; margin: 0; font-weight: 400; letter-spacing: -1px; 
+    }
+
+    /* Helper for split text animation */
+    .char-wrapper { display: inline-block; white-space: pre; overflow: hidden; }
+    .char { display: inline-block; white-space: pre; will-change: transform, opacity, filter; opacity: 0; }
+
+    h1 i { font-family: 'Playfair Display', serif; font-weight: 400; color: #000000; }
+     
+    /* GLASS CARD */
+    .glass-card {
+      margin-top: 40px; padding: 18px;
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+      color: #333; font-family: 'Inter', sans-serif; font-weight: 300; line-height: 1.5; font-size: 0.85rem;
+      border-radius: 12px; max-width: 400px;
+      opacity: 0; transform: translateY(20px);
+    }
+
+    .btn {
+      margin-top: 15px; display: inline-block; padding: 10px 24px;
+      background: #1a1a1a; color: white; text-decoration: none;
+      font-family: 'Inter', sans-serif; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; font-weight: 500;
+      transition: all 0.3s ease; border-radius: 4px;
+    }
+    .btn:hover { background: #333; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+    @media (max-width: 900px) {
+      .ui-layer { align-items: center; text-align: center; padding-top: 0; padding-bottom: 40px; }
+      .menu-btn { top: 20px; right: 20px; }
+      .menu-overlay { padding: 0 40px; }
+      .menu-item-link { font-size: 3rem; }
+      h1 { font-size: 3rem; }
+      .glass-card { text-align: left; }
+    }
+  </style>
+
+  <!-- LIBRARIES -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- RGBELoader for HDR environment -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/RGBELoader.js"></script>
+  <!-- GSAP for animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+
+  <!-- LOADER -->
+  <div id="loader" class="loader-overlay">
+    <div class="loader-text">Loading Space</div>
+    <div class="loader-bar"><div class="loader-progress" id="progress-bar"></div></div>
+  </div>
+
+  <!-- 3D CANVAS -->
+  <div id="canvas-container"></div>
+
+  <!-- HTML UI -->
+  <div class="ui-layer">
+    <div id="menu-btn" class="menu-btn">Menu</div>
+
+    <div class="menu-overlay">
+      <div class="menu-left-side">
+        <a href="#" class="menu-item-link">Projects</a>
+        <a href="#" class="menu-item-link">Studio</a>
+        <a href="#" class="menu-item-link">Archive</a>
+        <a href="#" class="menu-item-link">Vision</a>
+        <a href="#" class="menu-item-link">Contact</a>
+      </div>
+      <div class="menu-footer-right">
+        <span class="brand-title">L'Atelier Transparent</span>
+        <span class="address-line">42nd Penthouse Floor, Void Tower<br/>Zurich, Switzerland 8001</span>
+      </div>
+    </div>
+
+    <div id="hero-content" class="hero-content">
+      <span class="tagline">Collection 2026</span>
+      <h1 id="split-target">
+        <div>Structure &</div>
+        <i>Transparency.</i>
+      </h1>
+      <div class="glass-card">
+        <p>
+          We design spaces that breathe. By dissolving the boundary between structure and environment, we create clarity.
+          Explore the "Paperweight" archive below.
+        </p>
+        <a href="#" class="btn">Explore Collection</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- 1. CONFIGURATION ---
+    const ASSETS = {
+      orb: "https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg",
+      bg: "https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg",
+      // Using a standard Polyhaven HDR for environment reflections
+      env: "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/potsdamer_platz_1k.hdr"
+    };
+
+    // --- 2. UI UTILITIES ---
+
+    // Function to split text into spans for animation
+    function setupSplitText() {
+      const h1 = document.getElementById('split-target');
+      // Helper to process a text node or element
+      const processNode = (node) => {
+        if (node.nodeType === 3) { // Text node
+          const text = node.textContent;
+          const span = document.createElement('span');
+          span.innerHTML = text.split('').map(char => 
+            `<span class="char" style="opacity:0; transform:translateX(-20px); filter:blur(10px)">${char}</span>`
+          ).join('');
+          node.replaceWith(span);
+        } else if (node.nodeType === 1) { // Element
+          Array.from(node.childNodes).forEach(processNode);
+        }
+      };
+      Array.from(h1.childNodes).forEach(processNode);
+    }
+
+    // --- 3. THREE.JS SCENE SETUP ---
+    
+    // Globals
+    let scene, camera, renderer;
+    let bgMesh, orbGroup, innerOrb, outerOrb;
+    let menuOpen = false;
+    
+    const container = document.getElementById('canvas-container');
+    const loadingBar = document.getElementById('progress-bar');
+    const loaderOverlay = document.getElementById('loader');
+
+    function init() {
+      // Scene
+      scene = new THREE.Scene();
+      
+      // Camera
+      camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 100);
+      camera.position.set(0, 0, 10.5);
+
+      // Renderer
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.outputEncoding = THREE.sRGBEncoding;
+      container.appendChild(renderer.domElement);
+
+      // Lights (Standard Setup)
+      const ambient = new THREE.AmbientLight(0xffffff, 1);
+      scene.add(ambient);
+      
+      const spot1 = new THREE.SpotLight(0xffffff, 2);
+      spot1.position.set(10, 10, 10);
+      spot1.angle = 0.2;
+      spot1.penumbra = 1;
+      scene.add(spot1);
+
+      const spot2 = new THREE.SpotLight(0xffffff, 2);
+      spot2.position.set(-10, 10, -5);
+      spot2.angle = 0.2;
+      spot2.penumbra = 1;
+      scene.add(spot2);
+
+      // Start Loading Process
+      loadAssets();
+      
+      // Events
+      window.addEventListener('resize', onWindowResize);
+      setupUIInteractions();
+    }
+
+    // --- 4. ASSET LOADING ---
+    
+    function loadAssets() {
+      const manager = new THREE.LoadingManager();
+      const textureLoader = new THREE.TextureLoader(manager);
+      const rgbeLoader = new THREE.RGBELoader(manager);
+
+      manager.onProgress = (url, itemsLoaded, itemsTotal) => {
+        const progress = (itemsLoaded / itemsTotal) * 100;
+        loadingBar.style.width = progress + '%';
+      };
+
+      manager.onLoad = () => {
+        // Hide loader
+        setTimeout(() => {
+          loaderOverlay.style.opacity = '0';
+          revealScene();
+        }, 500);
+        setTimeout(() => {
+          loaderOverlay.style.display = 'none';
+        }, 1300);
+      };
+
+      // Load Textures
+      const bgTexture = textureLoader.load(ASSETS.bg);
+      const orbTexture = textureLoader.load(ASSETS.orb);
+      
+      // Load HDR Environment
+      rgbeLoader.setDataType(THREE.UnsignedByteType).load(ASSETS.env, (texture) => {
+        texture.mapping = THREE.EquirectangularReflectionMapping;
+        scene.environment = texture; // Apply to scene for reflections
+        
+        // Now create objects since assets are ready
+        createObjects(bgTexture, orbTexture);
+        animate();
+      });
+    }
+
+    function createObjects(bgTexture, orbTexture) {
+      // 1. Background Plane
+      // We calculate size to fit frustum at z = -10
+      bgTexture.encoding = THREE.sRGBEncoding;
+      const geometry = new THREE.PlaneGeometry(1, 1);
+      const material = new THREE.MeshBasicMaterial({ map: bgTexture, transparent: true });
+      bgMesh = new THREE.Mesh(geometry, material);
+      bgMesh.position.z = -10;
+      updateBackgroundScale(); // Fit to screen
+      scene.add(bgMesh);
+
+      // 2. Orb Group
+      orbGroup = new THREE.Group();
+      orbGroup.position.set(3.5, 0, 0); // Position right
+      scene.add(orbGroup);
+
+      // 3. Inner Orb (The Picture)
+      orbTexture.encoding = THREE.sRGBEncoding;
+      const innerGeo = new THREE.SphereGeometry(1, 64, 64);
+      const innerMat = new THREE.MeshBasicMaterial({ map: orbTexture });
+      innerOrb = new THREE.Mesh(innerGeo, innerMat);
+      innerOrb.scale.set(0, 0, 0); // Start hidden
+      orbGroup.add(innerOrb);
+
+      // 4. Outer Orb (The Glass)
+      const outerGeo = new THREE.SphereGeometry(1, 64, 64);
+      // NATIVE THREE.JS GLASS MATERIAL
+      const outerMat = new THREE.MeshPhysicalMaterial({
+        color: 0xffffff,
+        transmission: 1.0,  // Glass-like transparency
+        opacity: 1.0,
+        metalness: 0.0,
+        roughness: 0.0,
+        ior: 1.5,           // Index of Refraction
+        thickness: 1.5,     // Volume simulation
+        specularIntensity: 1.0,
+        clearcoat: 1.0,
+        envMapIntensity: 1.0,
+        transparent: true
+      });
+      
+      outerOrb = new THREE.Mesh(outerGeo, outerMat);
+      outerOrb.scale.set(0, 0, 0); // Start hidden
+      orbGroup.add(outerOrb);
+    }
+
+    // --- 5. ANIMATION & LOGIC ---
+
+    function revealScene() {
+      // 1. Reveal UI
+      const tl = gsap.timeline();
+      
+      tl.to(".menu-btn", { y: 0, opacity: 1, duration: 1, ease: "power3.out" });
+      tl.to(".tagline", { opacity: 1, duration: 1, ease: "power2.out" }, "-=0.5");
+      
+      // Reveal Split Text
+      const chars = document.querySelectorAll('.char');
+      tl.to(chars, { 
+        x: 0, 
+        opacity: 1, 
+        filter: "blur(0px)", 
+        duration: 1.2, 
+        stagger: 0.03, 
+        ease: "power2.out" 
+      }, "-=0.8");
+
+      tl.to(".glass-card", { y: 0, opacity: 1, duration: 1, ease: "power3.out" }, "-=0.5");
+
+      // 2. Reveal 3D Orb (Scale Up)
+      // Using GSAP to animate Three.js properties
+      gsap.to(innerOrb.scale, { x: 2.7, y: 2.7, z: 2.7, duration: 2, ease: "power3.out" });
+      gsap.to(outerOrb.scale, { x: 2.71, y: 2.71, z: 2.71, duration: 2, ease: "power3.out" });
+    }
+
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      
+      const delta = clock.getDelta();
+      // const elapsed = clock.getElapsedTime();
+
+      // Float Animation
+      if (orbGroup) {
+        // orbGroup.position.y = Math.sin(elapsed * 2) * 0.1; // Bobbing removed
+        
+        // Rotation
+        innerOrb.rotation.y += delta * 0.2;
+        outerOrb.rotation.y += delta * 0.2;
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    // --- 6. INTERACTION LOGIC ---
+
+    function setupUIInteractions() {
+      setupSplitText();
+
+      const menuBtn = document.getElementById('menu-btn');
+      const menuOverlay = document.querySelector('.menu-overlay');
+      const menuItems = document.querySelectorAll('.menu-item-link');
+      const menuFooter = document.querySelector('.menu-footer-right');
+      const heroContent = document.getElementById('hero-content');
+      const closeLinks = document.querySelectorAll('.menu-item-link');
+
+      const toggleMenu = () => {
+        menuOpen = !menuOpen;
+        menuBtn.innerText = menuOpen ? "Close" : "Menu";
+
+        if (menuOpen) {
+          // Open Menu
+          const tl = gsap.timeline();
+          tl.to(menuOverlay, { right: 0, duration: 1.2, ease: "expo.inOut" });
+          tl.to(menuItems, { opacity: 1, x: 0, duration: 1, stagger: 0.08, ease: "expo.out" }, "-=0.6");
+          tl.to(menuFooter, { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8");
+
+          // Blur DOM Content
+          gsap.to(heroContent, { opacity: 0, filter: "blur(20px)", scale: 0.9, duration: 1, ease: "power2.inOut" });
+
+          // 3D Background Zoom & Blur Effect
+          updateBackgroundScale(true); // Trigger zoom
+          gsap.to(bgMesh.material, { opacity: 0.3, duration: 1.5 });
+
+        } else {
+          // Close Menu
+          const tl = gsap.timeline();
+          tl.to(menuItems, { opacity: 0, x: 50, duration: 0.6, stagger: 0.05, ease: "power2.in" });
+          tl.to(menuFooter, { opacity: 0, y: 20, duration: 0.6 }, "-=0.6");
+          tl.to(menuOverlay, { right: "-100%", duration: 1, ease: "expo.inOut" }, "-=0.4");
+
+          // Unblur DOM Content
+          gsap.to(heroContent, { opacity: 1, filter: "blur(0px)", scale: 1, duration: 1, ease: "power2.out" });
+
+          // 3D Background Reset
+          updateBackgroundScale(false); // Trigger zoom out
+          gsap.to(bgMesh.material, { opacity: 1, duration: 1.5 });
+        }
+      };
+
+      menuBtn.addEventListener('click', toggleMenu);
+      closeLinks.forEach(link => link.addEventListener('click', () => { if(menuOpen) toggleMenu(); }));
+    }
+
+    // --- 7. RESPONSIVE UTILS ---
+
+    function updateBackgroundScale(isZoomed = false) {
+      if (!bgMesh || !camera) return;
+
+      const distance = 20.5; // Distance of plane from camera (10.5 - (-10))
+      const vFov = camera.fov * Math.PI / 180;
+      const height = 2 * Math.tan(vFov / 2) * distance;
+      const width = height * (window.innerWidth / window.innerHeight);
+
+      // If menu is open (isZoomed), we add 10% scale
+      const scaleMult = isZoomed ? 1.1 : 1.0;
+
+      gsap.to(bgMesh.scale, {
+        x: width * scaleMult,
+        y: height * scaleMult,
+        duration: 1.5,
+        ease: "power2.inOut"
+      });
+    }
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      updateBackgroundScale(menuOpen);
+    }
+
+    // Start App
+    init();
+
+  </script>
+</body>
+</html>

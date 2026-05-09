@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Process Section</title>
+
+    <!-- 1. External Dependencies -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- Lenis Library -->
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- 2. Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        concrete: '#F2F2F2',
+                        obsidian: '#1A1A1A',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <!-- 3. Required Styles for this Section -->
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            width: 100%;
+            background-color: #1A1A1A; /* Safety background */
+        }
+        
+        /* Recommended Lenis CSS */
+        html.lenis {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        #process-section-root {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://assets.zyrosite.com/AGBzPMBJDQiwDGny/office-APoihTZDRsIY69FW.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: #1A1A1A;
+            overflow: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .horizontal-container {
+            display: flex;
+            height: 100vh;
+            width: 360vw; 
+            will-change: transform;
+        }
+
+        .process-panel {
+            width: 90vw;
+            height: 100vh;
+            flex-shrink: 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4%;
+            overflow: hidden; 
+            background: transparent;
+        }
+
+        /* Architectural Lines Background */
+        .bg-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 100px 100px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .reveal-word {
+            display: inline-block;
+            white-space: pre;
+            will-change: transform, opacity;
+            opacity: 0; /* JS handles reveal */
+            transform: translateY(20px);
+        }
+
+        /* Glass Annotation Card */
+        .glass-annotation {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            padding: 24px;
+            border-radius: 4px;
+            width: 100%;
+            max-width: 320px;
+            opacity: 0;
+            will-change: transform, opacity;
+        }
+
+        /* Image Containers */
+        .process-image-wrap {
+            position: relative;
+            width: 100%;
+            height: 55vh;
+            overflow: hidden; /* Changed to hidden for clean crop */
+            border-radius: 4px;
+            perspective: 1000px; 
+            background-color: rgba(255,255,255,0.05); /* Placeholder visibility */
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .main-process-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Remove transition here to allow GSAP full control */
+            border-radius: 4px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            display: block; /* Ensure it takes space */
+        }
+
+        /* Progress Indicator */
+        .progress-track {
+            position: absolute;
+            bottom: 40px;
+            left: 10%;
+            width: 80%;
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+            z-index: 50;
+        }
+        .progress-bar {
+            height: 100%;
+            background: #fff;
+            width: 0%;
+            will-change: width;
+        }
+
+        .panel-number {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 8rem;
+            line-height: 0.8;
+            letter-spacing: -0.05em;
+            color: rgba(255,255,255,0.05);
+            position: absolute;
+            top: 8%;
+            right: 5%;
+            z-index: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 4. Component HTML -->
+<div id="process-section-root">
+    <div class="bg-grid"></div>
+
+    <div class="progress-track">
+        <div class="progress-bar" id="process-progress"></div>
+    </div>
+    
+    <div class="horizontal-container" id="horizontal-container">
+        
+        <!-- PANEL 01: THE SKETCH -->
+        <section class="process-panel" id="panel-01">
+            <span class="panel-number">01</span>
+            <div class="flex flex-col md:flex-row items-center gap-10 lg:gap-24 z-10 w-full max-w-7xl mx-auto">
+                <div class="w-full md:w-1/2">
+                    <!-- Added ID for interaction -->
+                    <div class="process-image-wrap group interactive-card">
+                        <img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg" alt="Sketch" class="main-process-img">
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2">
+                    <span class="block font-sans font-semibold text-[10px] tracking-[0.6em] uppercase mb-6 text-white/60">The Genesis</span>
+                    <h2 class="font-serif text-5xl lg:text-7xl xl:text-8xl tracking-tighter mb-8 text-white" id="title-1">Raw <i class="italic font-light">Sketch</i>.</h2>
+                    <div class="glass-annotation annotation-1">
+                        <p class="text-xs lg:text-sm font-light leading-relaxed text-obsidian text-left">Every structure begins with a gesture. Initial drafts capture the raw energy and potential of the space.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL 02: THE WIREFRAME -->
+        <section class="process-panel" id="panel-02">
+            <span class="panel-number">02</span>
+            <div class="flex flex-col md:flex-row-reverse items-center gap-10 lg:gap-24 z-10 w-full max-w-7xl mx-auto">
+                <div class="w-full md:w-1/2">
+                    <div class="process-image-wrap group interactive-card">
+                        <img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg" alt="Wireframe" class="main-process-img">
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 text-left md:text-right">
+                    <span class="block font-sans font-semibold text-[10px] tracking-[0.6em] uppercase mb-6 text-white/60">Precision</span>
+                    <h2 class="font-serif text-5xl lg:text-7xl xl:text-8xl tracking-tighter mb-8 text-white" id="title-2">Digital <i class="italic font-light">Void</i>.</h2>
+                    <div class="glass-annotation annotation-2 md:ml-auto">
+                        <p class="text-xs lg:text-sm font-light leading-relaxed text-obsidian text-right md:text-right">Calculated transparency. We map the refractive index of every pane, ensuring the "disappearance" of the boundary is absolute.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL 03: THE MATERIAL -->
+        <section class="process-panel" id="panel-03">
+            <span class="panel-number">03</span>
+            <div class="flex flex-col md:flex-row items-center gap-10 lg:gap-24 z-10 w-full max-w-7xl mx-auto">
+                <div class="w-full md:w-1/2">
+                    <div class="process-image-wrap group interactive-card">
+                        <img src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg" alt="Material" class="main-process-img">
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2">
+                    <span class="block font-sans font-semibold text-[10px] tracking-[0.6em] uppercase mb-6 text-white/60">Selection</span>
+                    <h2 class="font-serif text-5xl lg:text-7xl xl:text-8xl tracking-tighter mb-8 text-white" id="title-3">Solid <i class="italic font-light">Glass</i>.</h2>
+                    <div class="glass-annotation annotation-3">
+                        <p class="text-xs lg:text-sm font-light leading-relaxed text-obsidian text-left">We curate high-iron glass and obsidian-grade steel. The tactile journey of material selection is rigorous and precise.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL 04: THE STRUCTURE -->
+        <section class="process-panel" id="panel-04">
+            <span class="panel-number" style="color: rgba(255,255,255,0.05)">04</span>
+            <div class="flex flex-col md:flex-row-reverse items-center gap-10 lg:gap-24 z-10 w-full max-w-7xl mx-auto">
+                <div class="w-full md:w-1/2">
+                    <div class="process-image-wrap group interactive-card">
+                        <!-- Ensure video container has height/width -->
+                        <div class="w-full h-full bg-black/50">
+                            <video class="w-full h-full object-cover" autoplay muted loop playsinline poster="https://assets.zyrosite.com/AGBzPMBJDQiwDGny/grey-home-interior-design-video-M13Xi8TTbaVTMRqP.mp4">
+                                <source src="https://assets.zyrosite.com/AGBzPMBJDQiwDGny/grey-home-interior-design-video-M13Xi8TTbaVTMRqP.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 text-left md:text-right">
+                    <span class="block font-sans font-semibold text-[10px] tracking-[0.6em] uppercase mb-6 text-white/60">Manifestation</span>
+                    <h2 class="font-serif text-5xl lg:text-7xl xl:text-8xl tracking-tighter mb-8 text-white" id="title-4">Living <i class="italic font-light">Space</i>.</h2>
+                    <div class="glass-annotation annotation-4 md:ml-auto">
+                        <p class="text-xs lg:text-sm font-light leading-relaxed text-obsidian text-right md:text-right">The final atmosphere. Architecture manifested through structural honesty and cinematic presence.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<!-- 5. Component Logic -->
+<script>
+    (function() {
+        function wrapWords(elementId) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            const text = el.innerHTML;
+            const words = text.split(/(\s+|<br\/?>|<\/?[^>]+>)/g);
+            el.innerHTML = words.map(word => {
+                if (word.trim().length > 0 && !word.startsWith('<')) {
+                    return `<span class="reveal-word">${word}</span>`;
+                }
+                return word;
+            }).join('');
+        }
+
+        const initProcessSection = () => {
+            if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined' || typeof Lenis === 'undefined') {
+                setTimeout(initProcessSection, 100);
+                return;
+            }
+
+            // --- 1. SETUP LENIS SMOOTH SCROLL ---
+            const lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // https://www.desmos.com/calculator/brs54l4xou
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                mouseMultiplier: 1,
+                smoothTouch: false,
+                touchMultiplier: 2,
+            });
+
+            // Integrate Lenis with GSAP ScrollTrigger
+            lenis.on('scroll', ScrollTrigger.update);
+
+            gsap.ticker.add((time) => {
+                lenis.raf(time * 1000); // Convert to MS
+            });
+
+            // Turn off GSAP's lag smoothing to ensure perfect sync
+            gsap.ticker.lagSmoothing(0);
+
+            // --- 2. GSAP LOGIC ---
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Prepare Titles
+            ['title-1', 'title-2', 'title-3', 'title-4'].forEach(wrapWords);
+
+            const container = document.getElementById("horizontal-container");
+            const panels = gsap.utils.toArray(".process-panel");
+            const progressBar = document.getElementById("process-progress");
+
+            // Horizontal Scroll Logic
+            const scrollTween = gsap.to(container, {
+                x: () => -(container.scrollWidth - window.innerWidth),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#process-section-root",
+                    pin: true,
+                    scrub: 0.8, 
+                    start: "top top",
+                    end: () => "+=" + (container.scrollWidth), 
+                    onUpdate: (self) => {
+                        progressBar.style.width = `${self.progress * 100}%`;
+                    }
+                }
+            });
+
+            // Panel Content Reveals
+            panels.forEach((panel, i) => {
+                const titleWords = panel.querySelectorAll(".reveal-word");
+                const annotation = panel.querySelector(".glass-annotation");
+                const imageWrap = panel.querySelector(".process-image-wrap");
+                const isOddPanel = i % 2 !== 0;
+
+                // Adjust trigger for first panel so it shows immediately
+                const startTrigger = (i === 0) ? "left 120%" : "left 65%";
+
+                const panelTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: panel,
+                        containerAnimation: scrollTween,
+                        start: startTrigger, 
+                        toggleActions: "play none none reverse"
+                    }
+                });
+
+                panelTl.fromTo(titleWords, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1, stagger: 0.05, ease: "power4.out" })
+                .fromTo(annotation, { opacity: 0, x: isOddPanel ? -60 : 60, y: 10 }, { opacity: 1, x: 0, y: 0, duration: 1.2, ease: "power3.out" }, "-=0.6" )
+                .fromTo(imageWrap, { scale: 1.1, opacity: 0, x: isOddPanel ? 50 : -50 }, { scale: 1, opacity: 1, x: 0, duration: 1.5, ease: "expo.out" }, "-=1.2");
+                
+                // Add a simple tilt effect to replace the carousel logic
+                const img = imageWrap.querySelector('img, video');
+                if(img) {
+                    panel.addEventListener('mousemove', (e) => {
+                        const bounds = imageWrap.getBoundingClientRect();
+                        const mouseX = e.clientX - bounds.left;
+                        const mouseY = e.clientY - bounds.top;
+                        const xPct = (mouseX / bounds.width) - 0.5;
+                        const yPct = (mouseY / bounds.height) - 0.5;
+                        
+                        gsap.to(img, {
+                            rotationY: xPct * 10,
+                            rotationX: -yPct * 10,
+                            duration: 0.5,
+                            ease: "power1.out",
+                            transformPerspective: 1000
+                        });
+                    });
+                    
+                    panel.addEventListener('mouseleave', () => {
+                        gsap.to(img, {
+                            rotationY: 0,
+                            rotationX: 0,
+                            duration: 0.5,
+                            ease: "power1.out"
+                        });
+                    });
+                }
+            });
+        };
+
+        if (document.readyState === "complete" || document.readyState === "interactive") {
+            initProcessSection();
+        } else {
+            window.addEventListener('DOMContentLoaded', initProcessSection);
+        }
+    })();
+</script>
+</body>
+</html>
