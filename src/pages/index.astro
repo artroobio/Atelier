@@ -10,6 +10,10 @@ import Hero from '../components/Hero.jsx';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
     <title>Architectural Glass Hero</title>
+
+    <!-- Optimizations: Preload critical assets -->
+    <link rel="preload" href="https://ik.imagekit.io/artroobeo/Green%20Checklist%20Minimalist%20Business%20Furniture%20&%20Interior%20Design%20Video.webm" as="video" type="video/webm" crossorigin="anonymous" />
+    <link rel="preload" href="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg" as="image" crossorigin="anonymous" />
   </head>
   <body>
     <Hero client:only="react" />
