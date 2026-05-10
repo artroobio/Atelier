@@ -56,8 +56,6 @@ import Accordion from '../components/Accordion.astro';
           duration: 1.2,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           smoothWheel: true,
-          // Prevent Lenis from running if user prefers reduced motion
-          prevent: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
         });
 
         // Sync ScrollTrigger with Lenis
@@ -76,6 +74,7 @@ import Accordion from '../components/Accordion.astro';
       };
 
       initLenis();
+      document.addEventListener('astro:page-load', initLenis);
     </script>
   </body>
 </html>
