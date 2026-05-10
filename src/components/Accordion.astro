@@ -1,0 +1,75 @@
+---
+// src/components/Accordion.astro
+const items = [
+  {
+    id: 'residential',
+    title: 'RESIDENTIAL',
+    cover: '/residential_luxury_villa_1778344215982.png',
+    description: 'Bespoke living environments where transparency meets intimacy. Our residential designs redefine domestic luxury through light-filled sanctuaries.'
+  },
+  {
+    id: 'commercial',
+    title: 'COMMERCIAL',
+    cover: '/commercial_premium_office_1778344233441.png',
+    description: 'Iconic headquarters and flagship showrooms that project corporate identity. We create glass structures that embody clarity and prestige.'
+  },
+  {
+    id: 'hospitality',
+    title: 'HOSPITALITY',
+    cover: '/hospitality_luxury_hotel_1778344259267.png',
+    description: 'Immersive spaces for the modern traveler. From boutique lobbies to serene spas, our hospitality projects elevate the art of arrival.'
+  },
+  {
+    id: 'cultural',
+    title: 'CULTURAL',
+    cover: '/cultural_glass_museum_1778344274605.png',
+    description: 'Public landmarks and artistic galleries. We design cultural vessels that serve as a dialogue between art, architecture, and the city.'
+  }
+];
+---
+
+<section id="accordion-section" class="accordion-section-wrapper">
+  <ul class="c-accordion">
+    {items.map((item, index) => (
+      <li
+        id={item.id}
+        class={`c-accordion__item ${index === 0 ? 'is-active' : ''}`}
+        style={`--cover: url(${item.cover})`}
+        data-id={item.id}
+      >
+        <div class="c-accordion__action">
+          <div class="c-accordion__content">
+            <h2 class="c-accordion__title c-accordion__title--hero c-accordion__title--hover-show">
+              {item.title}
+            </h2>
+            <p class="c-accordion__description">{item.description}</p>
+          </div>
+          <div class="c-accordion__aside">
+            <h2 class="c-accordion__title c-accordion__title--hover-hide">
+              {item.title}
+            </h2>
+          </div>
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<script>
+  const initAccordion = () => {
+    const items = document.querySelectorAll('.c-accordion__item');
+    
+    items.forEach(item => {
+      const activate = () => {
+        items.forEach(i => i.classList.remove('is-active'));
+        item.classList.add('is-active');
+      };
+
+      item.addEventListener('mouseenter', activate);
+      item.addEventListener('click', activate);
+    });
+  };
+
+  initAccordion();
+  document.addEventListener('astro:page-load', initAccordion);
+</script>

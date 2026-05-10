@@ -1,6 +1,13 @@
 ---
+// src/pages/index.astro
 import '../styles/hero.css';
-import Sections from '../components/Sections.jsx';
+import Hero from '../components/Hero.jsx';
+import Gallery from '../components/Gallery.astro';
+import Philosophy from '../components/Philosophy.astro';
+import Works from '../components/Works.astro';
+import Process from '../components/Process.astro';
+import Archive from '../components/Archive.astro';
+import Accordion from '../components/Accordion.astro';
 ---
 
 <html lang="en">
@@ -9,13 +16,93 @@ import Sections from '../components/Sections.jsx';
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    <title>Architectural Glass Hero</title>
+    <title>Atelier Transparent | Structure & Transparency</title>
 
-    <!-- Preload critical assets. crossorigin must match how the asset is fetched at runtime. -->
-    <link rel="preload" href="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg" as="image" crossorigin="anonymous" />
-    <link rel="preload" href="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg" as="image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://assets.zyrosite.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <!-- Preload critical assets -->
+    <link rel="preload" href="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg" as="image" />
   </head>
-  <body>
-    <Sections client:only="react" />
+  <body class="bg-[#f2f2f2] text-[#1a1a1a]">
+    <!-- Hero Section -->
+    <div class="hero-slot">
+      <Hero client:only="react" />
+    </div>
+
+    <!-- The rest are static Astro components with vanilla JS scripts -->
+    <Gallery />
+    
+    <div class="philosophy-slot">
+      <Philosophy />
+    </div>
+
+    <Works />
+    <Process />
+    <Archive />
+    <Accordion />
+
+    <script>
+      import Lenis from 'lenis';
+      import gsap from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      const initLenis = () => {
+        const lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+          // Prevent Lenis from running if user prefers reduced motion
+          prevent: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+        });
+
+        // Sync ScrollTrigger with Lenis
+        lenis.on('scroll', ScrollTrigger.update);
+
+        // Drive GSAP's ticker with Lenis's RAF
+        gsap.ticker.add((time) => {
+          lenis.raf(time * 1000);
+        });
+
+        // Disable GSAP's internal ticker to avoid conflicts
+        gsap.ticker.lagSmoothing(0);
+
+        // Ensure all ScrollTriggers are refreshed when content is ready
+        window.addEventListener('load', () => ScrollTrigger.refresh());
+      };
+
+      initLenis();
+    </script>
   </body>
 </html>
+
+<style is:global>
+  /* Base styles for the hybrid architecture */
+  html.lenis {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  
+  /* Hardware acceleration for animated elements */
+  .gallery-grid,
+  .gallery-item img,
+  .process-panel,
+  .main-process-media,
+  .reveal-word,
+  .glass-card-premium-new {
+    will-change: transform, opacity;
+    transform: translateZ(0); /* Force compositor layer */
+  }
+
+  /* Smooth out scrolling performance */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+</style>

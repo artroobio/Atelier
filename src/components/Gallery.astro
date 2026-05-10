@@ -1,0 +1,136 @@
+---
+// src/components/Gallery.astro
+---
+
+<section id="gallery-section" class="gallery-section">
+  <div class="gallery-grid">
+    <!-- Top Row: 3 Vertical Panels -->
+    <div class="gallery-row top-row">
+      <div class="gallery-item vertical">
+        <img src="/luxury_interior_vertical_1_1778345968849.png" alt="Luxury Interior 1" />
+        <div class="item-info-box">
+          <span class="info-label">RESIDENTIAL</span>
+          <h3 class="info-title">Living Sanctuary</h3>
+        </div>
+      </div>
+      <div class="gallery-item vertical">
+        <img src="/luxury_interior_vertical_2_1778345994720.png" alt="Luxury Interior 2" />
+        <div class="item-info-box">
+          <span class="info-label">PRIVATE</span>
+          <h3 class="info-title">Luminous Retreat</h3>
+        </div>
+      </div>
+      <div class="gallery-item vertical">
+        <img src="/luxury_interior_vertical_3_1778346010645.png" alt="Luxury Interior 3" />
+        <div class="item-info-box">
+          <span class="info-label">WELLNESS</span>
+          <h3 class="info-title">Elemental Bath</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Row: 2 Horizontal Panels with Text Overlay -->
+    <div class="gallery-row bottom-row">
+      <div class="gallery-item horizontal">
+        <img src="/luxury_interior_horizontal_1_1778346028371.png" alt="Luxury Interior 4" />
+        <div class="item-info-box">
+          <span class="info-label">PANORAMIC</span>
+          <h3 class="info-title">The Vista Lounge</h3>
+        </div>
+      </div>
+      <div class="gallery-item horizontal">
+        <img src="/luxury_interior_horizontal_2_1778346049970.png" alt="Luxury Interior 5" />
+        <div class="item-info-box">
+          <span class="info-label">CULINARY</span>
+          <h3 class="info-title">Gourmet Atelier</h3>
+        </div>
+      </div>
+
+      <div class="gallery-text-overlay">
+        <div class="gallery-sub-info">
+          <p>CURATED FOR THE MODERN COLLECTOR.<br />UNCOMPROMISING PRECISION IN EVERY DETAIL.</p>
+          <div class="gallery-links">
+            <a href="#">DISCOVER MORE</a>
+            <a href="#">THE COLLECTION</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const detectMobile = () => window.matchMedia('(max-width: 768px)').matches;
+
+  const initGallery = () => {
+    const section = document.querySelector('.gallery-section');
+    const grid = document.querySelector('.gallery-grid');
+    
+    if (!section || !grid) return;
+
+    if (detectMobile()) {
+      gsap.set(grid, { scale: 1, opacity: 1, borderRadius: '0px' });
+      gsap.set('.gallery-sub-info', { opacity: 1, y: 0, filter: 'none' });
+      gsap.set('.item-info-box', { opacity: 1, y: 0, scale: 1, filter: 'none' });
+      return;
+    }
+
+    gsap.fromTo(grid,
+      { scale: 0.85, opacity: 0.5, borderRadius: '40px' },
+      {
+        scale: 1, opacity: 1, borderRadius: '0px', ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top bottom',
+          end: 'top top',
+          scrub: true,
+        }
+      }
+    );
+
+    gsap.fromTo('.gallery-sub-info',
+      { y: 50, opacity: 0, filter: 'blur(15px)' },
+      {
+        y: 0, opacity: 1, filter: 'blur(0px)', duration: 1.8, ease: 'expo.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 98%',
+          toggleActions: 'play none none none'
+        }
+      }
+    );
+
+    gsap.fromTo('.item-info-box',
+      { y: 40, opacity: 0, scale: 0.9, filter: 'blur(10px)' },
+      {
+        y: 0, opacity: 1, scale: 1, filter: 'blur(0px)',
+        duration: 1.4, stagger: 0.1, ease: 'power4.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 95%',
+          toggleActions: 'play none none none'
+        }
+      }
+    );
+
+    gsap.utils.toArray('.gallery-item img').forEach(img => {
+      gsap.fromTo(img,
+        { y: -40 },
+        {
+          y: 40, ease: 'none',
+          scrollTrigger: { trigger: img as Element, start: 'top bottom', end: 'bottom top', scrub: true }
+        }
+      );
+    });
+  };
+
+  // Run on load
+  initGallery();
+  // Re-run if content changes (Astro transitions)
+  document.addEventListener('astro:page-load', initGallery);
+</script>

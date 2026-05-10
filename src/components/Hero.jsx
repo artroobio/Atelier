@@ -29,7 +29,20 @@ export default function Hero() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(() => detectMobile());
   const orbGroupRef = useRef();
+  const canvasContainerRef = useRef();
+  const [isVisible, setIsVisible] = useState(true);
   const { progress } = useProgress();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    if (canvasContainerRef.current) {
+      observer.observe(canvasContainerRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 768px)');
@@ -129,11 +142,8 @@ export default function Hero() {
             muted
             loop
             playsInline
-          >
-            {/* WebM for Chrome/Android; MP4 for iOS Safari which doesn't support WebM */}
-            <source src={BG_VIDEO_URL} type="video/webm" />
-            <source src="https://assets.zyrosite.com/AGBzPMBJDQiwDGny/grey-home-interior-design-video-M13Xi8TTbaVTMRqP.mp4" type="video/mp4" />
-          </video>
+            src="https://assets.zyrosite.com/AGBzPMBJDQiwDGny/grey-home-interior-design-video-M13Xi8TTbaVTMRqP.mp4"
+          />
           <div className="hero-mobile-overlay" />
         </>
       )}
@@ -170,17 +180,23 @@ export default function Hero() {
       </div>
 
       {!isMobile && (
-        <Canvas dpr={window.devicePixelRatio} camera={{ position: [0, 0, 10.5], fov: 35 }}>
-          <ambientLight intensity={1} />
-          <spotLight position={[10, 10, 10]} intensity={2} angle={0.2} penumbra={1} color="white" />
-          <spotLight position={[-10, 10, -5]} intensity={2} angle={0.2} penumbra={1} color="white" />
-          <React.Suspense fallback={null}>
-            <Background menuOpen={menuOpen} />
-            <group ref={orbGroupRef} position={[3.5, 0, 0]}>
-              <Paperweight loaded={loaded} menuOpen={menuOpen} />
-            </group>
-          </React.Suspense>
-        </Canvas>
+        <div ref={canvasContainerRef} style={{ width: '100%', height: '100%' }}>
+          <Canvas 
+            dpr={[1, 2]} 
+            camera={{ position: [0, 0, 10.5], fov: 35 }}
+            frameloop={isVisible ? "always" : "never"}
+          >
+            <ambientLight intensity={1} />
+            <spotLight position={[10, 10, 10]} intensity={2} angle={0.2} penumbra={1} color="white" />
+            <spotLight position={[-10, 10, -5]} intensity={2} angle={0.2} penumbra={1} color="white" />
+            <React.Suspense fallback={null}>
+              <Background menuOpen={menuOpen} />
+              <group ref={orbGroupRef} position={[3.5, 0, 0]}>
+                <Paperweight loaded={loaded} menuOpen={menuOpen} />
+              </group>
+            </React.Suspense>
+          </Canvas>
+        </div>
       )}
     </div>
   );
