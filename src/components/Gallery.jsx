@@ -4,90 +4,69 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+function detectMobile() {
+  if (typeof window === 'undefined') return false;
+  return window.matchMedia('(max-width: 768px)').matches;
+}
+
 export default function Gallery() {
   const sectionRef = useRef(null);
   const gridRef = useRef(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(gridRef.current, 
-        { 
-          scale: 0.85,
-          opacity: 0.5,
-          borderRadius: '40px',
-        },
+      if (detectMobile()) {
+        // Reset all elements that start with GSAP initial states so they're visible immediately
+        gsap.set(gridRef.current, { scale: 1, opacity: 1, borderRadius: '0px' });
+        gsap.set('.gallery-sub-info', { opacity: 1, y: 0, filter: 'none' });
+        gsap.set('.item-info-box', { opacity: 1, y: 0, scale: 1, filter: 'none' });
+        return;
+      }
+
+      gsap.fromTo(gridRef.current,
+        { scale: 0.85, opacity: 0.5, borderRadius: '40px' },
         {
-          scale: 1,
-          opacity: 1,
-          borderRadius: '0px',
-          ease: 'none',
+          scale: 1, opacity: 1, borderRadius: '0px', ease: 'none',
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top bottom', // Start when top of section hits bottom of viewport
-            end: 'top top',    // End when top of section hits top of viewport
+            start: 'top bottom',
+            end: 'top top',
             scrub: true,
           }
         }
       );
 
-      // Entry for the sub-info text and links (Cinematic Blur Reveal)
-      gsap.fromTo('.gallery-sub-info', 
-        { 
-          y: 50, 
-          opacity: 0,
-          filter: 'blur(15px)'
-        },
-        { 
-          y: 0, 
-          opacity: 1, 
-          filter: 'blur(0px)',
-          duration: 1.8, 
-          ease: 'expo.out',
+      gsap.fromTo('.gallery-sub-info',
+        { y: 50, opacity: 0, filter: 'blur(15px)' },
+        {
+          y: 0, opacity: 1, filter: 'blur(0px)', duration: 1.8, ease: 'expo.out',
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top 98%', // Appear almost immediately
+            start: 'top 98%',
             toggleActions: 'play none none none'
           }
         }
       );
 
-      // Staggered cinematic entry for individual glass cards
-      gsap.fromTo('.item-info-box', 
-        { 
-          y: 40, 
-          opacity: 0,
-          scale: 0.9,
-          filter: 'blur(10px)'
-        },
-        { 
-          y: 0, 
-          opacity: 1, 
-          scale: 1,
-          filter: 'blur(0px)',
-          duration: 1.4, 
-          stagger: 0.1,
-          ease: 'power4.out',
+      gsap.fromTo('.item-info-box',
+        { y: 40, opacity: 0, scale: 0.9, filter: 'blur(10px)' },
+        {
+          y: 0, opacity: 1, scale: 1, filter: 'blur(0px)',
+          duration: 1.4, stagger: 0.1, ease: 'power4.out',
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top 95%', // Appear sooner
+            start: 'top 95%',
             toggleActions: 'play none none none'
           }
         }
       );
 
-      // Subtle parallax for images
       gsap.utils.toArray('.gallery-item img').forEach(img => {
-        gsap.fromTo(img, 
+        gsap.fromTo(img,
           { y: -40 },
-          { 
-            y: 40,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: img,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true
-            }
+          {
+            y: 40, ease: 'none',
+            scrollTrigger: { trigger: img, start: 'top bottom', end: 'bottom top', scrub: true }
           }
         );
       });

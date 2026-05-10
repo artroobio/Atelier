@@ -36,6 +36,23 @@ body, html {
   background-position: center;
 }
 
+.hero-mobile-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.hero-mobile-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.38);
+  z-index: 1;
+}
+
 .philosophy-slot {
   position: relative;
   width: 100%;
@@ -705,6 +722,17 @@ h1 i {
   .works-static .video-bg-works {
     opacity: 0.65;
   }
+
+  .video-bg-works {
+    width: 100%;
+    height: 100%;
+    min-width: unset;
+    min-height: unset;
+    top: 0;
+    left: 0;
+    transform: none;
+    object-fit: cover;
+  }
 }
 
 /* 7. PROCESS */
@@ -867,6 +895,10 @@ h1 i {
 @media (max-width: 900px) {
   #process-section-root {
     background-attachment: scroll;
+    overflow-x: hidden;
+    overflow-y: visible;
+    min-height: unset;
+    height: auto;
   }
 
   .horizontal-container {
@@ -1323,7 +1355,30 @@ h1 i {
 }
 
 .c-accordion__item:hover .c-accordion__description,
-.c-accordion__item:focus-within .c-accordion__description {
+.c-accordion__item:focus-within .c-accordion__description,
+.c-accordion__item.is-active .c-accordion__description {
+  opacity: 1;
+}
+
+/* React-controlled active state — mirrors hover for touch devices */
+.c-accordion__item.is-active {
+  flex-grow: 2;
+  width: 50%;
+  background-color: transparent;
+  cursor: default;
+}
+
+.c-accordion__item.is-active .c-accordion__title--hover-hide {
+  max-height: 0;
+  opacity: 0;
+}
+
+.c-accordion__item.is-active .c-accordion__title--hover-show {
+  opacity: 1;
+}
+
+.c-accordion__item.is-active .c-accordion__content {
+  transform: translateY(0);
   opacity: 1;
 }
 
@@ -1428,16 +1483,116 @@ h1 i {
 }
 
 @media (max-width: 768px) {
-  .c-accordion__item:hover, 
-  .c-accordion__item:focus-within {
-    width: 100%;
-    flex-grow: 1;
+  /* Wrapper: allow natural height growth */
+  .accordion-section-wrapper {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
   }
-  .c-accordion { flex-direction: column; }
-  .c-accordion__title--hero { font-size: 2.5rem; margin-left: 0; }
-  .c-accordion__content { padding: 8rem 2rem; width: 100%; }
-  .c-accordion__description { margin-left: 0; width: 100%; }
-  .c-accordion__aside { display: none; }
+
+  /* List stacks vertically */
+  .c-accordion {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+
+  /* Items: fixed small height when collapsed, tall when active */
+  .c-accordion__item {
+    width: 100% !important;
+    height: 72px;
+    min-height: 72px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    transition: height 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .c-accordion__item:hover,
+  .c-accordion__item:focus-within,
+  .c-accordion__item.is-active {
+    width: 100%;
+    height: 320px;
+    flex-grow: 0;
+  }
+
+  /* Action stays absolute — sized by the item */
+  .c-accordion__action {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+  }
+
+  /* Aside: repurposed as a horizontal label at the bottom of collapsed items */
+  .c-accordion__aside {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 72px;
+    writing-mode: horizontal-tb;
+    transform: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 1.25rem;
+  }
+
+  .c-accordion__aside::after { display: none; }
+
+  /* The collapsed title: fully visible horizontally */
+  .c-accordion__title--hover-hide {
+    max-height: none !important;
+    opacity: 0.88 !important;
+    font-size: 0.78rem;
+    letter-spacing: 0.25em;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+  }
+
+  /* Hide aside when item is expanded */
+  .c-accordion__item.is-active .c-accordion__aside,
+  .c-accordion__item:hover .c-accordion__aside,
+  .c-accordion__item:focus-within .c-accordion__aside {
+    display: none;
+  }
+
+  /* Content: positioned inside action, fully visible when active */
+  .c-accordion__content {
+    position: absolute;
+    left: 1.25rem;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    width: auto;
+    max-width: none;
+    padding: 0;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  .c-accordion__item.is-active .c-accordion__content,
+  .c-accordion__item:hover .c-accordion__content,
+  .c-accordion__item:focus-within .c-accordion__content {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Title in the expanded glassmorphism box */
+  .c-accordion__title--hero {
+    font-size: 1.6rem;
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Description always visible once content is shown */
+  .c-accordion__description {
+    font-size: 0.875rem;
+    padding: 0 0.25rem;
+    opacity: 1;
+    width: 100%;
+    margin-left: 0;
+  }
 }
 
 /* --- SECTION 2 — GALLERY GRID (MATCHED TO REFERENCE) --- */

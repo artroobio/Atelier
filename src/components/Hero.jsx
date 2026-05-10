@@ -121,7 +121,22 @@ export default function Hero() {
         </div>
       )}
 
-      {isMobile && <div className="hero-mobile-bg"></div>}
+      {isMobile && (
+        <>
+          <video
+            className="hero-mobile-video"
+            autoPlay
+            muted
+            loop
+            playsInline
+          >
+            {/* WebM for Chrome/Android; MP4 for iOS Safari which doesn't support WebM */}
+            <source src={BG_VIDEO_URL} type="video/webm" />
+            <source src="https://assets.zyrosite.com/AGBzPMBJDQiwDGny/grey-home-interior-design-video-M13Xi8TTbaVTMRqP.mp4" type="video/mp4" />
+          </video>
+          <div className="hero-mobile-overlay" />
+        </>
+      )}
 
       <div className="ui-layer">
         <div className="menu-btn" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? "Close" : "Menu"}</div>
