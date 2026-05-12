@@ -72,14 +72,14 @@ export default function HeroMobile({ onMenuToggle, menuOpen }) {
         <div className="hero-header">
           <span className="tagline">Collection 2026</span>
           <h1>
-            <div style={{ overflow: 'hidden' }}><SplitText>Structure &</SplitText></div>
-            <div style={{ overflow: 'hidden' }}><i><SplitText>Transparency.</SplitText></i></div>
+            <div style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}><SplitText>Bespoke</SplitText></div>
+            <div style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}><SplitText>Architectural</SplitText></div>
+            <div style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}><i><SplitText>Web Designs.</SplitText></i></div>
           </h1>
         </div>
 
         <div className="glass-card">
-          <p>We design spaces that breathe. By dissolving the boundary between structure and environment, we create clarity. Explore the "Paperweight" archive below.</p>
-          <a href="#" className="btn">Explore Collection</a>
+          <p>We craft immersive websites for interior architects and design studios. Through refined motion, spatial layouts, and visual storytelling, we transform portfolios into digital experiences.</p>
         </div>
       </div>
     </div>

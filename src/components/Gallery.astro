@@ -4,6 +4,9 @@
 
 <section id="gallery-section" class="gallery-section">
   <div class="gallery-grid">
+    <div class="gallery-text-overlay top-center">
+      <h2 class="gallery-main-title">THE DIGITAL ATELIER</h2>
+    </div>
     <!-- Top Row: 3 Vertical Panels -->
     <div class="gallery-row top-row">
       <div class="gallery-item vertical">
@@ -77,7 +80,43 @@
       gsap.set(grid, { scale: 1, opacity: 1, borderRadius: '0px' });
       gsap.set('.gallery-sub-info', { opacity: 1, y: 0, filter: 'none' });
       gsap.set('.item-info-box', { opacity: 1, y: 0, scale: 1, filter: 'none' });
+      gsap.set('.gallery-main-title', { opacity: 1 });
       return;
+    }
+
+    const wrapChars = (el: HTMLElement | null): NodeListOf<HTMLElement> | HTMLElement[] => {
+      if (!el) return [];
+      const text = el.innerText;
+      el.setAttribute('aria-label', text);
+      el.innerHTML = text
+        .split('')
+        .map(char => {
+          if (char === ' ') return '<span style="display:inline-block;white-space:pre"> </span>';
+          return `<span class="gallery-char" style="display:inline-block">${char}</span>`;
+        })
+        .join('');
+      return el.querySelectorAll<HTMLElement>('.gallery-char');
+    };
+
+    const mainTitle = document.querySelector('.gallery-main-title') as HTMLElement;
+    if (mainTitle) {
+      const chars = wrapChars(mainTitle);
+      gsap.fromTo(chars, 
+        { opacity: 0, y: 40, filter: 'blur(20px)' },
+        { 
+          opacity: 1, 
+          y: 0, 
+          filter: 'blur(0px)', 
+          duration: 1.0, 
+          stagger: 0.03, 
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: mainTitle,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
     }
 
     // Grid scale-in + border-radius reveal scrubbed together as user scrolls in

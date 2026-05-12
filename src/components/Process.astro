@@ -3,34 +3,35 @@
 const panels = [
   {
     id: '01',
-    label: 'The Genesis',
-    title: 'Raw <i class="italic font-light">Sketch</i>.',
-    text: 'Every structure begins with a gesture. Initial drafts capture the raw energy and potential of the space.',
-    image: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg',
-    alt: 'Sketch',
+    label: 'Atmosphere',
+    title: 'First <i class="italic font-light">Impression</i>.',
+    text: 'A website is experienced before it is understood. We shape atmosphere, pacing, and visual emotion from the very first frame.',
+    image: '/images/process_1.png',
+    alt: 'Impression',
   },
   {
     id: '02',
-    label: 'Precision',
-    title: 'Digital <i class="italic font-light">Void</i>.',
-    text: 'Calculated transparency. We map the refractive index of every pane, ensuring the disappearance of the boundary is absolute.',
-    image: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg',
-    alt: 'Wireframe',
+    label: 'Interaction',
+    title: 'Spatial <i class="italic font-light">Motion</i>.',
+    text: 'Movement creates immersion. Through cinematic transitions, layered depth, and fluid interactions, digital spaces begin to feel architectural.',
+    image: '/images/process_2.png',
+    alt: 'Motion',
   },
   {
     id: '03',
-    label: 'Selection',
-    title: 'Solid <i class="italic font-light">Glass</i>.',
-    text: 'We curate high-iron glass and obsidian-grade steel. The tactile journey of material selection is rigorous and precise.',
-    image: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg',
-    alt: 'Material',
+    label: 'Precision',
+    title: 'Material & <i class="italic font-light">Detail</i>.',
+    text: 'Typography, texture, light, and composition are refined with precision. Every element is designed to reflect the character of the studio behind it.',
+    image: '/images/process_3.png',
+    alt: 'Detail',
   },
   {
     id: '04',
-    label: 'Manifestation',
-    title: 'Living <i class="italic font-light">Space</i>.',
-    text: 'The final atmosphere. Architecture manifested through structural honesty and cinematic presence.',
-    video: 'https://assets.zyrosite.com/AGBzPMBJDQiwDGny/grey-home-interior-design-video-M13Xi8TTbaVTMRqP.mp4',
+    label: 'Experience',
+    title: 'Digital <i class="italic font-light">Atmosphere</i>.',
+    text: 'The final experience feels intuitive, immersive, and alive — a digital environment crafted to showcase interiors with clarity and emotion.',
+    image: '/images/digital_atmosphere.png',
+    alt: 'Experience',
   },
 ];
 ---
@@ -165,7 +166,7 @@ const panels = [
         )
         .fromTo(
           annotation,
-          { opacity: 0, x: 60, y: 10 },
+          { opacity: 0, x: 30, y: 10 },
           { opacity: 1, x: 0, y: 0, duration: 1.2, ease: 'power3.out' },
           '-=0.6'
         )
