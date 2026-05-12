@@ -64,15 +64,46 @@ const segments = [
   </div>
 </section>
 
-<script define:vars={{ segments }}>
+<script>
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
   gsap.registerPlugin(ScrollTrigger);
 
+  const segments = [
+    {
+      title: 'The Art of <i class="italic font-light">Void</i>.',
+      tagline: '02 — Selected Portfolios',
+      cardTitle: 'Materiality',
+      cardDesc: 'Exploring how light interacts with translucent surfaces in modern commercial spaces.',
+      cardTag: 'Featured Study',
+    },
+    {
+      title: 'Monolithic <i class="italic font-light">Forms</i>.',
+      tagline: '03 — Living Systems',
+      cardTitle: 'Raw Textures',
+      cardDesc: 'A deep contrast between heavy stone foundations and the lightness of architectural glass.',
+      cardTag: 'Material Integrity',
+    },
+    {
+      title: 'Infinite <i class="italic font-light">Flow</i>.',
+      tagline: '04 — Spatial Dialogue',
+      cardTitle: 'Soft Geometry',
+      cardDesc: 'Dissolving the boundary between the internal lounge and the surrounding urban horizon.',
+      cardTag: 'Atmospheric Design',
+    },
+    {
+      title: 'Silent <i class="italic font-light">Sanctuary</i>.',
+      tagline: '05 — Private Archive',
+      cardTitle: 'Filtered Light',
+      cardDesc: 'Designing the quiet intersection of restorative rest and structural transparency.',
+      cardTag: 'Intimate Voids',
+    },
+  ];
+
   const detectMobile = () => window.matchMedia('(max-width: 768px)').matches;
 
-  const wrapWords = (el) => {
+  const wrapWords = (el: HTMLElement | null) => {
     if (!el) return;
     const text = el.innerHTML;
     const words = text.split(/(\s+|<br\/?>|<\/?[^>]+>)/g);
@@ -158,11 +189,15 @@ const segments = [
             cardOverlay.className = "glass-morphism-card pos-br text-white";
           }
 
-          wrapWords(titleH1);
-          gsap.fromTo(titleH1.querySelectorAll('.reveal-word'), 
-            { opacity: 0, y: 15, filter: "blur(10px)" },
-            { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.0, stagger: 0.04, ease: "power2.out" }
-          );
+          // Delay matches React version's setTimeout(50) — ensures innerHTML is committed before wrapWords
+          setTimeout(() => {
+            if (!titleH1) return;
+            wrapWords(titleH1);
+            gsap.fromTo(titleH1.querySelectorAll('.reveal-word'),
+              { opacity: 0, y: 15, filter: 'blur(10px)' },
+              { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, stagger: 0.04, ease: 'power2.out' }
+            );
+          }, 50);
         }
       });
 

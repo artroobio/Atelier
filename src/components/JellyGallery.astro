@@ -1,0 +1,148 @@
+---
+// src/components/JellyGallery.astro
+const projects = [
+  {
+    category: 'Glass · Residential',
+    year: '2024',
+    title: 'Prismatic Void',
+    img: '/luxury_interior_vertical_1_1778345968849.png',
+    pill: 'Explore',
+  },
+  {
+    category: 'Obsidian · Commercial',
+    year: '2023',
+    title: 'Dark Matter',
+    img: '/commercial_premium_office_1778344233441.png',
+    pill: 'View',
+  },
+  {
+    category: 'Light · Cultural',
+    year: '2023',
+    title: 'Luminous Frame',
+    img: '/cultural_glass_museum_1778344274605.png',
+    pill: 'Discover',
+  },
+  {
+    category: 'Void · Hospitality',
+    year: '2022',
+    title: 'Negative Space',
+    img: '/hospitality_luxury_hotel_1778344259267.png',
+    pill: 'Enter',
+  },
+];
+---
+
+<section id="jelly-gallery-root" class="jelly-section">
+  <div class="jelly-shell">
+
+    <div class="jelly-header">
+      <span class="jelly-kicker">Selected Works</span>
+      <h2 class="jelly-heading">Form in <i>Motion</i>.</h2>
+    </div>
+
+    <div class="jelly-grid">
+      {projects.map((p) => (
+        <div class="jelly-card">
+          <div class="jelly-image-wrapper">
+            <img
+              src={p.img}
+              alt={p.title}
+              class="jelly-img"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="jelly-pill">{p.pill} —</span>
+          </div>
+          <div class="jelly-card-details">
+            <span class="jelly-tag">{p.category} · {p.year}</span>
+            <h3 class="jelly-title">{p.title}</h3>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const wrapChars = (el: HTMLElement | null): NodeListOf<HTMLElement> | HTMLElement[] => {
+    if (!el) return [];
+    const text = el.textContent || '';
+    el.setAttribute('aria-label', text);
+    el.innerHTML = text
+      .split('')
+      .map(char =>
+        char === ' '
+          ? '<span style="display:inline-block;white-space:pre"> </span>'
+          : `<span class="jelly-char">${char}</span>`
+      )
+      .join('');
+    return el.querySelectorAll<HTMLElement>('.jelly-char');
+  };
+
+  const initJellyGallery = () => {
+    const cards = document.querySelectorAll<HTMLElement>('.jelly-card');
+    if (!cards.length) return;
+
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+    cards.forEach(card => {
+      const wrapper = card.querySelector<HTMLElement>('.jelly-image-wrapper');
+      const img     = card.querySelector<HTMLElement>('.jelly-img');
+      const titleEl = card.querySelector<HTMLElement>('.jelly-title');
+
+      // Don't re-split if already split
+      const chars = titleEl?.querySelector('.jelly-char')
+        ? titleEl.querySelectorAll<HTMLElement>('.jelly-char')
+        : wrapChars(titleEl);
+
+      if (isMobile) {
+        if (wrapper) gsap.set(wrapper, { scale: 1, opacity: 1 });
+        if (img)     gsap.set(img,     { scale: 1 });
+        chars.forEach(c => { c.style.opacity = '1'; c.style.filter = 'none'; c.style.transform = 'none'; });
+        return;
+      }
+
+      gsap.set(wrapper, { scale: 0.5, opacity: 0 });
+      gsap.set(img,     { scale: 1.4 });
+      gsap.set(chars,   { opacity: 0, filter: 'blur(12px)', y: 15 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 95%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+
+      tl.to(wrapper, {
+        scale: 1,
+        opacity: 1,
+        duration: 1.5,
+        ease: 'elastic.out(1, 0.6)',
+        force3D: true,
+      })
+      .to(img, {
+        scale: 1,
+        duration: 1.5,
+        ease: 'power3.out',
+        force3D: true,
+      }, '<')
+      .to(chars, {
+        opacity: 1,
+        filter: 'blur(0px)',
+        y: 0,
+        stagger: 0.035,
+        duration: 1.2,
+      }, '-=0.9');
+    });
+  };
+
+  initJellyGallery();
+  document.addEventListener('astro:page-load', initJellyGallery);
+</script>
