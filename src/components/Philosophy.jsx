@@ -2,8 +2,6 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
-
 function detectMobile() {
     if (typeof window === 'undefined') return false;
     return window.matchMedia('(max-width: 768px)').matches;

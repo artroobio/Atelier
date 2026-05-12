@@ -2,8 +2,6 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
-
 function detectMobile() {
   if (typeof window === 'undefined') return false;
   return window.matchMedia('(max-width: 768px)').matches;
@@ -105,7 +103,6 @@ export default function Process() {
         const titleWords = panel.querySelectorAll('.reveal-word');
         const annotation = panel.querySelector('.glass-annotation');
         const imageWrap = panel.querySelector('.process-image-wrap');
-        const media = panel.querySelector('.main-process-media');
         const startTrigger = index === 0 ? 'left 120%' : 'left 65%';
 
         gsap.timeline({
@@ -178,11 +175,17 @@ export default function Process() {
                       muted
                       loop
                       playsInline
-                    >
-                      <source src={panel.video} type="video/mp4" />
-                    </video>
+                      preload="none"
+                      src={panel.video}
+                    />
                   ) : (
-                    <img className="main-process-media" src={panel.image} alt={panel.alt} />
+                    <img
+                      className="main-process-media"
+                      src={panel.image}
+                      alt={panel.alt}
+                      loading="lazy"
+                      decoding="async"
+                    />
                   )}
                 </div>
               </div>

@@ -1,66 +1,12 @@
 ---
 // src/components/Archive.astro
 const projectData = [
-  {
-    id: 0,
-    year: '2024',
-    name: 'Obsidian House',
-    loc: 'Zurich, CH',
-    tag: 'obsidian',
-    img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg',
-    desc: 'A residence carved from dark stone.',
-    size: 'hero',
-  },
-  {
-    id: 1,
-    year: '2023',
-    name: 'Glass Pavilion',
-    loc: 'Kyoto, JP',
-    tag: 'glass',
-    img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg',
-    desc: 'Merging traditional aesthetics with transparency.',
-    size: 'tall',
-  },
-  {
-    id: 2,
-    year: '2023',
-    name: 'Void Tower',
-    loc: 'Berlin, DE',
-    tag: 'void',
-    img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg',
-    desc: 'A vertical exploration of negative space.',
-    size: 'wide',
-  },
-  {
-    id: 3,
-    year: '2022',
-    name: 'Crystal Gallery',
-    loc: 'New York, US',
-    tag: 'glass',
-    img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg',
-    desc: 'Refracting the city motion through glass.',
-    size: 'small',
-  },
-  {
-    id: 4,
-    year: '2022',
-    name: 'The Prism',
-    loc: 'London, UK',
-    tag: 'light',
-    img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg',
-    desc: 'Multi-layered glass atmospheric facades.',
-    size: 'small',
-  },
-  {
-    id: 5,
-    year: '2021',
-    name: 'Basalt Studio',
-    loc: 'Reykjavik, IS',
-    tag: 'obsidian',
-    img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg',
-    desc: 'Subterranean creative volcanic rock.',
-    size: 'wide',
-  },
+  { id: 0, year: '2024', name: 'Obsidian House',  loc: 'Zurich, CH',    tag: 'obsidian', img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg', desc: 'A residence carved from dark stone, where light is treated as material.' },
+  { id: 1, year: '2023', name: 'Glass Pavilion',  loc: 'Kyoto, JP',     tag: 'glass',    img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg', desc: 'Merging traditional aesthetics with total transparency.' },
+  { id: 2, year: '2023', name: 'Void Tower',      loc: 'Berlin, DE',    tag: 'void',     img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg', desc: 'A vertical exploration of negative space silhouettes.' },
+  { id: 3, year: '2022', name: 'Crystal Gallery', loc: 'New York, US',  tag: 'glass',    img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg', desc: 'A museum where every surface refracts the city motion.' },
+  { id: 4, year: '2022', name: 'The Prism',       loc: 'London, UK',    tag: 'light',    img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg', desc: 'Atmospheric volume through multi-layered glass facades.' },
+  { id: 5, year: '2021', name: 'Basalt Studio',   loc: 'Reykjavik, IS', tag: 'obsidian', img: 'https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hold9998_cobden-st_in12_double-height-penthouse-void-tastTN8YGC6w7PC2.jpg', desc: 'Subterranean creative studio in volcanic rock.' },
 ];
 
 const filters = ['all', 'glass', 'obsidian', 'light', 'void'];
@@ -68,52 +14,52 @@ const filters = ['all', 'glass', 'obsidian', 'light', 'void'];
 
 <section id="archive-grid-root">
   <div class="archive-shell">
+
     <div class="archive-header">
       <div class="archive-header-copy">
         <span class="archive-kicker">The Archive</span>
-        <h2 class="archive-title">
-          Ledger of <i>Void</i>.
-        </h2>
+        <h2 class="archive-title">Ledger of <i>Void</i>.</h2>
       </div>
-
       <div class="archive-filters">
-        {filters.map((item) => (
+        {filters.map((tag) => (
           <button
-            class={`filter-btn ${item === 'all' ? 'active' : ''}`}
-            data-filter={item}
+            class={`filter-btn${tag === 'all' ? ' active' : ''}`}
+            data-filter={tag}
             type="button"
           >
-            {item === 'all' ? 'All Works' : item}
+            {tag === 'all' ? 'All Works' : tag}
           </button>
         ))}
       </div>
     </div>
 
-    <div id="archive-project-grid" class="archive-bento-grid">
+    <div id="archive-project-grid" class="archive-letterbox-list">
       {projectData.map((project) => (
-        <article
-          class={`archive-grid-item archive-size-${project.size} archive-reveal-item`}
+        <div
+          class="archive-letterbox-item"
           data-tag={project.tag}
         >
-          <div class="archive-image-wrap">
-            <img src={project.img} alt={project.name} class="archive-item-image" />
+          <div class="archive-lb-image-wrap">
+            <img
+              src={project.img}
+              alt={project.name}
+              class="archive-lb-image"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
-
-          <div class="archive-item-tint"></div>
-
-          <div class="archive-bottom-card">
-            <div class="archive-meta-row">
-              <span>{project.year}</span>
-              <span>{project.loc}</span>
+          <div class="archive-lb-info">
+            <div class="archive-lb-top">
+              <span class="archive-lb-meta">{project.year} — {project.tag}</span>
+              <h3 class="archive-lb-name">{project.name}</h3>
+              <p class="archive-lb-desc">{project.desc}</p>
             </div>
-            <h3 class="archive-item-title">{project.name}</h3>
-            <div class="archive-meta-rule"></div>
-            <div class="archive-meta-row archive-meta-lower">
-              <span class="archive-tag">{project.tag}</span>
-              <p class="archive-desc">{project.desc}</p>
+            <div class="archive-lb-bottom">
+              <span class="archive-lb-meta">{project.loc}</span>
+              <span class="archive-lb-cta">View Case —</span>
             </div>
           </div>
-        </article>
+        </div>
       ))}
     </div>
 
@@ -121,6 +67,7 @@ const filters = ['all', 'glass', 'obsidian', 'light', 'void'];
       <span>©2026 Atelier Transparent / Systems</span>
       <a href="#">Request Full Ledger</a>
     </div>
+
   </div>
 </section>
 
@@ -128,54 +75,59 @@ const filters = ['all', 'glass', 'obsidian', 'light', 'void'];
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-  gsap.registerPlugin(ScrollTrigger);
-
   const initArchive = () => {
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const items = document.querySelectorAll('.archive-reveal-item');
-    const grid = document.querySelector('#archive-project-grid');
+    const section = document.querySelector('#archive-grid-root') as HTMLElement;
+    if (!section) return;
 
-    if (!grid) return;
+    const items = () => document.querySelectorAll<HTMLElement>('.archive-letterbox-item');
+    const filterBtns = document.querySelectorAll<HTMLElement>('.filter-btn');
 
-    // Reveal Animation
-    gsap.fromTo(
-      '.archive-reveal-item',
-      { opacity: 0, y: 30, filter: 'blur(16px)' },
-      {
-        opacity: 1,
-        y: 0,
-        filter: 'blur(0px)',
-        duration: 0.9,
-        stagger: 0.08,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: grid,
-          start: 'top 85%',
-        },
-      }
-    );
+    // GSAP owns the initial hidden state — not CSS
+    gsap.set(items(), { opacity: 0, y: 30 });
 
-    // Filtering Logic
+    // Entry reveal — fires once on scroll into view
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top 80%',
+      onEnter: () => {
+        gsap.to(items(), { opacity: 1, y: 0, duration: 1.0, stagger: 0.07, ease: 'power3.out' });
+      },
+    });
+
+    // Filter
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        const filter = (btn as HTMLElement).dataset.filter;
-        
-        // Update UI
+        const tag = btn.dataset.filter;
+
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
-        // Filter Items
-        items.forEach((item: any) => {
-          if (filter === 'all' || item.dataset.tag === filter) {
-            item.style.display = 'block';
-            gsap.fromTo(item, 
-              { opacity: 0, scale: 0.9 },
-              { opacity: 1, scale: 1, duration: 0.4 }
-            );
+        const visible: HTMLElement[] = [];
+        const hidden: HTMLElement[] = [];
+
+        items().forEach(item => {
+          if (tag === 'all' || item.dataset.tag === tag) {
+            visible.push(item);
           } else {
-            item.style.display = 'none';
+            hidden.push(item);
           }
         });
+
+        // Fade out hidden, then show/animate visible
+        const tl = gsap.timeline();
+
+        if (hidden.length) {
+          tl.to(hidden, { opacity: 0, y: -10, duration: 0.25, stagger: 0.02, ease: 'power2.in',
+            onComplete: () => hidden.forEach(el => { el.style.display = 'none'; })
+          });
+        }
+
+        visible.forEach(el => { el.style.display = 'flex'; });
+
+        tl.fromTo(visible,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.6, stagger: 0.05, ease: 'power3.out' }
+        );
       });
     });
   };

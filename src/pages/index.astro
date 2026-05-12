@@ -21,7 +21,9 @@ import Accordion from '../components/Accordion.astro';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://assets.zyrosite.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://ik.imagekit.io" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"></noscript>
 
     <!-- Preload critical assets -->
     <link rel="preload" href="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg" as="image" />
@@ -51,55 +53,78 @@ import Accordion from '../components/Accordion.astro';
 
       gsap.registerPlugin(ScrollTrigger);
 
-      const initLenis = () => {
-        const lenis = new Lenis({
+      let lenisInstance: Lenis | null = null;
+      let gsapTickerId: ((time: number) => void) | null = null;
+
+      function initLenis() {
+        // Teardown any previous instance cleanly
+        if (gsapTickerId !== null) {
+          gsap.ticker.remove(gsapTickerId);
+          gsapTickerId = null;
+        }
+        if (lenisInstance) {
+          lenisInstance.destroy();
+          lenisInstance = null;
+        }
+
+        lenisInstance = new Lenis({
           duration: 1.2,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           smoothWheel: true,
+          wrapper: window,
+          content: document.documentElement,
         });
 
-        // Sync ScrollTrigger with Lenis
-        lenis.on('scroll', ScrollTrigger.update);
-
-        // Drive GSAP's ticker with Lenis's RAF
-        gsap.ticker.add((time) => {
-          lenis.raf(time * 1000);
-        });
-
-        // Disable GSAP's internal ticker to avoid conflicts
+        // Drive Lenis via GSAP ticker so both share the same RAF loop
+        gsapTickerId = (time: number) => {
+          lenisInstance!.raf(time * 1000);
+          ScrollTrigger.update();
+        };
+        gsap.ticker.add(gsapTickerId);
         gsap.ticker.lagSmoothing(0);
 
-        // Ensure all ScrollTriggers are refreshed when content is ready
-        window.addEventListener('load', () => ScrollTrigger.refresh());
-      };
+        ScrollTrigger.refresh();
+      }
 
-      initLenis();
+      // Fires on initial hard load
+      document.addEventListener('DOMContentLoaded', initLenis);
+      // Fires on subsequent Astro View Transition navigations (no-op in MPA mode)
       document.addEventListener('astro:page-load', initLenis);
     </script>
   </body>
 </html>
 
 <style is:global>
-  /* Base styles for the hybrid architecture */
-  html.lenis {
+  /* Required by Lenis — document must scroll naturally */
+  html {
+    height: auto;
+    scroll-behavior: auto; /* Let Lenis own scrolling — no CSS smooth-scroll conflict */
+  }
+
+  /* Lenis overrides — prevent double-smooth from CSS + JS */
+  html.lenis,
+  html.lenis body {
     height: auto;
   }
+
   .lenis.lenis-smooth {
     scroll-behavior: auto !important;
   }
-  
-  /* Hardware acceleration for animated elements */
-  .gallery-grid,
-  .gallery-item img,
-  .process-panel,
-  .main-process-media,
-  .reveal-word,
-  .glass-card-premium-new {
-    will-change: transform, opacity;
-    transform: translateZ(0); /* Force compositor layer */
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
   }
 
-  /* Smooth out scrolling performance */
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  /* Compositor hint for the horizontal scroll container only */
+  .horizontal-container {
+    transform: translateZ(0);
+  }
+
+  /* Subpixel text rendering */
   * {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
