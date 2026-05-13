@@ -1,0 +1,202 @@
+---
+// src/components/ServicesHero.astro
+---
+
+<section class="services-hero">
+  <div class="hero-bg-container">
+    <img 
+      src="/assets/services/hero-bg.png" 
+      alt="Architectural Luxury Interior" 
+      class="hero-bg-image"
+    />
+  </div>
+  
+  <div class="hero-mask-container">
+    <div class="hero-text-mask">
+      <div class="mask-line">
+        <span class="char-wrap"><span class="char">A</span></span>
+        <span class="char-wrap"><span class="char">T</span></span>
+        <span class="char-wrap"><span class="char">E</span></span>
+        <span class="char-wrap"><span class="char">L</span></span>
+        <span class="char-wrap"><span class="char">I</span></span>
+        <span class="char-wrap"><span class="char">E</span></span>
+        <span class="char-wrap"><span class="char">R</span></span>
+      </div>
+      <div class="mask-line">
+        <span class="char-wrap"><span class="char">E</span></span>
+        <span class="char-wrap"><span class="char">V</span></span>
+        <span class="char-wrap"><span class="char">O</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll-indicator">
+    <span class="scroll-text">Explore Our Services</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<style>
+  .services-hero {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    background: #080808;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-bg-container {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  .hero-bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.8);
+    transform: scale(1.1); /* For GSAP zoom-out effect */
+  }
+
+  .hero-mask-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .hero-text-mask {
+    mix-blend-mode: multiply;
+    background: #080808;
+    color: #fff;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    line-height: 0.8;
+    text-align: center;
+    padding: 0 5%;
+  }
+
+  .mask-line {
+    display: flex;
+    overflow: hidden;
+    font-size: clamp(4rem, 18vw, 22vw);
+    letter-spacing: -0.04em;
+  }
+
+  .char-wrap {
+    display: inline-block;
+    overflow: hidden;
+    padding-bottom: 0.1em;
+  }
+
+  .char {
+    display: inline-block;
+    transform: translateY(100%);
+  }
+
+  .hero-scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    z-index: 2;
+  }
+
+  .scroll-text {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 400;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, #fff, transparent);
+    transform-origin: top;
+    transform: scaleY(0);
+  }
+
+  @media (max-width: 768px) {
+    .mask-line {
+      font-size: clamp(3rem, 25vw, 30vw);
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const chars = document.querySelectorAll('.char');
+    const bgImage = document.querySelector('.hero-bg-image');
+    const scrollIndicator = document.querySelector('.hero-scroll-indicator');
+    const scrollLine = document.querySelector('.scroll-line');
+
+    const tl = gsap.timeline({
+      defaults: { ease: 'expo.out', duration: 2 }
+    });
+
+    // 1. Zoom out background
+    tl.to(bgImage, {
+      scale: 1,
+      duration: 3,
+      ease: 'power2.out'
+    }, 0);
+
+    // 2. Animate characters up
+    tl.to(chars, {
+      y: '0%',
+      stagger: 0.05,
+      duration: 1.8,
+      ease: 'expo.out'
+    }, 0.2);
+
+    // 3. Show scroll indicator
+    tl.to(scrollIndicator, {
+      opacity: 1,
+      duration: 1,
+      ease: 'power2.out'
+    }, '-=1');
+
+    tl.to(scrollLine, {
+      scaleY: 1,
+      duration: 1.5,
+      ease: 'expo.inOut'
+    }, '-=0.8');
+
+    // Continuous float animation for characters
+    chars.forEach((char, index) => {
+      gsap.to(char, {
+        y: '-5px',
+        duration: 2 + Math.random(),
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        delay: index * 0.1
+      });
+    });
+  });
+</script>

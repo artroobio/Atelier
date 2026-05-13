@@ -158,7 +158,7 @@ function Paperweight({ loaded }) {
 
   useEffect(() => {
     if (texture) {
-      texture.anisotropy = gl.capabilities.getMaxAnisotropy();
+      texture.anisotropy = Math.min(4, gl.capabilities.getMaxAnisotropy());
       texture.generateMipmaps = true;
       texture.minFilter = THREE.LinearMipMapLinearFilter;
       texture.magFilter = THREE.LinearFilter;
@@ -182,11 +182,11 @@ function Paperweight({ loaded }) {
       <Float speed={2} rotationIntensity={0.2} floatIntensity={1}>
         <group>
           <mesh ref={innerRef} scale={0}>
-            <sphereGeometry args={[1, 64, 64]} />
+            <sphereGeometry args={[1, 48, 48]} />
             <meshBasicMaterial map={texture} toneMapped={false} />
           </mesh>
           <mesh ref={outerRef} scale={0}>
-            <sphereGeometry args={[1, 64, 64]} />
+            <sphereGeometry args={[1, 48, 48]} />
             <MeshTransmissionMaterial
               ior={1.0} thickness={0.0} chromaticAberration={0.0}
               distortion={0.0} roughness={0.0} transmission={1.0}

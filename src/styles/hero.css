@@ -151,7 +151,7 @@ body, html {
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
   opacity: 0;
   transform: translateY(-20px);
   z-index: 80;
@@ -890,7 +890,6 @@ h1 i {
     url('https://assets.zyrosite.com/AGBzPMBJDQiwDGny/office-APoihTZDRsIY69FW.png');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
   background-color: #1a1a1a;
   overflow: hidden;
   position: relative;
@@ -1001,7 +1000,6 @@ h1 i {
   height: clamp(280px, 48vh, 55vh);
   overflow: hidden;
   border-radius: 4px;
-  perspective: 1000px;
   background-color: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -1027,7 +1025,6 @@ h1 i {
   max-width: 280px;
   margin-top: auto;
   opacity: 0;
-  will-change: transform, opacity;
 }
 
 .process-annotation-text {
@@ -1151,6 +1148,12 @@ h1 i {
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
+}
+
+@media (max-width: 768px) {
+  #archive-grid-root {
+    background-attachment: scroll;
+  }
 }
 
 .archive-shell {
@@ -1396,7 +1399,6 @@ h1 i {
 @media (max-width: 768px) {
   #archive-grid-root {
     padding: 5rem 1rem;
-    background-attachment: scroll;
   }
 
   .archive-filters {
@@ -1470,7 +1472,7 @@ h1 i {
   height: 100%;
   width: 100px;
   min-width: 2.05rem;
-  transition: all .3s ease-in-out;
+  transition: flex-grow 0.3s ease-in-out, width 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
 .c-accordion__item:hover, 
@@ -1536,7 +1538,7 @@ h1 i {
   font-family: "Roboto Condensed", sans-serif;
   margin: 0;
   max-height: 100%;
-  transition: all .3s ease-in-out;
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
   overflow: hidden;
 }
 
@@ -1597,7 +1599,7 @@ h1 i {
   position: absolute;
   left: 4rem;
   bottom: 6rem;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   transform: translateY(20px);
   opacity: 0;
 }
@@ -1615,7 +1617,7 @@ h1 i {
   font-size: 1rem;
   padding: 0 1rem;
   opacity: 0;
-  transition: all .3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
   width: 100%;
 }
 

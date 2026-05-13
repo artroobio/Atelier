@@ -1,0 +1,359 @@
+---
+// src/components/ServicesHorizontal.astro
+// 1 slide: intro
+const slides = [
+  { type: 'intro',   title: 'ATELIER EVO', bg: '/assets/services/ripple-bg.png',     id: 'intro' },
+];
+const N = slides.length; // 1
+---
+
+<div class="hs-outer" id="hs-outer">
+  <div class="hs-sticky" id="hs-sticky">
+    <div class="hs-track" id="hs-track">
+      {slides.map((s) => (
+        <div class="hs-slide" data-bg={s.bg}>
+          <canvas class="hs-canvas"></canvas>
+          <div class="hs-text">
+            <h2 class="hs-title">
+              {s.title.split(' ').map(word => (
+                <span class="hs-word">
+                  {word.split('').map(char => (
+                    <span class="hs-char">{char}</span>
+                  ))}
+                </span>
+              ))}
+            </h2>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Progress dots -->
+    <div class="hs-dots">
+      {slides.map((_, i) => (
+        <span class="hs-dot" data-i={i}></span>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ── Outer tall container drives scroll distance ── */
+  .hs-outer {
+    position: relative;
+    /* 100vh per slide, minus one (first slide is "free") */
+    height: calc(var(--n, 5) * 100vh);
+    background: #010a0a;
+  }
+
+  /* ── Sticky viewport: pinned to top, 100vh tall ── */
+  .hs-sticky {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: #010a0a;
+  }
+
+  /* ── Horizontal track ── */
+  .hs-track {
+    display: flex;
+    flex-wrap: nowrap;
+    height: 100%;
+    /* width is set via JS: 100vw × N */
+    will-change: transform;
+  }
+
+  /* ── Each slide ── */
+  .hs-slide {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    flex: 0 0 100vw;
+    overflow: hidden;
+    background: #010a0a;
+  }
+
+  /* ── Canvas fills slide ── */
+  .hs-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: block;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  /* ── Text centred over canvas ── */
+  .hs-text {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .hs-title {
+    font-family: 'Michroma', sans-serif;
+    font-size: clamp(4rem, 18vw, 22vw);
+    font-weight: 400;
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0;
+    line-height: 0.85;
+    letter-spacing: -0.03em;
+    filter: drop-shadow(0 0 28px rgba(0,255,204,.22));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hs-word  { display: inline-flex; overflow: hidden; }
+  .hs-char  { display: inline-block; transform: translateY(110%); opacity: 0; }
+
+  /* ── Progress dots ── */
+  .hs-dots {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+  }
+  .hs-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.3);
+    transition: background .3s, transform .3s;
+  }
+  .hs-dot.active {
+    background: #fff;
+    transform: scale(1.4);
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ─────────────────────────
+     WebGL Ripple Engine
+  ───────────────────────── */
+  class RippleEngine {
+    constructor(canvas, bgUrl) {
+      this.canvas  = canvas;
+      this.bgUrl   = bgUrl;
+      this.MAX     = 32;
+      this.waves   = new Float32Array(this.MAX * 3);
+      this.wIdx    = 0;
+      this.lastMT  = 0;
+      this.t0      = performance.now();
+      this.mainT   = 0;
+      this.hasMain = false;
+      this.active  = false;
+      this.ready   = false;
+      this._build();
+    }
+
+    _build() {
+      const gl = this.canvas.getContext('webgl', { alpha: true });
+      if (!gl) return;
+      this.gl = gl;
+
+      const vs = `attribute vec2 a;varying vec2 v;void main(){v=a*.5+.5;v.y=1.-v.y;gl_Position=vec4(a,0.,1.);}`;
+      const fs = `
+        precision mediump float;
+        uniform float u_t,u_mt;uniform bool u_go;
+        uniform sampler2D u_img;uniform vec2 u_res;uniform vec3 u_w[32];
+        varying vec2 v;
+        void main(){
+          vec2 uv=v,asp=vec2(u_res.x/u_res.y,1.),d=vec2(0.);
+          if(u_go){float mt=u_t-u_mt;if(mt>0.&&mt<5.){
+            float cd=distance(uv*asp,vec2(.5)*asp);
+            float bw=sin((cd-mt*.4)*40.);
+            float bm=max(0.,1.-smoothstep(0.,.3,abs(cd-mt*.4)));
+            float bf=1.-smoothstep(0.,5.,mt);
+            d+=(uv-.5)*(.05*bm*bw*bf);}}
+          for(int i=0;i<32;i++){vec3 w=u_w[i];if(w.z>0.){
+            float lf=u_t-w.z;if(lf>0.&&lf<1.){
+              float di=distance(uv*asp,vec2(w.x,w.y)*asp),r=lf*.25;
+              float rr=sin((di-r)*70.),mk=smoothstep(.05,0.,abs(di-r)),fd=1.-lf;
+              vec2 dr=normalize((uv*asp)-(vec2(w.x,w.y)*asp));
+              d+=dr*(rr*mk*fd*.012);}}}
+          gl_FragColor=vec4(texture2D(u_img,uv+d).r,texture2D(u_img,uv+d*1.025).g,texture2D(u_img,uv+d*1.05).b,1.);
+        }
+      `;
+
+      const mkShader = (t,s) => { const sh=gl.createShader(t); gl.shaderSource(sh,s); gl.compileShader(sh); return sh; };
+      const p = gl.createProgram();
+      gl.attachShader(p, mkShader(gl.VERTEX_SHADER,   vs));
+      gl.attachShader(p, mkShader(gl.FRAGMENT_SHADER, fs));
+      gl.linkProgram(p); this.prog = p;
+
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]), gl.STATIC_DRAW);
+      const loc = gl.getAttribLocation(p,'a');
+      gl.enableVertexAttribArray(loc);
+      gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+
+      const img = new Image();
+      img.src = this.bgUrl;
+      img.onload = () => {
+        const tex = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, tex);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);
+        this.ready = true;
+        this._resize();
+        this._tick();
+      };
+
+      window.addEventListener('mousemove', e => {
+        if (!this.active) return;
+        const now = performance.now();
+        if (now - this.lastMT < 30) return;
+        const r = this.canvas.getBoundingClientRect();
+        this.waves[this.wIdx*3]   = (e.clientX-r.left)/r.width;
+        this.waves[this.wIdx*3+1] = (e.clientY-r.top)/r.height;
+        this.waves[this.wIdx*3+2] = (now-this.t0)/1000;
+        this.wIdx = (this.wIdx+1) % this.MAX;
+        this.lastMT = now;
+      });
+      window.addEventListener('resize', () => this._resize());
+    }
+
+    _resize() {
+      if (!this.gl) return;
+      this.canvas.width  = this.canvas.parentElement?.offsetWidth  || window.innerWidth;
+      this.canvas.height = this.canvas.parentElement?.offsetHeight || window.innerHeight;
+      this.gl.viewport(0,0,this.canvas.width,this.canvas.height);
+    }
+
+    startRipple() {
+      this.hasMain = true;
+      this.mainT   = (performance.now()-this.t0)/1000;
+    }
+
+    _tick() {
+      if (!this.ready) return;
+      requestAnimationFrame(() => this._tick());
+      if (!this.active) return;
+      const gl = this.gl, t = (performance.now()-this.t0)/1000;
+      gl.useProgram(this.prog);
+      gl.uniform1f(gl.getUniformLocation(this.prog,'u_t'),   t);
+      gl.uniform1f(gl.getUniformLocation(this.prog,'u_mt'),  this.mainT);
+      gl.uniform1i(gl.getUniformLocation(this.prog,'u_go'),  this.hasMain?1:0);
+      gl.uniform2f(gl.getUniformLocation(this.prog,'u_res'), this.canvas.width, this.canvas.height);
+      gl.uniform3fv(gl.getUniformLocation(this.prog,'u_w'),  this.waves);
+      gl.drawArrays(gl.TRIANGLES,0,6);
+    }
+  }
+
+  /* ─────────────────────────
+     Reveal one slide
+  ───────────────────────── */
+  function reveal(slide, engine) {
+    if (slide.dataset.revealed) return;
+    slide.dataset.revealed = '1';
+    engine.active = true;
+
+    const canvas = slide.querySelector('.hs-canvas');
+    const chars  = slide.querySelectorAll('.hs-char');
+
+    gsap.timeline()
+      .to(canvas, {
+        scale:1, opacity:1, duration:1.6, ease:'back.out(2.2)',
+        onStart() { setTimeout(()=>engine.startRipple(), 350); }
+      })
+      .to(chars, {
+        y:'0%', opacity:1, duration:1.3, stagger:0.04, ease:'expo.out'
+      }, '-=1.2');
+  }
+
+  /* ─────────────────────────
+     Boot
+  ───────────────────────── */
+  function boot() {
+    const outer  = document.getElementById('hs-outer');
+    const sticky = document.getElementById('hs-sticky');
+    const track  = document.getElementById('hs-track');
+    const slides = Array.from(document.querySelectorAll('.hs-slide'));
+    const dots   = Array.from(document.querySelectorAll('.hs-dot'));
+    if (!outer || !track || !slides.length) return;
+
+    const N = slides.length;
+
+    // Set CSS custom property for height
+    outer.style.setProperty('--n', N);
+
+    // Build engines
+    const engines = slides.map(s => new RippleEngine(
+      s.querySelector('.hs-canvas'),
+      s.dataset.bg
+    ));
+
+    // ── The horizontal tween (scrubbed by vertical scroll) ──
+    const scrollDist = (N - 1) * window.innerWidth;
+
+    const hTween = gsap.to(track, {
+      x: -scrollDist,
+      ease: 'none',
+      scrollTrigger: {
+        id: 'hs-main',
+        trigger: outer,
+        start: 'top top',
+        end:   `+=${scrollDist}`,
+        scrub: 0.8,
+        pin: sticky,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onUpdate(self) {
+          // Update active dot
+          const idx = Math.round(self.progress * (N-1));
+          dots.forEach((d,i) => d.classList.toggle('active', i===idx));
+        }
+      }
+    });
+
+    // ── Trigger reveal for each slide using containerAnimation ──
+    slides.forEach((slide, i) => {
+      if (i === 0) {
+        // First slide: fire as soon as outer enters viewport
+        ScrollTrigger.create({
+          trigger: outer,
+          start: 'top 80%',
+          once: true,
+          onEnter() { reveal(slide, engines[i]); }
+        });
+      } else {
+        // Subsequent slides: fire when slide reaches left 80% of viewport
+        ScrollTrigger.create({
+          trigger: slide,
+          containerAnimation: hTween,
+          start: 'left 80%',
+          once: true,
+          onEnter() { reveal(slide, engines[i]); }
+        });
+      }
+    });
+
+    // Handle resize
+    window.addEventListener('resize', () => {
+      ScrollTrigger.refresh();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', boot);
+  document.addEventListener('astro:page-load',  boot);
+</script>
