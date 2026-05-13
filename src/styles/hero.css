@@ -138,8 +138,8 @@ body, html {
   right: 40px;
   padding: 12px 30px;
   background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.6);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
   border-radius: 100px;
@@ -169,8 +169,8 @@ body, html {
   width: 100%;
   height: 100%;
   background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(50px);
-  -webkit-backdrop-filter: blur(50px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   z-index: 70;
   display: flex;
   flex-direction: row;
@@ -275,8 +275,8 @@ h1 i {
 .glass-card {
   padding: 18px;
   background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.5);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
   color: #333;
@@ -360,15 +360,15 @@ h1 i {
 /* 4. SHARED SECTION ANIMATION HELPERS */
 .bg-architectural {
   position: absolute;
-  top: 0;
+  top: -25%;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 150%;
   background-image: url('https://assets.zyrosite.com/A3QlOV94WLSaL6xE/modern-office-space-with-futuristic-decor-furniture-tWDr3G3kPWyBeBbj.jpg');
-  background-attachment: fixed;
   background-size: cover;
   background-position: center;
   z-index: 0;
+  will-change: transform;
 }
 
 .blur-reveal {
@@ -474,8 +474,8 @@ h1 i {
 .jelly-card-details {
   padding: 1.25rem 1.5rem 1.5rem;
   background: rgba(12, 12, 12, 0.65);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-top: none;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -566,9 +566,11 @@ h1 i {
   left: 24px;
   top: 0;
   width: 1px;
-  height: 0%;
+  height: 100%;
   background: linear-gradient(to bottom, transparent, #1A1A1A, transparent);
   opacity: 0.5;
+  transform: scaleY(0);
+  transform-origin: top center;
 }
 
 @media (min-width: 768px) {
@@ -624,8 +626,8 @@ h1 i {
 }
 
 .glass-card-premium-new {
-  backdrop-filter: blur(40px) saturate(150%);
-  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
   border: 1px solid rgba(255, 255, 255, 0.5);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.3);
@@ -748,7 +750,6 @@ h1 i {
   z-index: 20;
   max-width: 600px;
   pointer-events: none;
-  will-change: transform, opacity;
 }
 
 .glass-morphism-card {
@@ -756,14 +757,13 @@ h1 i {
   z-index: 20;
   padding: 22px 26px;
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(40px) saturate(150%);
-  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
   width: 280px;
   box-shadow: 0 40px 100px rgba(0, 0, 0, 0.3);
   pointer-events: auto;
-  will-change: transform, opacity;
   color: #fff;
 }
 
@@ -824,8 +824,8 @@ h1 i {
   }
 
   .glass-morphism-card {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
   .glass-annotation {
@@ -1017,8 +1017,8 @@ h1 i {
 
 .glass-annotation {
   background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(32px) saturate(160%);
-  -webkit-backdrop-filter: blur(32px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
   padding: 24px 28px;
@@ -1053,7 +1053,6 @@ h1 i {
   height: 100%;
   background: #fff;
   width: 0%;
-  will-change: width;
 }
 
 @media (max-width: 900px) {
@@ -1252,8 +1251,8 @@ h1 i {
   width: 100%;
   height: 480px;
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px) saturate(140%);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(10px) saturate(130%);
+  -webkit-backdrop-filter: blur(10px) saturate(130%);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 4px;
   overflow: hidden;
@@ -1408,8 +1407,8 @@ h1 i {
   .archive-letterbox-item {
     flex-direction: column;
     height: auto;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
   .archive-lb-image-wrap {
@@ -1446,6 +1445,8 @@ h1 i {
   height: 100vh;
   background: #000;
   overflow: hidden;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 100vh;
 }
 
 .c-accordion {
@@ -1548,8 +1549,8 @@ h1 i {
   display: inline-block;
   padding: 1.5rem 2.5rem;
   background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(30px) saturate(150%);
-  -webkit-backdrop-filter: blur(30px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   font-size: 2.5rem;
@@ -1866,8 +1867,8 @@ h1 i {
     bottom: 20px;
     padding: 12px 18px;
     background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(10px) saturate(150%);
+    -webkit-backdrop-filter: blur(10px) saturate(150%);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 8px;
     color: #fff;

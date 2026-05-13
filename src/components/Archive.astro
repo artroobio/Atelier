@@ -132,6 +132,19 @@ const filters = ['all', 'glass', 'obsidian', 'light', 'void'];
     });
   };
 
-  initArchive();
-  document.addEventListener('astro:page-load', initArchive);
+  function scheduleArchive() {
+    const section = document.querySelector('#archive-grid-root');
+    if (!section) return;
+    let done = false;
+    new IntersectionObserver((entries, obs) => {
+      if (entries[0].isIntersecting && !done) {
+        done = true;
+        obs.disconnect();
+        initArchive();
+      }
+    }, { rootMargin: '300px 0px' }).observe(section);
+  }
+
+  scheduleArchive();
+  document.addEventListener('astro:page-load', scheduleArchive);
 </script>

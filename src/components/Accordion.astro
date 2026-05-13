@@ -70,6 +70,19 @@ const items = [
     });
   };
 
-  initAccordion();
-  document.addEventListener('astro:page-load', initAccordion);
+  function scheduleAccordion() {
+    const section = document.querySelector('#accordion-section');
+    if (!section) return;
+    let done = false;
+    new IntersectionObserver((entries, obs) => {
+      if (entries[0].isIntersecting && !done) {
+        done = true;
+        obs.disconnect();
+        initAccordion();
+      }
+    }, { rootMargin: '200px 0px' }).observe(section);
+  }
+
+  scheduleAccordion();
+  document.addEventListener('astro:page-load', scheduleAccordion);
 </script>

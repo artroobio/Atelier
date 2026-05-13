@@ -55,8 +55,8 @@
   <!-- Big video-through-text -->
   <div class="footer-bigtext-wrap">
     <video
+      id="footer-bg-video"
       class="footer-bigtext-video"
-      autoplay
       muted
       loop
       playsinline
@@ -259,4 +259,19 @@
       letter-spacing: -0.025em;
     }
   }
+
+  .footer-root {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 900px;
+  }
 </style>
+
+<script>
+  const video = document.getElementById('footer-bg-video') as HTMLVideoElement | null;
+  if (video) {
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) video.play().catch(() => {});
+      else video.pause();
+    }, { threshold: 0.05 }).observe(video.closest('footer') as Element);
+  }
+</script>

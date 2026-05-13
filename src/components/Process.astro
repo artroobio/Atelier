@@ -74,7 +74,7 @@ const panels = [
                   <source src={panel.video} type="video/mp4" />
                 </video>
               ) : (
-                <img class="main-process-media" src={panel.image} alt={panel.alt} />
+                <img class="main-process-media" src={panel.image} alt={panel.alt} loading="lazy" decoding="async" />
               )}
             </div>
           </div>

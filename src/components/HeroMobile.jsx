@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import gsap from 'gsap';
 
 const SplitText = ({ children, className }) => (
@@ -12,6 +12,22 @@ const SplitText = ({ children, className }) => (
 );
 
 export default function HeroMobile({ onMenuToggle, menuOpen }) {
+  const containerRef = useRef(null);
+  const videoRef = useRef(null);
+
+  // Play/pause video based on viewport visibility
+  useEffect(() => {
+    const video = videoRef.current;
+    const container = containerRef.current;
+    if (!video || !container) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) video.play().catch(() => {});
+      else video.pause();
+    }, { threshold: 0.05 });
+    obs.observe(container);
+    return () => obs.disconnect();
+  }, []);
+
   useEffect(() => {
     gsap.set('.menu-btn', { y: 0, opacity: 1 });
     gsap.set('.tagline', { opacity: 1 });
@@ -39,13 +55,14 @@ export default function HeroMobile({ onMenuToggle, menuOpen }) {
   }, [menuOpen]);
 
   return (
-    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+    <div ref={containerRef} style={{ width: '100%', height: '100%', position: 'relative' }}>
       <video
+        ref={videoRef}
         className="hero-mobile-video"
-        autoPlay
         muted
         loop
         playsInline
+        preload="none"
         src="https://assets.zyrosite.com/AGBzPMBJDQiwDGny/grey-home-interior-design-video-M13Xi8TTbaVTMRqP.mp4"
       />
       <div className="hero-mobile-overlay" />

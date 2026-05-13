@@ -131,7 +131,7 @@ export default function HeroDesktop({ menuOpen, onMenuToggle }) {
 
       <div ref={canvasContainerRef} style={{ width: '100%', height: '100%' }}>
         <Canvas
-          dpr={[1, 2]}
+          dpr={[1, 1.5]}
           camera={{ position: [0, 0, 10.5], fov: 35 }}
           frameloop={isVisible ? 'always' : 'never'}
         >

@@ -34,7 +34,7 @@ const segments = [
 
 <section id="works-section-root">
   <div class="video-hero-container">
-    <video class="video-bg-works" autoplay muted loop playsinline preload="auto">
+    <video class="video-bg-works" muted loop playsinline preload="none">
       <source src="https://assets.zyrosite.com/AGBzPMBJDQiwDGny/grey-home-interior-design-video-M13Xi8TTbaVTMRqP.mp4" type="video/mp4" />
     </video>
 
@@ -123,6 +123,15 @@ const segments = [
 
     if (!root || !titleEl || !textOverlay || !cardOverlay) return;
 
+    // Play/pause video only when section is in the viewport — avoids eager decode off-screen
+    const video = root.querySelector('.video-bg-works') as HTMLVideoElement | null;
+    if (video) {
+      new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      }, { threshold: 0.05 }).observe(root as HTMLElement);
+    }
+
     if (detectMobile()) {
       root.classList.add('works-static');
       return;
@@ -152,7 +161,7 @@ const segments = [
     });
 
     let currentIndex = 0;
-    const masterTimeline = gsap.timeline({ repeat: -1 });
+    const masterTimeline = gsap.timeline({ repeat: -1, paused: true });
 
     segments.forEach((_, i) => {
       masterTimeline.to({}, { duration: 3.5 }); 
@@ -163,6 +172,10 @@ const segments = [
         filter: "blur(20px)",
         duration: 0.8,
         ease: "power2.inOut",
+        onStart: () => {
+          (textOverlay as HTMLElement).style.willChange = 'filter, opacity, transform';
+          (cardOverlay as HTMLElement).style.willChange = 'filter, opacity, transform';
+        },
         onComplete: () => {
           currentIndex = (i + 1) % segments.length;
           const data = segments[currentIndex];
@@ -206,9 +219,19 @@ const segments = [
         scale: 1,
         filter: "blur(0px)",
         duration: 0.8,
-        ease: "power2.out"
+        ease: "power2.out",
+        onComplete: () => {
+          (textOverlay as HTMLElement).style.willChange = 'auto';
+          (cardOverlay as HTMLElement).style.willChange = 'auto';
+        }
       });
     });
+
+    // Pause the cycling animation when the section is fully scrolled past
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) masterTimeline.play();
+      else masterTimeline.pause();
+    }, { threshold: 0.05 }).observe(root as HTMLElement);
   };
 
   initWorks();

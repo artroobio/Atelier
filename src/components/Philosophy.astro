@@ -81,19 +81,33 @@
         el.style.transform = 'none';
       });
       const line = root.querySelector('#vertical-line') as HTMLElement;
-      if (line) line.style.height = '100%';
+      if (line) line.style.transform = 'scaleY(1)';
       return;
     }
+
+    gsap.fromTo('.bg-architectural',
+      { y: 0 },
+      {
+        y: '17%',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: root,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.3
+        }
+      }
+    );
 
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: root,
-        start: 'top 65%',
+        start: 'top 45%',
         toggleActions: 'play none none none'
       }
     });
 
-    tl.to('#vertical-line', { height: '100%', duration: 2, ease: 'power4.inOut' });
+    tl.to('#vertical-line', { scaleY: 1, duration: 2, ease: 'power4.inOut' });
     tl.to('#tagline', { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' }, '-=1.5');
     tl.to('#heading .reveal-word', {
       opacity: 1,

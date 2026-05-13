@@ -144,7 +144,7 @@ const projects = [
         scale: 1,
         opacity: 1,
         duration: 1.5,
-        ease: 'elastic.out(1, 0.6)',
+        ease: 'back.out(2.5)',
         force3D: true,
       })
       .to(img, {
@@ -163,6 +163,19 @@ const projects = [
     });
   };
 
-  initJellyGallery();
-  document.addEventListener('astro:page-load', initJellyGallery);
+  function scheduleJelly() {
+    const section = document.querySelector('#jelly-gallery-root');
+    if (!section) return;
+    let done = false;
+    new IntersectionObserver((entries, obs) => {
+      if (entries[0].isIntersecting && !done) {
+        done = true;
+        obs.disconnect();
+        initJellyGallery();
+      }
+    }, { rootMargin: '300px 0px' }).observe(section);
+  }
+
+  scheduleJelly();
+  document.addEventListener('astro:page-load', scheduleJelly);
 </script>
