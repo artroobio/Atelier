@@ -860,12 +860,12 @@ h1 i {
 
   #works-section-root,
   .works-static {
-    height: auto;
-    min-height: 100vh;
+    height: 100vh;
+    height: 100dvh;
   }
 
   .works-static .video-hero-container {
-    min-height: 100vh;
+    height: 100%;
   }
 
   .works-static .video-bg-works {
@@ -1058,8 +1058,7 @@ h1 i {
 
 @media (max-width: 900px) {
   #process-section-root {
-    overflow-x: hidden;
-    overflow-y: visible;
+    overflow-x: clip;
     min-height: unset;
     height: auto;
     background-attachment: scroll;
@@ -1111,12 +1110,18 @@ h1 i {
 
 @media (max-width: 768px) {
   .hero-slot {
-    height: auto;
-    min-height: 100vh;
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .hero-slot > div {
+    height: 100%;
+    min-height: unset;
   }
 
   .ui-layer {
-    min-height: 100vh;
+    height: 100%;
+    min-height: unset;
   }
 
   .process-title {

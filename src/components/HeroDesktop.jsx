@@ -103,14 +103,14 @@ export default function HeroDesktop({ menuOpen, onMenuToggle }) {
 
         <div className="menu-overlay">
           <div className="menu-left-side">
-            <a href="#" className="menu-item-link" onClick={() => onMenuToggle(false)}>Projects</a>
-            <a href="#" className="menu-item-link" onClick={() => onMenuToggle(false)}>Studio</a>
-            <a href="#" className="menu-item-link" onClick={() => onMenuToggle(false)}>Archive</a>
-            <a href="#" className="menu-item-link" onClick={() => onMenuToggle(false)}>Vision</a>
-            <a href="#" className="menu-item-link" onClick={() => onMenuToggle(false)}>Contact</a>
+            <a href="/" className="menu-item-link" onClick={() => onMenuToggle(false)}>Projects</a>
+            <a href="/services" className="menu-item-link" onClick={() => onMenuToggle(false)}>Services</a>
+            <a href="/" className="menu-item-link" onClick={() => onMenuToggle(false)}>Studio</a>
+            <a href="/" className="menu-item-link" onClick={() => onMenuToggle(false)}>Archive</a>
+            <a href="mailto:inquiries@atelierevo.com" className="menu-item-link" onClick={() => onMenuToggle(false)}>Contact</a>
           </div>
           <div className="menu-footer-right">
-            <span className="brand-title">L'Atelier Transparent</span>
+            <span className="brand-title">Atelier Evo</span>
             <span className="address-line">42nd Penthouse Floor, Void Tower<br />Zurich, Switzerland 8001</span>
           </div>
         </div>
