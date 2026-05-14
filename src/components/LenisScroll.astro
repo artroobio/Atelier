@@ -1,0 +1,105 @@
+---
+// src/components/LenisScroll.astro
+---
+<script>
+  import Lenis from 'lenis';
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  let lenis = null;
+
+  function initLenis() {
+    if (lenis) return;
+
+    // Requirement 2: Wait for React island hydration using requestIdleCallback
+    const startLenis = () => {
+      // Configuration based on requirements
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        smoothTouch: false,
+        touchMultiplier: 2,
+        infinite: false
+      });
+
+      // Requirement 5: Global Access
+      window.lenis = lenis;
+
+      // Requirement 3: GSAP ScrollTrigger Integration
+      lenis.on('scroll', ScrollTrigger.update);
+
+      const tickerFn = (time) => {
+        lenis.raf(time * 1000);
+      };
+
+      gsap.ticker.add(tickerFn);
+      gsap.ticker.lagSmoothing(0);
+
+      // Store function reference for cleanup
+      lenis._tickerFn = tickerFn;
+
+      // Refresh ScrollTrigger after Lenis takes over
+      ScrollTrigger.refresh();
+    };
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(startLenis, { timeout: 500 });
+    } else {
+      setTimeout(startLenis, 500);
+    }
+  }
+
+  // Initialize on hard load
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initLenis();
+  } else {
+    document.addEventListener('DOMContentLoaded', initLenis);
+  }
+
+  // Initialize on Astro View Transitions
+  document.addEventListener('astro:page-load', initLenis);
+
+  // Requirement 4: Cleanup on Navigation
+  document.addEventListener('astro:before-preparation', () => {
+    if (lenis) {
+      if (lenis._tickerFn) {
+        gsap.ticker.remove(lenis._tickerFn);
+      }
+      lenis.destroy();
+      lenis = null;
+      window.lenis = null;
+    }
+  });
+</script>
+
+<style is:global>
+  /* Reset scroll-behavior to prevent conflict with CSS native smooth scroll */
+  html {
+    height: auto;
+    scroll-behavior: auto !important;
+  }
+
+  /* Core Lenis styles required for correct functioning */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+</style>

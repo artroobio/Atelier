@@ -10,6 +10,7 @@ import Process from '../components/Process.astro';
 import Archive from '../components/Archive.astro';
 import Accordion from '../components/Accordion.astro';
 import Footer from '../components/Footer.astro';
+import LenisScroll from '../components/LenisScroll.astro';
 ---
 
 <html lang="en">
@@ -50,80 +51,10 @@ import Footer from '../components/Footer.astro';
     <Archive />
     <Accordion />
     <Footer />
-
-    <script>
-      import Lenis from 'lenis';
-      import gsap from 'gsap';
-      import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-      gsap.registerPlugin(ScrollTrigger);
-
-      let lenisInstance: Lenis | null = null;
-      let gsapTickerId: ((time: number) => void) | null = null;
-
-      function initLenis() {
-        // Teardown any previous instance cleanly
-        if (gsapTickerId !== null) {
-          gsap.ticker.remove(gsapTickerId);
-          gsapTickerId = null;
-        }
-        if (lenisInstance) {
-          lenisInstance.destroy();
-          lenisInstance = null;
-        }
-
-        lenisInstance = new Lenis({
-          duration: 1.2,
-          easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          smoothWheel: true,
-          wrapper: window,
-          content: document.documentElement,
-        });
-
-        // Drive Lenis via GSAP ticker so both share the same RAF loop
-        gsapTickerId = (time: number) => {
-          lenisInstance!.raf(time * 1000);
-          ScrollTrigger.update();
-        };
-        gsap.ticker.add(gsapTickerId);
-        gsap.ticker.lagSmoothing(0);
-
-        ScrollTrigger.refresh();
-      }
-
-      // Fires on initial hard load
-      document.addEventListener('DOMContentLoaded', initLenis);
-      // Fires on subsequent Astro View Transition navigations
-      document.addEventListener('astro:page-load', initLenis);
-    </script>
-  </body>
-</html>
+    
+    <LenisScroll />
 
 <style is:global>
-  /* Required by Lenis — document must scroll naturally */
-  html {
-    height: auto;
-    scroll-behavior: auto; /* Let Lenis own scrolling — no CSS smooth-scroll conflict */
-  }
-
-  /* Lenis overrides — prevent double-smooth from CSS + JS */
-  html.lenis,
-  html.lenis body {
-    height: auto;
-  }
-
-  .lenis.lenis-smooth {
-    scroll-behavior: auto !important;
-  }
-
-  .lenis.lenis-smooth [data-lenis-prevent] {
-    overscroll-behavior: contain;
-  }
-
-  .lenis.lenis-stopped {
-    overflow: hidden;
-  }
-
   /* Compositor hint for the horizontal scroll container only */
   .horizontal-container {
     transform: translateZ(0);
