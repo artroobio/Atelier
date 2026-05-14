@@ -390,7 +390,7 @@ h1 i {
 }
 
 .jelly-shell {
-  max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -1160,7 +1160,7 @@ h1 i {
 .archive-shell {
   position: relative;
   z-index: 2;
-  max-width: 1500px;
+  width: 100%;
   margin: 0 auto;
 }
 
