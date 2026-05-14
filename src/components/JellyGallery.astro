@@ -66,8 +66,9 @@ const projects = [
 <script>
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
   gsap.registerPlugin(ScrollTrigger);
+
+  let _jellyTriggers: ScrollTrigger[] = [];
 
   const wrapChars = (el: HTMLElement | null): NodeListOf<HTMLElement> | HTMLElement[] => {
     if (!el) return [];
@@ -85,6 +86,9 @@ const projects = [
   };
 
   const initJellyGallery = () => {
+    _jellyTriggers.forEach(st => st.kill());
+    _jellyTriggers = [];
+    const _before = new Set(ScrollTrigger.getAll());
     const cards = document.querySelectorAll<HTMLElement>('.jelly-card');
     const mainHeading = document.querySelector<HTMLElement>('.jelly-heading');
     if (!cards.length) return;
@@ -93,14 +97,13 @@ const projects = [
 
     if (mainHeading && !isMobile) {
       const headingChars = wrapChars(mainHeading);
-      gsap.fromTo(headingChars, 
-        { opacity: 0, y: 30, filter: 'blur(15px)' },
-        { 
-          opacity: 1, 
-          y: 0, 
-          filter: 'blur(0px)', 
-          duration: 2.5, 
-          stagger: 0.06, 
+      gsap.fromTo(headingChars,
+        { opacity: 0, y: 25 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.8,
+          stagger: 0.04,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: mainHeading,
@@ -122,45 +125,52 @@ const projects = [
         : wrapChars(titleEl);
 
       if (isMobile) {
-        if (wrapper) gsap.set(wrapper, { scale: 1, opacity: 1 });
+        if (wrapper) gsap.set(wrapper, { clipPath: 'none', opacity: 1 });
         if (img)     gsap.set(img,     { scale: 1 });
-        chars.forEach(c => { c.style.opacity = '1'; c.style.filter = 'none'; c.style.transform = 'none'; });
+        chars.forEach(c => { c.style.opacity = '1'; c.style.transform = 'none'; });
         return;
       }
 
-      gsap.set(wrapper, { scale: 0.5, opacity: 0 });
-      gsap.set(img,     { scale: 1.4 });
-      gsap.set(chars,   { opacity: 0, filter: 'blur(12px)', y: 15 });
+      // clipPath wipe: no nested scale conflict, no overshoot repaint
+      gsap.set(wrapper, { clipPath: 'inset(100% 0% 0% 0% round 1.5rem 1.5rem 0 0)', opacity: 1 });
+      gsap.set(img,     { scale: 1.08, transformOrigin: 'center center', transition: 'none' });
+      gsap.set(chars,   { opacity: 0, y: 15 });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: card,
-          start: 'top 95%',
+          start: 'top 88%',
           toggleActions: 'play none none reverse',
+        },
+        onStart: () => {
+          (wrapper as HTMLElement).style.willChange = 'clip-path';
+          (img as HTMLElement).style.willChange = 'transform';
+        },
+        onComplete: () => {
+          (wrapper as HTMLElement).style.willChange = 'auto';
+          (img as HTMLElement).style.willChange = 'auto';
         },
       });
 
       tl.to(wrapper, {
-        scale: 1,
-        opacity: 1,
-        duration: 1.5,
-        ease: 'back.out(2.5)',
-        force3D: true,
+        clipPath: 'inset(0% 0% 0% 0%)',
+        duration: 1.1,
+        ease: 'expo.out',
       })
       .to(img, {
         scale: 1,
-        duration: 1.5,
+        duration: 1.4,
         ease: 'power3.out',
-        force3D: true,
       }, '<')
       .to(chars, {
         opacity: 1,
-        filter: 'blur(0px)',
         y: 0,
         stagger: 0.035,
-        duration: 1.2,
-      }, '-=0.9');
+        duration: 0.9,
+      }, '-=0.7');
     });
+
+    _jellyTriggers = ScrollTrigger.getAll().filter(st => !_before.has(st));
   };
 
   function scheduleJelly() {

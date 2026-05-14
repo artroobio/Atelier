@@ -1,6 +1,6 @@
 ---
 // src/components/Process.astro
-const panels = [
+const panels: { id: string; label: string; title: string; text: string; image: string; alt: string; video?: string }[] = [
   {
     id: '01',
     label: 'Atmosphere',
@@ -87,10 +87,11 @@ const panels = [
 <script>
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
   gsap.registerPlugin(ScrollTrigger);
 
   const detectMobile = () => window.matchMedia('(max-width: 768px)').matches;
+
+  let _processTriggers: ScrollTrigger[] = [];
 
   const wrapWords = (el: HTMLElement | null) => {
     if (!el) return;
@@ -107,8 +108,11 @@ const panels = [
   };
 
   const initProcess = () => {
+    _processTriggers.forEach(st => st.kill());
+    _processTriggers = [];
     const root = document.querySelector('#process-section-root') as HTMLElement;
     if (!root) return;
+    const _before = new Set(ScrollTrigger.getAll());
 
     if (detectMobile()) {
       root.querySelectorAll('.process-title').forEach((title: any) => {
@@ -161,8 +165,8 @@ const panels = [
       })
         .fromTo(
           titleWords,
-          { opacity: 0, y: 30, filter: 'blur(15px)' },
-          { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, stagger: 0.05, ease: 'power4.out' }
+          { opacity: 0, y: 25 },
+          { opacity: 1, y: 0, duration: 1, stagger: 0.05, ease: 'power4.out' }
         )
         .fromTo(
           annotation,
@@ -181,6 +185,8 @@ const panels = [
           '-=1.2'
         );
     });
+
+    _processTriggers = ScrollTrigger.getAll().filter(st => !_before.has(st));
   };
 
   initProcess();

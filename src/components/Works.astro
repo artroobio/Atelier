@@ -67,7 +67,6 @@ const segments = [
 <script>
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
   gsap.registerPlugin(ScrollTrigger);
 
   const segments = [
@@ -103,6 +102,8 @@ const segments = [
 
   const detectMobile = () => window.matchMedia('(max-width: 768px)').matches;
 
+  let _worksTriggers: ScrollTrigger[] = [];
+
   const wrapWords = (el: HTMLElement | null) => {
     if (!el) return;
     const text = el.innerHTML;
@@ -116,10 +117,13 @@ const segments = [
   };
 
   const initWorks = () => {
-    const root = document.querySelector('#works-section-root');
-    const titleEl = document.querySelector('#works-title');
-    const textOverlay = document.querySelector('#works-text-overlay');
-    const cardOverlay = document.querySelector('#works-card-overlay');
+    _worksTriggers.forEach(st => st.kill());
+    _worksTriggers = [];
+    const _before = new Set(ScrollTrigger.getAll());
+    const root = document.querySelector('#works-section-root') as HTMLElement | null;
+    const titleEl = document.querySelector('#works-title') as HTMLElement | null;
+    const textOverlay = document.querySelector('#works-text-overlay') as HTMLElement | null;
+    const cardOverlay = document.querySelector('#works-card-overlay') as HTMLElement | null;
 
     if (!root || !titleEl || !textOverlay || !cardOverlay) return;
 
@@ -148,7 +152,6 @@ const segments = [
     });
 
     gsap.to(titleEl.querySelectorAll('.reveal-word'), {
-      filter: "blur(0px)",
       opacity: 1,
       y: 0,
       duration: 1.5,
@@ -168,24 +171,19 @@ const segments = [
 
       masterTimeline.to([textOverlay, cardOverlay], {
         opacity: 0,
-        scale: 0.95,
-        filter: "blur(20px)",
-        duration: 0.8,
+        scale: 0.96,
+        duration: 0.6,
         ease: "power2.inOut",
-        onStart: () => {
-          (textOverlay as HTMLElement).style.willChange = 'filter, opacity, transform';
-          (cardOverlay as HTMLElement).style.willChange = 'filter, opacity, transform';
-        },
         onComplete: () => {
           currentIndex = (i + 1) % segments.length;
           const data = segments[currentIndex];
           
           // Update Content
-          const taglineSpan = textOverlay.querySelector('.tagline-span');
-          const titleH1 = textOverlay.querySelector('#works-title');
-          const cardTagSpan = cardOverlay.querySelector('.card-tag-span');
-          const cardTitleH3 = cardOverlay.querySelector('.card-title-h3');
-          const cardDescP = cardOverlay.querySelector('.card-desc-p');
+          const taglineSpan = textOverlay.querySelector('.tagline-span') as HTMLElement | null;
+          const titleH1 = textOverlay.querySelector('#works-title') as HTMLElement | null;
+          const cardTagSpan = cardOverlay.querySelector('.card-tag-span') as HTMLElement | null;
+          const cardTitleH3 = cardOverlay.querySelector('.card-title-h3') as HTMLElement | null;
+          const cardDescP = cardOverlay.querySelector('.card-desc-p') as HTMLElement | null;
 
           if (taglineSpan) taglineSpan.innerText = data.tagline;
           if (titleH1) titleH1.innerHTML = data.title;
@@ -207,8 +205,8 @@ const segments = [
             if (!titleH1) return;
             wrapWords(titleH1);
             gsap.fromTo(titleH1.querySelectorAll('.reveal-word'),
-              { opacity: 0, y: 15, filter: 'blur(10px)' },
-              { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, stagger: 0.04, ease: 'power2.out' }
+              { opacity: 0, y: 12 },
+              { opacity: 1, y: 0, duration: 0.9, stagger: 0.04, ease: 'power2.out' }
             );
           }, 50);
         }
@@ -217,13 +215,8 @@ const segments = [
       masterTimeline.to([textOverlay, cardOverlay], {
         opacity: 1,
         scale: 1,
-        filter: "blur(0px)",
-        duration: 0.8,
+        duration: 0.7,
         ease: "power2.out",
-        onComplete: () => {
-          (textOverlay as HTMLElement).style.willChange = 'auto';
-          (cardOverlay as HTMLElement).style.willChange = 'auto';
-        }
       });
     });
 
@@ -232,6 +225,8 @@ const segments = [
       if (e.isIntersecting) masterTimeline.play();
       else masterTimeline.pause();
     }, { threshold: 0.05 }).observe(root as HTMLElement);
+
+    _worksTriggers = ScrollTrigger.getAll().filter(st => !_before.has(st));
   };
 
   initWorks();

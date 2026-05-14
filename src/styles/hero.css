@@ -1147,12 +1147,13 @@ h1 i {
   background-image: url('https://assets.zyrosite.com/A3QlOV94WLSaL6xE/2151349266-p2WPDi5e7Y44mOvf.jpg');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  background-attachment: scroll;
 }
 
-@media (max-width: 768px) {
+/* Fixed parallax only on devices that actually support it (excludes all iOS Safari) */
+@supports not (-webkit-touch-callout: none) {
   #archive-grid-root {
-    background-attachment: scroll;
+    background-attachment: fixed;
   }
 }
 

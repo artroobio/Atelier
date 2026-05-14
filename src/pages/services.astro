@@ -1,6 +1,6 @@
 ---
 // src/pages/services.astro
-import RippleHero from '../components/RippleHero.astro';
+import ServicesHorizontal from '../components/ServicesHorizontal.astro';
 import SecondaryNav from '../components/SecondaryNav.jsx';
 import Footer from '../components/Footer.astro';
 ---
@@ -21,12 +21,42 @@ import Footer from '../components/Footer.astro';
     <SecondaryNav client:load />
     
     <main>
-      <RippleHero />
+      <ServicesHorizontal />
     </main>
 
     <Footer />
   </body>
 </html>
+
+<style is:global>
+  html {
+    height: auto;
+    scroll-behavior: auto;
+    scrollbar-gutter: stable;
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+</style>
 
 <style>
   html, body {
@@ -38,3 +68,45 @@ import Footer from '../components/Footer.astro';
     overflow-x: hidden;
   }
 </style>
+
+<script>
+  import Lenis from 'lenis';
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  let lenisInstance = null;
+  let gsapTickerId = null;
+
+  function initLenis() {
+    if (gsapTickerId !== null) {
+      gsap.ticker.remove(gsapTickerId);
+      gsapTickerId = null;
+    }
+    if (lenisInstance) {
+      lenisInstance.destroy();
+      lenisInstance = null;
+    }
+
+    lenisInstance = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      wrapper: window,
+      content: document.documentElement,
+    });
+
+    gsapTickerId = (time) => {
+      lenisInstance.raf(time * 1000);
+      ScrollTrigger.update();
+    };
+    gsap.ticker.add(gsapTickerId);
+    gsap.ticker.lagSmoothing(0);
+
+    ScrollTrigger.refresh();
+  }
+
+  document.addEventListener('DOMContentLoaded', initLenis);
+  document.addEventListener('astro:page-load', initLenis);
+</script>

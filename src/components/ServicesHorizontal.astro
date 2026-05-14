@@ -1,32 +1,35 @@
 ---
 // src/components/ServicesHorizontal.astro
-// 1 slide: intro
 const slides = [
-  { type: 'intro',   title: 'ATELIER EVO', bg: '/assets/services/ripple-bg.png',     id: 'intro' },
+  { title: 'ATELIER EVO', bg: '/assets/services/ripple-bg.png' },
+  { title: 'WEB DESIGN',  bg: '/assets/services/web-design-bg.png' },
+  { title: 'APPS',        bg: '/assets/services/apps-bg.png' },
+  { title: 'CRM',         bg: '/assets/services/crm-bg.png' },
+  { title: 'ERP',         bg: '/assets/services/erp-bg.png' },
 ];
-const N = slides.length; // 1
+const N = slides.length;
 ---
 
-<div class="hs-outer" id="hs-outer">
+<div class="hs-outer" id="hs-outer" style={`--n: ${N};`}>
   <div class="hs-sticky" id="hs-sticky">
-    <div class="hs-track" id="hs-track">
-      {slides.map((s) => (
-        <div class="hs-slide" data-bg={s.bg}>
-          <canvas class="hs-canvas"></canvas>
-          <div class="hs-text">
-            <h2 class="hs-title">
-              {s.title.split(' ').map(word => (
-                <span class="hs-word">
-                  {word.split('').map(char => (
-                    <span class="hs-char">{char}</span>
-                  ))}
-                </span>
-              ))}
-            </h2>
-          </div>
+    {slides.map((s, i) => (
+      <div class="hs-slide" data-index={i}>
+        <div class="hs-media-wrap">
+          <canvas class="hs-canvas" data-bg={s.bg}></canvas>
         </div>
-      ))}
-    </div>
+        <div class="hs-text">
+          <h2 class="hs-title">
+            {s.title.split(' ').map(word => (
+              <span class="hs-word">
+                {word.split('').map(char => (
+                  <span class="hs-char">{char}</span>
+                ))}
+              </span>
+            ))}
+          </h2>
+        </div>
+      </div>
+    ))}
 
     <!-- Progress dots -->
     <div class="hs-dots">
@@ -38,15 +41,12 @@ const N = slides.length; // 1
 </div>
 
 <style>
-  /* ── Outer tall container drives scroll distance ── */
   .hs-outer {
     position: relative;
-    /* 100vh per slide, minus one (first slide is "free") */
     height: calc(var(--n, 5) * 100vh);
     background: #010a0a;
   }
 
-  /* ── Sticky viewport: pinned to top, 100vh tall ── */
   .hs-sticky {
     position: sticky;
     top: 0;
@@ -56,38 +56,32 @@ const N = slides.length; // 1
     background: #010a0a;
   }
 
-  /* ── Horizontal track ── */
-  .hs-track {
-    display: flex;
-    flex-wrap: nowrap;
-    height: 100%;
-    /* width is set via JS: 100vw × N */
-    will-change: transform;
-  }
-
-  /* ── Each slide ── */
   .hs-slide {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    flex: 0 0 100vw;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
+    transform: translateY(100%); /* Hidden below initially */
     background: #010a0a;
   }
 
-  /* ── Canvas fills slide ── */
-  .hs-canvas {
+  .hs-media-wrap {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     z-index: 1;
-    display: block;
-    opacity: 0;
-    transform: scale(0.5);
   }
 
-  /* ── Text centred over canvas ── */
+  .hs-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    opacity: 0;
+    transform: scale(1.1); /* Zoom effect during transition */
+  }
+
   .hs-text {
     position: absolute;
     inset: 0;
@@ -100,22 +94,30 @@ const N = slides.length; // 1
 
   .hs-title {
     font-family: 'Michroma', sans-serif;
-    font-size: clamp(4rem, 18vw, 22vw);
+    font-size: clamp(3rem, 12vw, 15vw);
     font-weight: 400;
     color: #fff;
     text-transform: uppercase;
     text-align: center;
     margin: 0;
-    line-height: 0.85;
-    letter-spacing: -0.03em;
-    filter: drop-shadow(0 0 28px rgba(0,255,204,.22));
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    filter: drop-shadow(0 0 20px rgba(0,255,204,.2));
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  .hs-word  { display: inline-flex; overflow: hidden; }
-  .hs-char  { display: inline-block; transform: translateY(110%); opacity: 0; }
+  .hs-word {
+    display: inline-flex;
+    overflow: hidden;
+    padding-bottom: 0.1em;
+  }
+  .hs-char {
+    display: inline-block;
+    transform: translateY(110%);
+    opacity: 0;
+  }
 
   /* ── Progress dots ── */
   .hs-dots {
@@ -144,22 +146,19 @@ const N = slides.length; // 1
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
   gsap.registerPlugin(ScrollTrigger);
 
-  /* ─────────────────────────
-     WebGL Ripple Engine
-  ───────────────────────── */
   class RippleEngine {
     constructor(canvas, bgUrl) {
-      this.canvas  = canvas;
-      this.bgUrl   = bgUrl;
-      this.MAX     = 32;
-      this.waves   = new Float32Array(this.MAX * 3);
-      this.wIdx    = 0;
-      this.lastMT  = 0;
-      this.t0      = performance.now();
-      this.mainT   = 0;
+      this.canvas = canvas;
+      this.bgUrl = bgUrl;
+      this.MAX = 32;
+      this.waves = new Float32Array(this.MAX * 3);
+      this.wIdx = 0;
+      this.lastMT = 0;
+      this.t0 = performance.now();
+      this.mainT = 0;
       this.hasMain = false;
-      this.active  = false;
-      this.ready   = false;
+      this.active = false;
+      this.ready = false;
       this._build();
     }
 
@@ -192,18 +191,24 @@ const N = slides.length; // 1
         }
       `;
 
-      const mkShader = (t,s) => { const sh=gl.createShader(t); gl.shaderSource(sh,s); gl.compileShader(sh); return sh; };
+      const mkShader = (t, s) => {
+        const sh = gl.createShader(t);
+        gl.shaderSource(sh, s);
+        gl.compileShader(sh);
+        return sh;
+      };
       const p = gl.createProgram();
-      gl.attachShader(p, mkShader(gl.VERTEX_SHADER,   vs));
+      gl.attachShader(p, mkShader(gl.VERTEX_SHADER, vs));
       gl.attachShader(p, mkShader(gl.FRAGMENT_SHADER, fs));
-      gl.linkProgram(p); this.prog = p;
+      gl.linkProgram(p);
+      this.prog = p;
 
       const buf = gl.createBuffer();
       gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]), gl.STATIC_DRAW);
-      const loc = gl.getAttribLocation(p,'a');
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]), gl.STATIC_DRAW);
+      const loc = gl.getAttribLocation(p, 'a');
       gl.enableVertexAttribArray(loc);
-      gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+      gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
 
       const img = new Image();
       img.src = this.bgUrl;
@@ -213,7 +218,7 @@ const N = slides.length; // 1
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-        gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
         this.ready = true;
         this._resize();
         this._tick();
@@ -224,10 +229,10 @@ const N = slides.length; // 1
         const now = performance.now();
         if (now - this.lastMT < 30) return;
         const r = this.canvas.getBoundingClientRect();
-        this.waves[this.wIdx*3]   = (e.clientX-r.left)/r.width;
-        this.waves[this.wIdx*3+1] = (e.clientY-r.top)/r.height;
-        this.waves[this.wIdx*3+2] = (now-this.t0)/1000;
-        this.wIdx = (this.wIdx+1) % this.MAX;
+        this.waves[this.wIdx * 3] = (e.clientX - r.left) / r.width;
+        this.waves[this.wIdx * 3 + 1] = (e.clientY - r.top) / r.height;
+        this.waves[this.wIdx * 3 + 2] = (now - this.t0) / 1000;
+        this.wIdx = (this.wIdx + 1) % this.MAX;
         this.lastMT = now;
       });
       window.addEventListener('resize', () => this._resize());
@@ -235,125 +240,122 @@ const N = slides.length; // 1
 
     _resize() {
       if (!this.gl) return;
-      this.canvas.width  = this.canvas.parentElement?.offsetWidth  || window.innerWidth;
+      this.canvas.width = this.canvas.parentElement?.offsetWidth || window.innerWidth;
       this.canvas.height = this.canvas.parentElement?.offsetHeight || window.innerHeight;
-      this.gl.viewport(0,0,this.canvas.width,this.canvas.height);
+      this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
     }
 
     startRipple() {
       this.hasMain = true;
-      this.mainT   = (performance.now()-this.t0)/1000;
+      this.mainT = (performance.now() - this.t0) / 1000;
+    }
+
+    dispose() {
+      this.active = false;
+      this.ready = false;
+      if (this.gl) {
+        const ext = this.gl.getExtension('WEBGL_lose_context');
+        if (ext) ext.loseContext();
+        this.gl = null;
+      }
     }
 
     _tick() {
       if (!this.ready) return;
       requestAnimationFrame(() => this._tick());
       if (!this.active) return;
-      const gl = this.gl, t = (performance.now()-this.t0)/1000;
+      const gl = this.gl, t = (performance.now() - this.t0) / 1000;
       gl.useProgram(this.prog);
-      gl.uniform1f(gl.getUniformLocation(this.prog,'u_t'),   t);
-      gl.uniform1f(gl.getUniformLocation(this.prog,'u_mt'),  this.mainT);
-      gl.uniform1i(gl.getUniformLocation(this.prog,'u_go'),  this.hasMain?1:0);
-      gl.uniform2f(gl.getUniformLocation(this.prog,'u_res'), this.canvas.width, this.canvas.height);
-      gl.uniform3fv(gl.getUniformLocation(this.prog,'u_w'),  this.waves);
-      gl.drawArrays(gl.TRIANGLES,0,6);
+      gl.uniform1f(gl.getUniformLocation(this.prog, 'u_t'), t);
+      gl.uniform1f(gl.getUniformLocation(this.prog, 'u_mt'), this.mainT);
+      gl.uniform1i(gl.getUniformLocation(this.prog, 'u_go'), this.hasMain ? 1 : 0);
+      gl.uniform2f(gl.getUniformLocation(this.prog, 'u_res'), this.canvas.width, this.canvas.height);
+      gl.uniform3fv(gl.getUniformLocation(this.prog, 'u_w'), this.waves);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
     }
   }
 
-  /* ─────────────────────────
-     Reveal one slide
-  ───────────────────────── */
-  function reveal(slide, engine) {
-    if (slide.dataset.revealed) return;
-    slide.dataset.revealed = '1';
-    engine.active = true;
-
-    const canvas = slide.querySelector('.hs-canvas');
-    const chars  = slide.querySelectorAll('.hs-char');
-
-    gsap.timeline()
-      .to(canvas, {
-        scale:1, opacity:1, duration:1.6, ease:'back.out(2.2)',
-        onStart() { setTimeout(()=>engine.startRipple(), 350); }
-      })
-      .to(chars, {
-        y:'0%', opacity:1, duration:1.3, stagger:0.04, ease:'expo.out'
-      }, '-=1.2');
-  }
-
-  /* ─────────────────────────
-     Boot
-  ───────────────────────── */
   function boot() {
-    const outer  = document.getElementById('hs-outer');
+    const outer = document.getElementById('hs-outer');
     const sticky = document.getElementById('hs-sticky');
-    const track  = document.getElementById('hs-track');
     const slides = Array.from(document.querySelectorAll('.hs-slide'));
-    const dots   = Array.from(document.querySelectorAll('.hs-dot'));
-    if (!outer || !track || !slides.length) return;
+    const dots = Array.from(document.querySelectorAll('.hs-dot'));
+    if (!outer || !sticky || !slides.length) return;
 
-    const N = slides.length;
+    const engines = slides.map(s => {
+      const canvas = s.querySelector('.hs-canvas');
+      const engine = new RippleEngine(canvas, canvas.dataset.bg);
+      return engine;
+    });
 
-    // Set CSS custom property for height
-    outer.style.setProperty('--n', N);
-
-    // Build engines
-    const engines = slides.map(s => new RippleEngine(
-      s.querySelector('.hs-canvas'),
-      s.dataset.bg
-    ));
-
-    // ── The horizontal tween (scrubbed by vertical scroll) ──
-    const scrollDist = (N - 1) * window.innerWidth;
-
-    const hTween = gsap.to(track, {
-      x: -scrollDist,
-      ease: 'none',
+    const masterTl = gsap.timeline({
       scrollTrigger: {
-        id: 'hs-main',
         trigger: outer,
         start: 'top top',
-        end:   `+=${scrollDist}`,
-        scrub: 0.8,
-        pin: sticky,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onUpdate(self) {
-          // Update active dot
-          const idx = Math.round(self.progress * (N-1));
-          dots.forEach((d,i) => d.classList.toggle('active', i===idx));
-        }
+        end: 'bottom bottom',
+        scrub: true,
+        pin: true,
+        pinSpacing: false,
       }
     });
 
-    // ── Trigger reveal for each slide using containerAnimation ──
     slides.forEach((slide, i) => {
+      const engine = engines[i];
+      const canvas = slide.querySelector('.hs-canvas');
+      const chars = slide.querySelectorAll('.hs-char');
+
+      const triggerReveal = () => {
+        if (slide.dataset.revealed === 'true') return;
+        slide.dataset.revealed = 'true';
+        engine.active = true;
+        
+        gsap.to(canvas, { opacity: 1, scale: 1, duration: 1.5, ease: 'power3.out' });
+        gsap.to(chars, {
+          y: '0%',
+          opacity: 1,
+          duration: 1.2,
+          stagger: 0.04,
+          ease: 'expo.out',
+          onStart: () => engine.startRipple()
+        });
+      };
+
       if (i === 0) {
-        // First slide: fire as soon as outer enters viewport
-        ScrollTrigger.create({
-          trigger: outer,
-          start: 'top 80%',
-          once: true,
-          onEnter() { reveal(slide, engines[i]); }
-        });
+        gsap.set(slide, { y: '0%' });
+        masterTl.add(() => triggerReveal(), 0);
       } else {
-        // Subsequent slides: fire when slide reaches left 80% of viewport
-        ScrollTrigger.create({
-          trigger: slide,
-          containerAnimation: hTween,
-          start: 'left 80%',
-          once: true,
-          onEnter() { reveal(slide, engines[i]); }
+        masterTl.to(slide, {
+          y: '0%',
+          duration: 2,
+          ease: 'power2.inOut',
         });
+        masterTl.add(() => triggerReveal(), ">-0.5");
       }
+
+      if (i < slides.length - 1) {
+        masterTl.to({}, { duration: 1.5 });
+      }
+
+      masterTl.add(() => {
+        dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+      }, "-=0.75");
     });
 
-    // Handle resize
-    window.addEventListener('resize', () => {
-      ScrollTrigger.refresh();
-    });
+    document.addEventListener('astro:before-preparation', () => {
+      ScrollTrigger.getAll().forEach(st => st.kill());
+      engines.forEach(e => e.dispose());
+    }, { once: true });
   }
 
-  document.addEventListener('DOMContentLoaded', boot);
-  document.addEventListener('astro:page-load',  boot);
+  function safeBoot() {
+    if (window._hs_booted) return;
+    window._hs_booted = true;
+    boot();
+  }
+
+  document.addEventListener('DOMContentLoaded', safeBoot);
+  document.addEventListener('astro:page-load', () => {
+     window._hs_booted = false;
+     safeBoot();
+  });
 </script>

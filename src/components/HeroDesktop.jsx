@@ -53,8 +53,8 @@ export default function HeroDesktop({ menuOpen, onMenuToggle }) {
     tl.to('.menu-btn', { y: 0, opacity: 1, duration: 1, ease: 'power3.out' });
     tl.to('.tagline', { opacity: 1, duration: 1, ease: 'power2.out' }, '-=0.5');
     tl.fromTo('.hero-header .char',
-      { x: -40, opacity: 0, filter: 'blur(12px)' },
-      { x: 0, opacity: 1, filter: 'blur(0px)', duration: 1.2, stagger: 0.03, ease: 'power2.out' },
+      { x: -30, opacity: 0 },
+      { x: 0, opacity: 1, duration: 1.2, stagger: 0.025, ease: 'power2.out' },
       '-=0.8'
     );
     tl.to('.glass-card', { y: 0, opacity: 1, duration: 1, ease: 'power3.out' }, '-=0.8');

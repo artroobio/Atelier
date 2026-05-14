@@ -65,12 +65,16 @@
 <script>
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
   gsap.registerPlugin(ScrollTrigger);
 
   const detectMobile = () => window.matchMedia('(max-width: 768px)').matches;
 
+  let _galleryTriggers: ScrollTrigger[] = [];
+
   const initGallery = () => {
+    _galleryTriggers.forEach(st => st.kill());
+    _galleryTriggers = [];
+    const _before = new Set(ScrollTrigger.getAll());
     const section = document.querySelector('.gallery-section') as HTMLElement;
     const grid = document.querySelector('.gallery-grid') as HTMLElement;
 
@@ -101,14 +105,13 @@
     const mainTitle = document.querySelector('.gallery-main-title') as HTMLElement;
     if (mainTitle) {
       const chars = wrapChars(mainTitle);
-      gsap.fromTo(chars, 
-        { opacity: 0, y: 40, filter: 'blur(20px)' },
-        { 
-          opacity: 1, 
-          y: 0, 
-          filter: 'blur(0px)', 
-          duration: 1.0, 
-          stagger: 0.03, 
+      gsap.fromTo(chars,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.0,
+          stagger: 0.03,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: mainTitle,
@@ -150,28 +153,25 @@
       }
     );
 
-    // Promote images to GPU layers only while in view
+    // Single scrub trigger drives all image parallax — one scroll listener instead of 5
     const imgs = gsap.utils.toArray<HTMLElement>('.gallery-item img');
+    gsap.set(imgs, { y: -20 });
     ScrollTrigger.create({
       trigger: section,
       start: 'top bottom',
       end: 'bottom top',
+      scrub: 1,
+      onUpdate(self) {
+        const y = gsap.utils.interpolate(-20, 20, self.progress);
+        imgs.forEach(img => gsap.set(img, { y }));
+      },
       onEnter: () => imgs.forEach(img => { img.style.willChange = 'transform'; }),
       onLeave: () => imgs.forEach(img => { img.style.willChange = 'auto'; }),
       onEnterBack: () => imgs.forEach(img => { img.style.willChange = 'transform'; }),
       onLeaveBack: () => imgs.forEach(img => { img.style.willChange = 'auto'; }),
     });
 
-    // Reduced parallax travel (40px) with scrub:1 buffer
-    imgs.forEach(img => {
-      gsap.fromTo(img,
-        { y: -20 },
-        {
-          y: 20, ease: 'none',
-          scrollTrigger: { trigger: img, start: 'top bottom', end: 'bottom top', scrub: 1 }
-        }
-      );
-    });
+    _galleryTriggers = ScrollTrigger.getAll().filter(st => !_before.has(st));
   };
 
   initGallery();

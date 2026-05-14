@@ -44,10 +44,11 @@
 <script>
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
   gsap.registerPlugin(ScrollTrigger);
 
   const detectMobile = () => window.matchMedia('(max-width: 768px)').matches;
+
+  let _philosophyTriggers: ScrollTrigger[] = [];
 
   const wrapWords = (el: HTMLElement | null) => {
     if (!el) return;
@@ -63,8 +64,11 @@
   };
 
   const initPhilosophy = () => {
+    _philosophyTriggers.forEach(st => st.kill());
+    _philosophyTriggers = [];
     const root = document.querySelector('#philosophy');
     if (!root) return;
+    const _before = new Set(ScrollTrigger.getAll());
 
     const heading = root.querySelector('#heading') as HTMLElement;
     wrapWords(heading);
@@ -118,6 +122,8 @@
     }, '-=1.2');
     tl.to('#body-card', { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' }, '-=1.2');
     tl.to('.reveal-item', { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: 'power2.out' }, '-=0.8');
+
+    _philosophyTriggers = ScrollTrigger.getAll().filter(st => !_before.has(st));
   };
 
   initPhilosophy();
