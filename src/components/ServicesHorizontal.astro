@@ -15,6 +15,7 @@ const N = slides.length;
     {slides.map((s, i) => (
       <div class="hs-slide" data-index={i}>
         <div class="hs-media-wrap">
+          {i === 0 && <img src={s.bg} class="hs-placeholder" fetchpriority="high" loading="eager" alt="" />}
           <canvas class="hs-canvas" data-bg={s.bg}></canvas>
         </div>
         <div class="hs-text">
@@ -43,13 +44,12 @@ const N = slides.length;
 <style>
   .hs-outer {
     position: relative;
-    height: calc(var(--n, 5) * 100vh);
+    width: 100%;
     background: #010a0a;
   }
 
   .hs-sticky {
-    position: sticky;
-    top: 0;
+    position: relative;
     width: 100%;
     height: 100vh;
     overflow: hidden;
@@ -80,6 +80,16 @@ const N = slides.length;
     display: block;
     opacity: 0;
     transform: scale(1.1); /* Zoom effect during transition */
+  }
+
+  .hs-placeholder {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    pointer-events: none;
   }
 
   .hs-text {
@@ -292,10 +302,10 @@ const N = slides.length;
       scrollTrigger: {
         trigger: outer,
         start: 'top top',
-        end: 'bottom bottom',
+        end: () => `+=${(slides.length - 1) * 100}%`,
         scrub: true,
-        pin: true,
-        pinSpacing: false,
+        pin: sticky,
+        pinSpacing: true,
       }
     });
 
@@ -309,6 +319,11 @@ const N = slides.length;
         slide.dataset.revealed = 'true';
         engine.active = true;
         
+        const placeholder = slide.querySelector('.hs-placeholder');
+        if (placeholder) {
+          gsap.to(placeholder, { opacity: 0, duration: 1, delay: 0.8, onComplete: () => placeholder.remove() });
+        }
+
         gsap.to(canvas, { opacity: 1, scale: 1, duration: 1.5, ease: 'power3.out' });
         gsap.to(chars, {
           y: '0%',

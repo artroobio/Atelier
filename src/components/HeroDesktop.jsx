@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import gsap from 'gsap';
 
 const ORB_URL = "https://assets.zyrosite.com/A3QlOV94WLSaL6xE/shot-panoramic-composition-library-vfOqabRkgVEFwqi9.jpg";
-const BG_VIDEO_URL = "https://ik.imagekit.io/artroobeo/Green%20Checklist%20Minimalist%20Business%20Furniture%20&%20Interior%20Design%20Video.webm";
+const BG_VIDEO_URL = "https://ik.imagekit.io/artroobeo/Final%20Collage.webm";
 
 const SplitText = ({ children, className }) => (
   <span className={className}>
