@@ -14,6 +14,72 @@ const SplitText = ({ children, className }) => (
 export default function HeroMobile({ onMenuToggle, menuOpen }) {
   const containerRef = useRef(null);
   const videoRef = useRef(null);
+  const [mobileProgress, setMobileProgress] = useState(0);
+  const mobileRevealedRef = useRef(false);
+  const mobileTimeoutRef = useRef(null);
+
+  // Skip loader if already seen this session
+  useEffect(() => {
+    if (sessionStorage.getItem('atelierHeroLoaded')) {
+      const overlay = document.getElementById('mobile-loader');
+      if (overlay) overlay.style.display = 'none';
+      mobileRevealedRef.current = true;
+    }
+  }, []);
+
+  // Cinematic reveal for mobile loader
+  const triggerMobileReveal = () => {
+    if (mobileRevealedRef.current) return;
+    mobileRevealedRef.current = true;
+    clearTimeout(mobileTimeoutRef.current);
+    sessionStorage.setItem('atelierHeroLoaded', '1');
+    const overlay = document.getElementById('mobile-loader');
+    const bar = document.getElementById('mobile-progress-bar');
+    const pct = document.getElementById('mobile-loader-percentage');
+    if (bar) gsap.to(bar, { width: '100%', duration: 0.3 });
+    if (pct) pct.innerText = '100%';
+    setTimeout(() => {
+      if (overlay) {
+        gsap.to(overlay, {
+          opacity: 0, scale: 1.06, filter: 'blur(18px)',
+          duration: 1.1, ease: 'power2.inOut',
+          onComplete: () => { overlay.style.display = 'none'; }
+        });
+      }
+    }, 350);
+  };
+
+  // Video buffer tracking + 8-second fallback
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const updateBuffer = () => {
+      try {
+        if (video.buffered.length > 0 && video.duration > 0) {
+          const frac = video.buffered.end(video.buffered.length - 1) / video.duration;
+          const pct = Math.min(Math.round((frac / 0.3) * 100), 100);
+          setMobileProgress(prev => {
+            const next = Math.max(prev, pct);
+            const bar = document.getElementById('mobile-progress-bar');
+            const label = document.getElementById('mobile-loader-percentage');
+            if (bar) gsap.to(bar, { width: `${next}%`, duration: 0.4, ease: 'power1.out', overwrite: true });
+            if (label) label.innerText = `${next}%`;
+            if (next >= 100) triggerMobileReveal();
+            return next;
+          });
+        }
+      } catch (e) {}
+    };
+    video.addEventListener('progress', updateBuffer);
+    video.addEventListener('timeupdate', updateBuffer);
+    video.addEventListener('canplaythrough', triggerMobileReveal);
+    mobileTimeoutRef.current = setTimeout(triggerMobileReveal, 8000);
+    return () => {
+      video.removeEventListener('progress', updateBuffer);
+      video.removeEventListener('timeupdate', updateBuffer);
+      clearTimeout(mobileTimeoutRef.current);
+    };
+  }, []);
 
   // Play/pause video based on viewport visibility
   useEffect(() => {
@@ -55,14 +121,23 @@ export default function HeroMobile({ onMenuToggle, menuOpen }) {
 
   return (
     <div ref={containerRef} style={{ width: '100%', height: '100%', position: 'relative' }}>
+
+      {/* Mobile Loader */}
+      <div id="mobile-loader" className="loader-overlay">
+        <div className="loader-brand">ATELIER EVO</div>
+        <div className="loader-tagline">Crafting your experience</div>
+        <div className="loader-bar"><div className="loader-progress" id="mobile-progress-bar"></div></div>
+        <div id="mobile-loader-percentage" className="loader-percentage">0%</div>
+      </div>
+
       <video
         ref={videoRef}
         className="hero-mobile-video"
         muted
         loop
         playsInline
-        preload="none"
-        src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hero-video-final-WwmyBm3Ra59bhteP.mp4"
+        preload="auto"
+        src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/3-hero-video-AtqA69jgkl8uQQj5.mp4"
       />
       <div className="hero-mobile-overlay" />
 
