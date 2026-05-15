@@ -136,6 +136,8 @@
         uniform sampler2D u_i;
         uniform vec2 u_r;
         uniform vec3 u_waves[32];
+        uniform vec2 u_scale;
+        uniform vec2 u_offset;
         varying vec2 v_uv;
 
         void main() {
@@ -173,9 +175,10 @@
           }
 
           // 3. CHROMATIC ABERRATION
-          float r = texture2D(u_i, uv + distortion).r;
-          float g = texture2D(u_i, uv + distortion * 1.025).g;
-          float b = texture2D(u_i, uv + distortion * 1.05).b;
+          vec2 d_scaled = distortion * u_scale;
+          float r = texture2D(u_i, (uv + distortion) * u_scale + u_offset).r;
+          float g = texture2D(u_i, (uv + distortion * 1.025) * u_scale + u_offset).g;
+          float b = texture2D(u_i, (uv + distortion * 1.05) * u_scale + u_offset).b;
           
           gl_FragColor = vec4(r, g, b, 1.0);
         }
@@ -215,14 +218,18 @@
     async loadTexture() {
       return new Promise(resolve => {
         const img = new Image();
+        img.crossOrigin = "anonymous";
         img.src = this.bgUrl;
         img.onload = () => {
+          this.imgWidth = img.width;
+          this.imgHeight = img.height;
           const tex = this.gl.createTexture();
           this.gl.bindTexture(this.gl.TEXTURE_2D, tex);
           this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.CLAMP_TO_EDGE);
           this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.CLAMP_TO_EDGE);
           this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.LINEAR);
           this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, this.gl.RGBA, this.gl.UNSIGNED_BYTE, img);
+          this.resize();
           resolve();
         };
       });
@@ -251,6 +258,20 @@
       this.canvas.width = window.innerWidth;
       this.canvas.height = window.innerHeight;
       this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+
+      if (this.imgWidth && this.imgHeight) {
+        const rs = this.canvas.width / this.canvas.height;
+        const ri = this.imgWidth / this.imgHeight;
+        if (rs < ri) {
+          this.uvScale = [rs / ri, 1.0];
+        } else {
+          this.uvScale = [1.0, ri / rs];
+        }
+        this.uvOffset = [(1.0 - this.uvScale[0]) / 2.0, (1.0 - this.uvScale[1]) / 2.0];
+      } else {
+        this.uvScale = [1.0, 1.0];
+        this.uvOffset = [0.0, 0.0];
+      }
     }
 
     startMainRipple() {
@@ -266,6 +287,8 @@
       this.gl.uniform1f(this.gl.getUniformLocation(this.program, "u_main_t"), this.mainRippleTime);
       this.gl.uniform1i(this.gl.getUniformLocation(this.program, "u_trigger_main"), this.triggerMainRipple ? 1 : 0);
       this.gl.uniform2f(this.gl.getUniformLocation(this.program, "u_r"), this.canvas.width, this.canvas.height);
+      this.gl.uniform2f(this.gl.getUniformLocation(this.program, "u_scale"), this.uvScale?.[0] || 1.0, this.uvScale?.[1] || 1.0);
+      this.gl.uniform2f(this.gl.getUniformLocation(this.program, "u_offset"), this.uvOffset?.[0] || 0.0, this.uvOffset?.[1] || 0.0);
       this.gl.uniform3fv(this.gl.getUniformLocation(this.program, "u_waves"), this.ripplesData);
 
       this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);

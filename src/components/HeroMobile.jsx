@@ -62,7 +62,7 @@ export default function HeroMobile({ onMenuToggle, menuOpen }) {
         loop
         playsInline
         preload="none"
-        src="https://ik.imagekit.io/artroobeo/Final%20Collage.webm"
+        src="https://assets.zyrosite.com/A3QlOV94WLSaL6xE/hero-video-final-WwmyBm3Ra59bhteP.mp4"
       />
       <div className="hero-mobile-overlay" />
 

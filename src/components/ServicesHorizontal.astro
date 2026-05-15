@@ -1,11 +1,11 @@
 ---
 // src/components/ServicesHorizontal.astro
 const slides = [
-  { title: 'ATELIER EVO', bg: '/assets/services/ripple-bg.png' },
-  { title: 'WEB DESIGN',  bg: '/assets/services/web-design-bg.png' },
-  { title: 'APPS',        bg: '/assets/services/apps-bg.png' },
-  { title: 'CRM',         bg: '/assets/services/crm-bg.png' },
-  { title: 'ERP',         bg: '/assets/services/erp-bg.png' },
+  { title: 'ATELIER EVO', bg: 'https://ik.imagekit.io/artroobeo/pexels-0ldpikes-29515355.jpg' },
+  { title: 'WEB DESIGN',  bg: 'https://ik.imagekit.io/artroobeo/pexels-tranmautritam-948050.jpg' },
+  { title: 'APPS',        bg: 'https://ik.imagekit.io/artroobeo/pexels-viralyft-16852355.jpg' },
+  { title: 'CRM',         bg: 'https://ik.imagekit.io/artroobeo/pexels-goumbik-577210.jpg' },
+  { title: 'ERP',         bg: 'https://ik.imagekit.io/artroobeo/pexels-pixabay-265087.jpg' },
 ];
 const N = slides.length;
 ---
@@ -90,6 +90,7 @@ const N = slides.length;
     object-fit: cover;
     z-index: 1;
     pointer-events: none;
+    filter: brightness(0.7);
   }
 
   .hs-text {
@@ -182,6 +183,7 @@ const N = slides.length;
         precision mediump float;
         uniform float u_t,u_mt;uniform bool u_go;
         uniform sampler2D u_img;uniform vec2 u_res;uniform vec3 u_w[32];
+        uniform vec2 u_scale;uniform vec2 u_offset;
         varying vec2 v;
         void main(){
           vec2 uv=v,asp=vec2(u_res.x/u_res.y,1.),d=vec2(0.);
@@ -197,7 +199,12 @@ const N = slides.length;
               float rr=sin((di-r)*70.),mk=smoothstep(.05,0.,abs(di-r)),fd=1.-lf;
               vec2 dr=normalize((uv*asp)-(vec2(w.x,w.y)*asp));
               d+=dr*(rr*mk*fd*.012);}}}
-          gl_FragColor=vec4(texture2D(u_img,uv+d).r,texture2D(u_img,uv+d*1.025).g,texture2D(u_img,uv+d*1.05).b,1.);
+          gl_FragColor=vec4(
+            texture2D(u_img,(uv+d)*u_scale+u_offset).r * 0.7,
+            texture2D(u_img,(uv+d*1.025)*u_scale+u_offset).g * 0.7,
+            texture2D(u_img,(uv+d*1.05)*u_scale+u_offset).b * 0.7,
+            1.
+          );
         }
       `;
 
@@ -221,8 +228,11 @@ const N = slides.length;
       gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
 
       const img = new Image();
+      img.crossOrigin = "anonymous";
       img.src = this.bgUrl;
       img.onload = () => {
+        this.imgWidth = img.width;
+        this.imgHeight = img.height;
         const tex = gl.createTexture();
         gl.bindTexture(gl.TEXTURE_2D, tex);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
@@ -253,6 +263,20 @@ const N = slides.length;
       this.canvas.width = this.canvas.parentElement?.offsetWidth || window.innerWidth;
       this.canvas.height = this.canvas.parentElement?.offsetHeight || window.innerHeight;
       this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+
+      if (this.imgWidth && this.imgHeight) {
+        const rs = this.canvas.width / this.canvas.height;
+        const ri = this.imgWidth / this.imgHeight;
+        if (rs < ri) {
+          this.uvScale = [rs / ri, 1.0];
+        } else {
+          this.uvScale = [1.0, ri / rs];
+        }
+        this.uvOffset = [(1.0 - this.uvScale[0]) / 2.0, (1.0 - this.uvScale[1]) / 2.0];
+      } else {
+        this.uvScale = [1.0, 1.0];
+        this.uvOffset = [0.0, 0.0];
+      }
     }
 
     startRipple() {
@@ -280,6 +304,8 @@ const N = slides.length;
       gl.uniform1f(gl.getUniformLocation(this.prog, 'u_mt'), this.mainT);
       gl.uniform1i(gl.getUniformLocation(this.prog, 'u_go'), this.hasMain ? 1 : 0);
       gl.uniform2f(gl.getUniformLocation(this.prog, 'u_res'), this.canvas.width, this.canvas.height);
+      gl.uniform2f(gl.getUniformLocation(this.prog, 'u_scale'), this.uvScale?.[0] || 1, this.uvScale?.[1] || 1);
+      gl.uniform2f(gl.getUniformLocation(this.prog, 'u_offset'), this.uvOffset?.[0] || 0, this.uvOffset?.[1] || 0);
       gl.uniform3fv(gl.getUniformLocation(this.prog, 'u_w'), this.waves);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
     }
@@ -302,7 +328,7 @@ const N = slides.length;
       scrollTrigger: {
         trigger: outer,
         start: 'top top',
-        end: () => `+=${(slides.length - 1) * 100}%`,
+        end: () => `+=${slides.length * 100}%`,
         scrub: true,
         pin: sticky,
         pinSpacing: true,
@@ -349,6 +375,10 @@ const N = slides.length;
 
       if (i < slides.length - 1) {
         masterTl.to({}, { duration: 1.5 });
+      } else {
+        // Add a "dead zone" at the end of the last slide so it stays locked 
+        // before releasing the scroll to the footer
+        masterTl.to({}, { duration: 3 });
       }
 
       masterTl.add(() => {

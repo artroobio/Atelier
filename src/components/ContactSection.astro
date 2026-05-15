@@ -5,8 +5,8 @@
 <div class="contact-outer">
   <div class="contact-hero">
     <div class="contact-media">
-      <img src="/assets/contact/bg.png" class="contact-placeholder" fetchpriority="high" alt="" />
-      <canvas class="contact-canvas" data-bg="/assets/contact/bg.png"></canvas>
+      <img src="https://ik.imagekit.io/artroobeo/pexels-ranamatloob567-35203647.jpg" class="contact-placeholder" fetchpriority="high" alt="" />
+      <canvas class="contact-canvas" data-bg="https://ik.imagekit.io/artroobeo/pexels-ranamatloob567-35203647.jpg"></canvas>
     </div>
     
     <div class="contact-content">
@@ -208,6 +208,7 @@
         precision mediump float;
         uniform float u_t,u_mt;uniform bool u_go;
         uniform sampler2D u_img;uniform vec2 u_res;uniform vec3 u_w[32];
+        uniform vec2 u_scale;uniform vec2 u_offset;
         varying vec2 v;
         void main(){
           vec2 uv=v,asp=vec2(u_res.x/u_res.y,1.),d=vec2(0.);
@@ -223,7 +224,12 @@
               float rr=sin((di-r)*70.),mk=smoothstep(.05,0.,abs(di-r)),fd=1.-lf;
               vec2 dr=normalize((uv*asp)-(vec2(w.x,w.y)*asp));
               d+=dr*(rr*mk*fd*.012);}}}
-          gl_FragColor=vec4(texture2D(u_img,uv+d).r,texture2D(u_img,uv+d*1.025).g,texture2D(u_img,uv+d*1.05).b,1.);
+          gl_FragColor=vec4(
+            texture2D(u_img,(uv+d)*u_scale+u_offset).r,
+            texture2D(u_img,(uv+d*1.025)*u_scale+u_offset).g,
+            texture2D(u_img,(uv+d*1.05)*u_scale+u_offset).b,
+            1.
+          );
         }
       `;
 
@@ -247,8 +253,11 @@
       gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
 
       const img = new Image();
+      img.crossOrigin = "anonymous";
       img.src = this.bgUrl;
       img.onload = () => {
+        this.imgWidth = img.width;
+        this.imgHeight = img.height;
         const tex = gl.createTexture();
         gl.bindTexture(gl.TEXTURE_2D, tex);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
@@ -279,6 +288,20 @@
       this.canvas.width = window.innerWidth;
       this.canvas.height = window.innerHeight;
       this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+
+      if (this.imgWidth && this.imgHeight) {
+        const rs = this.canvas.width / this.canvas.height;
+        const ri = this.imgWidth / this.imgHeight;
+        if (rs < ri) {
+          this.uvScale = [rs / ri, 1.0];
+        } else {
+          this.uvScale = [1.0, ri / rs];
+        }
+        this.uvOffset = [(1.0 - this.uvScale[0]) / 2.0, (1.0 - this.uvScale[1]) / 2.0];
+      } else {
+        this.uvScale = [1.0, 1.0];
+        this.uvOffset = [0.0, 0.0];
+      }
     }
 
     startRipple() {
@@ -296,6 +319,8 @@
       gl.uniform1f(gl.getUniformLocation(this.prog, 'u_mt'), this.mainT);
       gl.uniform1i(gl.getUniformLocation(this.prog, 'u_go'), this.hasMain ? 1 : 0);
       gl.uniform2f(gl.getUniformLocation(this.prog, 'u_res'), this.canvas.width, this.canvas.height);
+      gl.uniform2f(gl.getUniformLocation(this.prog, 'u_scale'), this.uvScale?.[0] || 1, this.uvScale?.[1] || 1);
+      gl.uniform2f(gl.getUniformLocation(this.prog, 'u_offset'), this.uvOffset?.[0] || 0, this.uvOffset?.[1] || 0);
       gl.uniform3fv(gl.getUniformLocation(this.prog, 'u_w'), this.waves);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
     }
