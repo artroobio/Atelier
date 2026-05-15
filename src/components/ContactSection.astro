@@ -1,0 +1,336 @@
+---
+// src/components/ContactSection.astro
+---
+
+<div class="contact-outer">
+  <div class="contact-hero">
+    <div class="contact-media">
+      <img src="/assets/contact/bg.png" class="contact-placeholder" fetchpriority="high" alt="" />
+      <canvas class="contact-canvas" data-bg="/assets/contact/bg.png"></canvas>
+    </div>
+    
+    <div class="contact-content">
+      <div class="contact-header">
+        <h1 class="contact-title">
+          {["GET", "IN", "TOUCH"].map(word => (
+            <span class="word">
+              {word.split('').map(char => (
+                <span class="char">{char}</span>
+              ))}
+            </span>
+          ))}
+        </h1>
+      </div>
+
+      <div class="contact-details">
+        <div class="detail-item">
+          <span class="detail-label">Office</span>
+          <span class="detail-value">Atelier Evo Design Studio</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Email</span>
+          <a href="mailto:inquiries@atelierevo.com" class="detail-value link">inquiries@atelierevo.com</a>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Phone</span>
+          <span class="detail-value">+41 44 123 45 67</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Location</span>
+          <span class="detail-value">42nd Penthouse Floor, Void Tower<br/>Zurich, Switzerland 8001</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .contact-outer {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: #010a0a;
+    overflow: hidden;
+  }
+
+  .contact-hero {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contact-media {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .contact-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    opacity: 0;
+    transform: scale(1.1);
+  }
+
+  .contact-placeholder {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    pointer-events: none;
+    filter: brightness(0.6);
+  }
+
+  .contact-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 40px;
+  }
+
+  .contact-header {
+    text-align: center;
+  }
+
+  .contact-title {
+    font-family: 'Michroma', sans-serif;
+    font-size: clamp(3rem, 10vw, 12vw);
+    line-height: 0.9;
+    color: #fff;
+    text-transform: uppercase;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    letter-spacing: -0.02em;
+  }
+
+  .word {
+    display: inline-flex;
+    overflow: hidden;
+  }
+
+  .char {
+    display: inline-block;
+    transform: translateY(110%);
+    opacity: 0;
+  }
+
+  .contact-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    width: 100%;
+    margin-top: 20px;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .detail-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .detail-value {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+    color: #fff;
+    line-height: 1.5;
+  }
+
+  .detail-value.link {
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .detail-value.link:hover {
+    color: #00ffcc;
+  }
+
+  @media (max-width: 768px) {
+    .contact-details {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: 20px;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  class RippleEngine {
+    constructor(canvas, bgUrl) {
+      this.canvas = canvas;
+      this.bgUrl = bgUrl;
+      this.MAX = 32;
+      this.waves = new Float32Array(this.MAX * 3);
+      this.wIdx = 0;
+      this.lastMT = 0;
+      this.t0 = performance.now();
+      this.mainT = 0;
+      this.hasMain = false;
+      this.active = false;
+      this.ready = false;
+      this._build();
+    }
+
+    _build() {
+      const gl = this.canvas.getContext('webgl', { alpha: true });
+      if (!gl) return;
+      this.gl = gl;
+
+      const vs = `attribute vec2 a;varying vec2 v;void main(){v=a*.5+.5;v.y=1.-v.y;gl_Position=vec4(a,0.,1.);}`;
+      const fs = `
+        precision mediump float;
+        uniform float u_t,u_mt;uniform bool u_go;
+        uniform sampler2D u_img;uniform vec2 u_res;uniform vec3 u_w[32];
+        varying vec2 v;
+        void main(){
+          vec2 uv=v,asp=vec2(u_res.x/u_res.y,1.),d=vec2(0.);
+          if(u_go){float mt=u_t-u_mt;if(mt>0.&&mt<5.){
+            float cd=distance(uv*asp,vec2(.5)*asp);
+            float bw=sin((cd-mt*.4)*40.);
+            float bm=max(0.,1.-smoothstep(0.,.3,abs(cd-mt*.4)));
+            float bf=1.-smoothstep(0.,5.,mt);
+            d+=(uv-.5)*(.05*bm*bw*bf);}}
+          for(int i=0;i<32;i++){vec3 w=u_w[i];if(w.z>0.){
+            float lf=u_t-w.z;if(lf>0.&&lf<1.){
+              float di=distance(uv*asp,vec2(w.x,w.y)*asp),r=lf*.25;
+              float rr=sin((di-r)*70.),mk=smoothstep(.05,0.,abs(di-r)),fd=1.-lf;
+              vec2 dr=normalize((uv*asp)-(vec2(w.x,w.y)*asp));
+              d+=dr*(rr*mk*fd*.012);}}}
+          gl_FragColor=vec4(texture2D(u_img,uv+d).r,texture2D(u_img,uv+d*1.025).g,texture2D(u_img,uv+d*1.05).b,1.);
+        }
+      `;
+
+      const mkShader = (t, s) => {
+        const sh = gl.createShader(t);
+        gl.shaderSource(sh, s);
+        gl.compileShader(sh);
+        return sh;
+      };
+      const p = gl.createProgram();
+      gl.attachShader(p, mkShader(gl.VERTEX_SHADER, vs));
+      gl.attachShader(p, mkShader(gl.FRAGMENT_SHADER, fs));
+      gl.linkProgram(p);
+      this.prog = p;
+
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]), gl.STATIC_DRAW);
+      const loc = gl.getAttribLocation(p, 'a');
+      gl.enableVertexAttribArray(loc);
+      gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+      const img = new Image();
+      img.src = this.bgUrl;
+      img.onload = () => {
+        const tex = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, tex);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+        this.ready = true;
+        this._resize();
+        this._tick();
+      };
+
+      window.addEventListener('mousemove', e => {
+        if (!this.active) return;
+        const now = performance.now();
+        if (now - this.lastMT < 30) return;
+        const r = this.canvas.getBoundingClientRect();
+        this.waves[this.wIdx * 3] = (e.clientX - r.left) / r.width;
+        this.waves[this.wIdx * 3 + 1] = (e.clientY - r.top) / r.height;
+        this.waves[this.wIdx * 3 + 2] = (now - this.t0) / 1000;
+        this.wIdx = (this.wIdx + 1) % this.MAX;
+        this.lastMT = now;
+      });
+      window.addEventListener('resize', () => this._resize());
+    }
+
+    _resize() {
+      if (!this.gl) return;
+      this.canvas.width = window.innerWidth;
+      this.canvas.height = window.innerHeight;
+      this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    startRipple() {
+      this.hasMain = true;
+      this.mainT = (performance.now() - this.t0) / 1000;
+    }
+
+    _tick() {
+      if (!this.ready) return;
+      requestAnimationFrame(() => this._tick());
+      if (!this.active) return;
+      const gl = this.gl, t = (performance.now() - this.t0) / 1000;
+      gl.useProgram(this.prog);
+      gl.uniform1f(gl.getUniformLocation(this.prog, 'u_t'), t);
+      gl.uniform1f(gl.getUniformLocation(this.prog, 'u_mt'), this.mainT);
+      gl.uniform1i(gl.getUniformLocation(this.prog, 'u_go'), this.hasMain ? 1 : 0);
+      gl.uniform2f(gl.getUniformLocation(this.prog, 'u_res'), this.canvas.width, this.canvas.height);
+      gl.uniform3fv(gl.getUniformLocation(this.prog, 'u_w'), this.waves);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+    }
+  }
+
+  function boot() {
+    const canvas = document.querySelector('.contact-canvas');
+    if (!canvas) return;
+    const engine = new RippleEngine(canvas, canvas.dataset.bg);
+    
+    const tl = gsap.timeline({ delay: 0.5 });
+    
+    tl.to(canvas, { opacity: 1, scale: 1, duration: 1.5, ease: 'power3.out', onStart: () => {
+      engine.active = true;
+      const placeholder = document.querySelector('.contact-placeholder');
+      if (placeholder) gsap.to(placeholder, { opacity: 0, duration: 1, delay: 0.8 });
+    }});
+
+    tl.to('.contact-title .char', {
+      y: '0%',
+      opacity: 1,
+      duration: 1.2,
+      stagger: 0.04,
+      ease: 'expo.out',
+      onStart: () => engine.startRipple()
+    }, '-=0.8');
+
+    tl.to('.contact-details', {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: 'power2.out'
+    }, '-=0.6');
+  }
+
+  document.addEventListener('DOMContentLoaded', boot);
+  document.addEventListener('astro:page-load', boot);
+</script>

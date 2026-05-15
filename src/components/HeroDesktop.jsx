@@ -50,8 +50,7 @@ export default function HeroDesktop({ menuOpen, onMenuToggle }) {
   useLayoutEffect(() => {
     if (!loaded) return;
     const tl = gsap.timeline();
-    tl.to('.menu-btn', { y: 0, opacity: 1, duration: 1, ease: 'power3.out' });
-    tl.to('.tagline', { opacity: 1, duration: 1, ease: 'power2.out' }, '-=0.5');
+    tl.to('.tagline', { opacity: 1, duration: 1, ease: 'power2.out' });
     tl.fromTo('.hero-header .char',
       { x: -30, opacity: 0 },
       { x: 0, opacity: 1, duration: 1.2, stagger: 0.025, ease: 'power2.out' },
@@ -103,11 +102,12 @@ export default function HeroDesktop({ menuOpen, onMenuToggle }) {
 
         <div className="menu-overlay">
           <div className="menu-left-side">
+            <a href="/" className="menu-item-link" onClick={() => onMenuToggle(false)}>Home</a>
             <a href="/" className="menu-item-link" onClick={() => onMenuToggle(false)}>Projects</a>
             <a href="/services" className="menu-item-link" onClick={() => onMenuToggle(false)}>Services</a>
             <a href="/" className="menu-item-link" onClick={() => onMenuToggle(false)}>Studio</a>
             <a href="/" className="menu-item-link" onClick={() => onMenuToggle(false)}>Archive</a>
-            <a href="mailto:inquiries@atelierevo.com" className="menu-item-link" onClick={() => onMenuToggle(false)}>Contact</a>
+            <a href="/contact" className="menu-item-link" onClick={() => onMenuToggle(false)}>Contact</a>
           </div>
           <div className="menu-footer-right">
             <span className="brand-title">Atelier Evo</span>

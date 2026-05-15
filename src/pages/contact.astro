@@ -1,6 +1,6 @@
 ---
-// src/pages/services.astro
-import ServicesHorizontal from '../components/ServicesHorizontal.astro';
+// src/pages/contact.astro
+import ContactSection from '../components/ContactSection.astro';
 import SecondaryNav from '../components/SecondaryNav.jsx';
 import Footer from '../components/Footer.astro';
 import LenisScroll from '../components/LenisScroll.astro';
@@ -11,9 +11,9 @@ import LenisScroll from '../components/LenisScroll.astro';
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Services | Atelier Evo</title>
-    <!-- Preload critical hero background -->
-    <link rel="preload" as="image" href="/assets/services/ripple-bg.png" fetchpriority="high">
+    <title>Contact | Atelier Evo</title>
+    <!-- Preload critical contact background -->
+    <link rel="preload" as="image" href="/assets/contact/bg.png" fetchpriority="high">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +25,7 @@ import LenisScroll from '../components/LenisScroll.astro';
     <SecondaryNav client:load />
     
     <main>
-      <ServicesHorizontal />
+      <ContactSection />
     </main>
 
     <Footer />
@@ -40,14 +40,12 @@ import LenisScroll from '../components/LenisScroll.astro';
     overflow-x: hidden;
   }
 
-  /* Standard native scroll behavior */
-
   * {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Navigation Styles */
+  /* Navigation Styles (copied from services.astro for consistency) */
   .secondary-nav-layer {
     position: fixed;
     top: 0;
@@ -163,6 +161,4 @@ import LenisScroll from '../components/LenisScroll.astro';
     color: #fff;
     font-family: 'Inter', sans-serif;
   }
-
-  /* Removed body { overflow: hidden; } to allow Lenis scroll */
 </style>

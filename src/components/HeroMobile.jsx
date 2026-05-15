@@ -29,7 +29,6 @@ export default function HeroMobile({ onMenuToggle, menuOpen }) {
   }, []);
 
   useEffect(() => {
-    gsap.set('.menu-btn', { y: 0, opacity: 1 });
     gsap.set('.tagline', { opacity: 1 });
     gsap.set('.hero-header .char', { x: 0, opacity: 1, filter: 'blur(0px)' });
     gsap.set('.glass-card', { y: 0, opacity: 1 });
@@ -74,11 +73,12 @@ export default function HeroMobile({ onMenuToggle, menuOpen }) {
 
         <div className="menu-overlay">
           <div className="menu-left-side">
+            <a href="/" className="menu-item-link" onClick={() => onMenuToggle(false)}>Home</a>
             <a href="/" className="menu-item-link" onClick={() => onMenuToggle(false)}>Projects</a>
             <a href="/services" className="menu-item-link" onClick={() => onMenuToggle(false)}>Services</a>
             <a href="/" className="menu-item-link" onClick={() => onMenuToggle(false)}>Studio</a>
             <a href="/" className="menu-item-link" onClick={() => onMenuToggle(false)}>Archive</a>
-            <a href="mailto:inquiries@atelierevo.com" className="menu-item-link" onClick={() => onMenuToggle(false)}>Contact</a>
+            <a href="/contact" className="menu-item-link" onClick={() => onMenuToggle(false)}>Contact</a>
           </div>
           <div className="menu-footer-right">
             <span className="brand-title">Atelier Evo</span>
