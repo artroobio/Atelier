@@ -196,6 +196,7 @@ export default function HeroDesktop({ menuOpen, onMenuToggle }) {
             <a href="/services" className="menu-item-link" onClick={() => onMenuToggle(false)}>Services</a>
             <a href="/" className="menu-item-link" onClick={() => onMenuToggle(false)}>Studio</a>
             <a href="/" className="menu-item-link" onClick={() => onMenuToggle(false)}>Archive</a>
+            <a href="/blog" className="menu-item-link" onClick={() => onMenuToggle(false)}>Blog</a>
             <a href="/contact" className="menu-item-link" onClick={() => onMenuToggle(false)}>Contact</a>
           </div>
           <div className="menu-footer-right">
@@ -204,7 +205,6 @@ export default function HeroDesktop({ menuOpen, onMenuToggle }) {
           </div>
         </div>
         <div className="hero-header">
-          <span className="tagline">Collection 2026</span>
           <h1>
             <div style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}><SplitText>Bespoke</SplitText></div>
             <div style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}><SplitText>Architectural</SplitText></div>
