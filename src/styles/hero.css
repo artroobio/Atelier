@@ -1931,8 +1931,13 @@ h1 i {
     .top-row, .bottom-row { flex-direction: column; height: auto; }
     .gallery-item.vertical { height: 40vh; }
     .gallery-item.horizontal { height: 30vh; }
-    .gallery-main-title { font-size: 4rem; }
-    .gallery-text-overlay { position: relative; transform: none; top: auto; left: auto; padding: 4rem 1rem; }
+    .gallery-main-title {
+        font-size: clamp(1.8rem, 9vw, 2.6rem);
+        white-space: normal;
+        word-break: break-word;
+        line-height: 1.05;
+    }
+    .gallery-text-overlay { position: relative; transform: none; top: auto; left: auto; padding: 4rem 1rem; width: 100%; }
 }
 
 /* ITEM INFO BOXES */
