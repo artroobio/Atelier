@@ -1,0 +1,93 @@
+{
+  "blog_slug": "ultimate-guide-interior-designer-websites",
+  "title_options": [
+    "Ultimate Guide to Interior Designer Websites: Everything You Need in 2026",
+    "Interior Designer Website Guide: Build a Portfolio That Wins High-Value Clients",
+    "The Complete Interior Designer Website Guide (Structure, Design & SEO)",
+    "How to Build an Interior Designer Website That Actually Gets You Clients",
+    "Interior Designer Website Blueprint: From Portfolio to Client Magnet"
+  ],
+  "selected_title": "Ultimate Guide to Interior Designer Websites: Everything You Need in 2026",
+  "meta_title": "Ultimate Guide to Interior Designer Websites (2026) | AtelierEvo",
+  "meta_description": "The complete guide to building an interior designer website that attracts high-value clients. Covers structure, portfolio design, SEO, and performance — 2026 edition.",
+  "primary_keyword": "interior designer website",
+  "supporting_keywords": [
+    "interior designer portfolio website",
+    "best website for interior designers",
+    "interior design website design",
+    "how to build an interior designer website",
+    "interior designer website examples"
+  ],
+  "search_intent": "Informational / Commercial Investigation — designers researching how to build or improve their professional website, comparing options, looking for structure guidance",
+  "competitor_gaps": [
+    "Most competitor articles list generic features without addressing the specific visual storytelling needs of interior designers",
+    "No competitor covers the performance-vs-aesthetics tension (large images vs load speed) in depth",
+    "Gap: No authoritative guide covers the exact page structure that converts portfolio visitors into consultation requests",
+    "Gap: Schema markup and technical SEO specific to design portfolio sites is absent from competitor content"
+  ],
+  "h1": "Ultimate Guide to Interior Designer Websites: Everything You Need in 2026",
+  "outline": {
+    "h2_sections": [
+      {
+        "id": "why-your-website-is-your-most-powerful-asset",
+        "title": "Why Your Website Is Your Most Powerful Business Asset",
+        "h3s": ["The First Impression Problem", "What High-Value Clients Look For Online"]
+      },
+      {
+        "id": "essential-pages-every-interior-designer-website-needs",
+        "title": "Essential Pages Every Interior Designer Website Needs",
+        "h3s": ["Homepage: Your Digital Front Door", "Portfolio/Projects Page", "About Page", "Services Page", "Contact Page"]
+      },
+      {
+        "id": "portfolio-presentation-that-converts",
+        "title": "Portfolio Presentation That Actually Converts Visitors",
+        "h3s": ["Image Quality and Size Strategy", "Project Case Studies vs. Grid Galleries", "Before & After Sections"]
+      },
+      {
+        "id": "design-principles-for-interior-designer-websites",
+        "title": "Design Principles That Make Interior Designer Websites Work",
+        "h3s": ["Typography That Communicates Luxury", "White Space as a Design Tool", "Color Palette Strategy"]
+      },
+      {
+        "id": "performance-and-seo-fundamentals",
+        "title": "Performance and SEO Fundamentals You Cannot Skip",
+        "h3s": ["Core Web Vitals for Image-Heavy Sites", "Local SEO for Interior Designers", "Schema Markup for Portfolio Sites"]
+      },
+      {
+        "id": "platform-comparison",
+        "title": "Platform Comparison: Which Should You Build On?",
+        "h3s": ["Custom Development vs. Website Builders", "Webflow, Squarespace, WordPress — Honest Comparison"]
+      },
+      {
+        "id": "conversion-optimization",
+        "title": "Converting Visitors Into Consultation Requests",
+        "h3s": ["CTA Placement That Works", "Contact Form Optimization", "Trust Signals That Matter"]
+      },
+      {
+        "id": "faq",
+        "title": "Frequently Asked Questions",
+        "h3s": []
+      }
+    ]
+  },
+  "internal_links_planned": [
+    { "anchor": "SEO for interior designers", "target_slug": "seo-for-interior-designers" },
+    { "anchor": "best architecture website layouts", "target_slug": "best-homepage-layouts-architects" },
+    { "anchor": "website features that increase leads", "target_slug": "website-features-increase-leads" }
+  ],
+  "external_links_planned": [
+    { "anchor": "Nielsen Norman Group research on portfolio usability", "url": "https://www.nngroup.com" },
+    { "anchor": "Google Core Web Vitals documentation", "url": "https://web.dev/vitals/" },
+    { "anchor": "Awwwards portfolio design trends", "url": "https://www.awwwards.com" }
+  ],
+  "image_markers": [
+    { "id": "hero-01", "description": "Luxury interior designer website hero mockup on desktop and mobile, dark elegant aesthetic", "dimensions": "1200x630", "type": "hero" },
+    { "id": "section-01", "description": "Side-by-side comparison of a weak portfolio grid vs a strong case study layout", "dimensions": "800x600", "type": "section" },
+    { "id": "section-02", "description": "Typography scale diagram showing heading hierarchy for a luxury design studio website", "dimensions": "800x600", "type": "section" },
+    { "id": "section-03", "description": "Core Web Vitals score dashboard showing green scores for an image-heavy portfolio", "dimensions": "800x600", "type": "section" },
+    { "id": "section-04", "description": "Platform comparison table visual — Webflow vs Squarespace vs Custom for designers", "dimensions": "800x600", "type": "section" },
+    { "id": "section-05", "description": "CTA placement heatmap diagram showing optimal contact button positions on a portfolio page", "dimensions": "800x600", "type": "section" }
+  ],
+  "word_count_target": 2200,
+  "date_planned": "2026-05-16"
+}
