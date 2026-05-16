@@ -186,16 +186,20 @@ export default function HeroDesktop({ menuOpen, onMenuToggle }) {
 
       {/* UI overlay */}
       <div className="ui-layer" style={{ zIndex: 10 }}>
+        <div className="hero-brand-top">
+          <a href="/" className="hero-brand-link">
+            <span className="hero-brand-text">Atelier Evo</span>
+          </a>
+        </div>
         <div className="menu-btn" onClick={() => onMenuToggle(!menuOpen)}>
           {menuOpen ? 'Close' : 'Menu'}
         </div>
         <div className="menu-overlay">
           <div className="menu-left-side">
             <a href="/" className="menu-item-link" onClick={() => onMenuToggle(false)}>Home</a>
-            <a href="/" className="menu-item-link" onClick={() => onMenuToggle(false)}>Projects</a>
+            <a href="/projects" className="menu-item-link" onClick={() => onMenuToggle(false)}>Projects</a>
             <a href="/services" className="menu-item-link" onClick={() => onMenuToggle(false)}>Services</a>
-            <a href="/" className="menu-item-link" onClick={() => onMenuToggle(false)}>Studio</a>
-            <a href="/" className="menu-item-link" onClick={() => onMenuToggle(false)}>Archive</a>
+
             <a href="/blog" className="menu-item-link" onClick={() => onMenuToggle(false)}>Blog</a>
             <a href="/contact" className="menu-item-link" onClick={() => onMenuToggle(false)}>Contact</a>
           </div>

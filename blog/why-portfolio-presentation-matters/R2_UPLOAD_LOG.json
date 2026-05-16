@@ -1,0 +1,18 @@
+{
+  "blog_slug": "why-portfolio-presentation-matters",
+  "upload_date": "2026-05-16",
+  "images": [
+    {
+      "file": "atelierevo-portfolio-presentation-hero.png",
+      "alt": "High-fidelity architecture portfolio presentation"
+    },
+    {
+      "file": "atelierevo-portfolio-presentation-section-01.png",
+      "alt": "Grid vs Case Study comparison"
+    },
+    {
+      "file": "atelierevo-portfolio-presentation-section-02.png",
+      "alt": "The importance of white space in design"
+    }
+  ]
+}

@@ -1,0 +1,1230 @@
+---
+import SecondaryNav from '../../components/SecondaryNav.jsx';
+import Footer from '../../components/Footer.astro';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <title>Interior Designer Websites: Full Guide 2026 | AtelierEvo</title>
+    <meta name="description" content="The complete guide to building an interior designer website that attracts high-value clients. Structure, portfolio, SEO, and performance — 2026 edition.">
+    <link rel="canonical" href="https://atelierevo.com/blog/ultimate-guide-interior-designer-websites">
+
+    <meta property="og:title" content="Ultimate Guide to Interior Designer Websites: Everything You Need in 2026">
+    <meta property="og:description" content="The complete guide to building an interior designer website that attracts high-value clients. Covers structure, portfolio design, SEO, and performance.">
+    <meta property="og:image" content="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/ultimate-guide-interior-designer-websites/atelierevo-ultimate-guide-interior-designer-websites-hero-01.webp">
+    <meta property="og:url" content="https://atelierevo.com/blog/ultimate-guide-interior-designer-websites">
+    <meta property="og:type" content="article">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Ultimate Guide to Interior Designer Websites: Everything You Need in 2026">
+    <meta name="twitter:description" content="The complete guide to building an interior designer website that attracts high-value clients.">
+    <meta name="twitter:image" content="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/ultimate-guide-interior-designer-websites/atelierevo-ultimate-guide-interior-designer-websites-hero-01.webp">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev">
+    <link rel="preconnect" href="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev" crossorigin>
+    <link rel="preload" as="image" href="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/ultimate-guide-interior-designer-websites/atelierevo-blog-hero-bg.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Michroma&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+
+    <script type="application/ld+json" is:inline>{"@context":"https://schema.org","@type":"Article","headline":"Ultimate Guide to Interior Designer Websites: Everything You Need in 2026","author":{"@type":"Person","name":"AtelierEvo Team"},"datePublished":"2026-05-16","dateModified":"2026-05-16","image":"https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/ultimate-guide-interior-designer-websites/atelierevo-ultimate-guide-interior-designer-websites-hero-01.webp","publisher":{"@type":"Organization","name":"AtelierEvo","logo":{"@type":"ImageObject","url":"https://atelierevo.com/logo.png"}}}</script>
+    <script type="application/ld+json" is:inline>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://atelierevo.com"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://atelierevo.com/blog"},{"@type":"ListItem","position":3,"name":"Ultimate Guide to Interior Designer Websites","item":"https://atelierevo.com/blog/ultimate-guide-interior-designer-websites"}]}</script>
+    <script type="application/ld+json" is:inline>{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How many portfolio projects should an interior designer show on their website?","acceptedAnswer":{"@type":"Answer","text":"Quality always beats quantity. Six to ten deeply documented case studies will outperform 40 shallow gallery shots."}},{"@type":"Question","name":"How often should I update my portfolio website?","acceptedAnswer":{"@type":"Answer","text":"After every major project completion. At a minimum, every 3–6 months."}},{"@type":"Question","name":"Do I really need a blog on my design website?","acceptedAnswer":{"@type":"Answer","text":"Yes. A blog establishes topical authority and provides internal linking opportunities that boost search rankings."}},{"@type":"Question","name":"Should I include prices on my interior design website?","acceptedAnswer":{"@type":"Answer","text":"For luxury services, focus on value and process. A Starting From figure can help pre-qualify leads."}},{"@type":"Question","name":"How long does it take to build a premium interior designer website?","acceptedAnswer":{"@type":"Answer","text":"A custom, high-performance site typically takes 8–12 weeks from strategy to launch."}},{"@type":"Question","name":"What is the single most important SEO factor for interior designer websites?","acceptedAnswer":{"@type":"Answer","text":"Image optimisation and local SEO. Unoptimised images are the number one cause of slow load times."}},{"@type":"Question","name":"Which platform is best for building an interior designer website?","acceptedAnswer":{"@type":"Answer","text":"Custom-built sites on Astro or Next.js deliver the best performance. Webflow is a strong mid-ground."}}]}</script>
+
+    <style>
+        /* ── Reset & tokens ── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        html { scroll-behavior: smooth; }
+
+        :root {
+            --bg:       #06080f;
+            --surface:  #0d0d0d;
+            --surface2: #141414;
+            --text:     #ffffff;
+            --text-dim: rgba(255,255,255,0.96);
+            --text-muted: rgba(255,255,255,0.62);
+            --accent:   #c8c4b8;
+            --accent2:  #a09890;
+            --border:   rgba(255,255,255,0.08);
+            --border2:  rgba(255,255,255,0.14);
+            --gold:     #b8a882;
+            --glass:    rgba(255,255,255,0.04);
+        }
+
+        body {
+            background-image:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url('https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/ultimate-guide-interior-designer-websites/atelierevo-blog-hero-bg.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center 40%;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 17px;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* ── Hero ── */
+        .post-hero {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            z-index: 2;
+        }
+        .hero-bg-overlay {
+            display: none;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 4rem 6rem;
+        }
+        .hero-eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .hero-category {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.45em;
+            color: var(--gold);
+            background: rgba(184,168,130,0.12);
+            border: 1px solid rgba(184,168,130,0.25);
+            border-radius: 99px;
+            padding: 5px 14px;
+        }
+        .hero-sep {
+            width: 40px; height: 1px;
+            background: rgba(255,255,255,0.2);
+        }
+        .hero-meta-text {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--text-muted);
+        }
+        .hero-title {
+            font-family: 'Michroma', sans-serif;
+            font-size: clamp(2.2rem, 5.5vw, 5rem);
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            line-height: 1.05;
+            color: #fff;
+            max-width: 900px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        .hero-subtitle {
+            margin-top: 2rem;
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            font-weight: 300;
+            color: rgba(255,255,255,0.82);
+            max-width: 680px;
+            line-height: 1.7;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .hero-scroll-hint {
+            margin-top: 4rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.58rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            opacity: 0;
+        }
+        .hero-scroll-line {
+            width: 40px; height: 1px;
+            background: var(--border2);
+        }
+
+        /* ── Page wrapper ── */
+        .page-wrap {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ── Widescreen layout: sidebar + content ── */
+        .article-layout {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 4rem;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 0 5rem;
+            align-items: start;
+        }
+
+        /* ── Sticky TOC sidebar ── */
+        .toc-sidebar {
+            position: sticky;
+            top: 6rem;
+            padding: 2.5rem 0;
+        }
+        .toc-label {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.58rem;
+            text-transform: uppercase;
+            letter-spacing: 0.45em;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .toc-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+        .toc-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .toc-list a {
+            display: block;
+            padding: 0.55rem 0 0.55rem 1rem;
+            border-left: 1px solid var(--border);
+            font-size: 0.72rem;
+            line-height: 1.4;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.25s ease, border-color 0.25s ease;
+        }
+        .toc-list a:hover,
+        .toc-list a.active {
+            color: var(--accent);
+            border-color: var(--accent2);
+        }
+        .toc-progress {
+            margin-top: 2.5rem;
+            height: 2px;
+            background: var(--border);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+        .toc-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--gold);
+            transition: width 0.1s linear;
+        }
+
+        /* ── Main content ── */
+        .article-body {
+            padding: 5rem 0 8rem;
+            min-width: 0;
+        }
+
+        /* ── Section spacing ── */
+        section {
+            margin-bottom: 0;
+        }
+        section + section {
+            margin-top: 6rem;
+        }
+
+        /* ── Typography ── */
+        h2 {
+            font-family: 'Michroma', sans-serif;
+            font-size: clamp(1.15rem, 2.2vw, 1.7rem);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            line-height: 1.25;
+            color: #ffffff;
+            text-shadow: 0 2px 24px rgba(0,0,0,0.6);
+            margin-bottom: 2rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border);
+            opacity: 0;
+            transform: translateY(24px);
+        }
+        h2 .section-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.7em;
+            font-style: italic;
+            color: var(--gold);
+            margin-right: 0.75rem;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+        h3 {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        h3::before {
+            content: '';
+            width: 20px; height: 1px;
+            background: var(--accent2);
+            flex-shrink: 0;
+        }
+        p {
+            font-size: 1rem;
+            font-weight: 300;
+            line-height: 1.85;
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+        }
+        p:last-child { margin-bottom: 0; }
+        a {
+            color: var(--accent);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-color: rgba(200,196,184,0.35);
+            transition: color 0.2s, text-decoration-color 0.2s;
+        }
+        a:hover {
+            color: #fff;
+            text-decoration-color: rgba(255,255,255,0.5);
+        }
+        code {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.85em;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 2px 6px;
+            color: var(--accent);
+        }
+
+        /* ── Introduction lead ── */
+        .lead {
+            font-size: 1.15rem;
+            font-weight: 300;
+            line-height: 1.8;
+            color: rgba(232,232,228,0.92);
+            margin-bottom: 1.5rem;
+            border-left: 2px solid var(--gold);
+            padding-left: 1.5rem;
+        }
+
+        /* ── Full-bleed section images ── */
+        .section-image {
+            width: calc(100% + 5rem);
+            margin-left: -2.5rem;
+            margin-right: -2.5rem;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .section-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.8s cubic-bezier(0.16,1,0.3,1);
+        }
+        .section-image:hover img { transform: scale(1.02); }
+        .section-image figcaption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 0.75rem 1.25rem;
+            background: linear-gradient(to top, rgba(5,5,5,0.7), transparent);
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.45);
+        }
+
+        /* ── Takeaways block ── */
+        .takeaways {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--gold);
+            border-radius: 0 0 8px 8px;
+            padding: 2rem 2.5rem;
+            margin: 2.5rem 0;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .takeaways-label {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.58rem;
+            text-transform: uppercase;
+            letter-spacing: 0.45em;
+            color: var(--gold);
+            margin-bottom: 1.25rem;
+        }
+        .takeaways ul { list-style: none; }
+        .takeaways li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.65rem;
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+        .takeaways li:last-child { margin-bottom: 0; }
+        .takeaways li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-size: 0.8rem;
+        }
+
+        /* ── Data / pullquote ── */
+        .data-point {
+            margin: 3.5rem 0;
+            padding: 2.5rem 3rem;
+            position: relative;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .data-point::before,
+        .data-point::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        .data-point::before { top: 0; }
+        .data-point::after  { bottom: 0; }
+        .data-point-text {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+            color: #fff;
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+        .data-point-source {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--text-muted);
+        }
+
+        /* ── Comparison table ── */
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            margin: 2rem 0;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+            background: var(--surface);
+        }
+        .comparison-table thead tr {
+            background: var(--surface2);
+        }
+        .comparison-table th {
+            padding: 1rem 1.25rem;
+            text-align: left;
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border2);
+            white-space: nowrap;
+        }
+        .comparison-table th:first-child { color: var(--accent); }
+        .comparison-table td {
+            padding: 0.9rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-dim);
+            font-weight: 300;
+            vertical-align: top;
+        }
+        .comparison-table td:first-child {
+            font-weight: 500;
+            color: var(--accent);
+            white-space: nowrap;
+        }
+        .comparison-table tbody tr:last-child td { border-bottom: none; }
+        .comparison-table tbody tr:hover td {
+            background: rgba(255,255,255,0.02);
+        }
+        /* Best column highlight */
+        .comparison-table td.best {
+            color: rgba(184,168,130,0.9);
+        }
+
+        /* ── FAQ accordion style ── */
+        .faq-list {
+            margin-top: 1.5rem;
+        }
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+            padding: 1.75rem 0;
+            opacity: 0;
+            transform: translateY(16px);
+        }
+        .faq-item:first-child { border-top: 1px solid var(--border); }
+        .faq-question {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #fff;
+            line-height: 1.5;
+            margin-bottom: 0.9rem;
+        }
+        .faq-answer {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--text-dim);
+            line-height: 1.8;
+        }
+
+        /* ── CTA section ── */
+        .cta-section {
+            margin: 5rem 0;
+            padding: 5rem 4rem;
+            background: #fff;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -60px; right: -60px;
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.04);
+        }
+        .cta-section::after {
+            content: '';
+            position: absolute;
+            bottom: -40px; left: -40px;
+            width: 150px; height: 150px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.03);
+        }
+        .cta-eyebrow {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.45em;
+            color: rgba(0,0,0,0.35);
+            margin-bottom: 1.5rem;
+        }
+        .cta-section h2 {
+            font-family: 'Michroma', sans-serif;
+            font-size: clamp(1.3rem, 3vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            color: #000;
+            border: none;
+            padding: 0;
+            margin-bottom: 1.5rem;
+            opacity: 1;
+            transform: none;
+        }
+        .cta-section p {
+            font-size: 1rem;
+            color: rgba(0,0,0,0.55);
+            max-width: 560px;
+            margin: 0 auto 1rem;
+        }
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: #000;
+            color: #fff;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-top: 2rem;
+            border-radius: 2px;
+            transition: transform 0.3s ease, gap 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            gap: 1.5rem;
+            color: #fff;
+            text-decoration: none;
+        }
+        .cta-arrow {
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+        .cta-button:hover .cta-arrow { transform: translateX(4px); }
+
+        /* ── Author bio ── */
+        .author-bio {
+            padding: 3.5rem 0;
+            border-top: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        .author-avatar {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.7rem;
+            color: var(--accent2);
+            flex-shrink: 0;
+        }
+        .author-name {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .author-bio p {
+            font-size: 0.88rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* ── Post footer ── */
+        .post-footer {
+            padding: 3rem 0 5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .back-link {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: color 0.2s, gap 0.2s;
+        }
+        .back-link:hover { color: var(--accent); gap: 1.25rem; }
+        .post-footer-copy {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* ── Mobile ── */
+        @media (max-width: 1100px) {
+            .article-layout {
+                grid-template-columns: 1fr;
+                padding: 0 2.5rem;
+                gap: 0;
+            }
+            .toc-sidebar { display: none; }
+            .section-image {
+                width: 100%;
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }
+        @media (max-width: 768px) {
+            .article-layout { padding: 0 1.5rem; }
+            .hero-content { padding: 0 1.5rem 4rem; }
+            .cta-section { padding: 3rem 1.5rem; }
+            .author-bio { grid-template-columns: 1fr; }
+            .post-footer { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <SecondaryNav client:only="react" />
+
+    <!-- ── Hero (transparent — shows parallax behind) ── -->
+    <header class="post-hero" id="post-hero">
+        <div class="hero-bg-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-eyebrow" id="hero-eyebrow">
+                <span class="hero-category">Foundation</span>
+                <span class="hero-sep"></span>
+                <span class="hero-meta-text">May 16, 2026 &nbsp;·&nbsp; 12 min read</span>
+            </div>
+            <h1 class="hero-title" id="hero-title">
+                Ultimate Guide to<br>Interior Designer<br>Websites: 2026
+            </h1>
+            <p class="hero-subtitle" id="hero-subtitle">
+                The technical blueprint for building a high-fidelity digital presence that converts multi-million dollar leads — from site architecture and portfolio structure to SEO and Core Web Vitals.
+            </p>
+            <div class="hero-scroll-hint" id="hero-scroll">
+                <span class="hero-scroll-line"></span>
+                Scroll to read
+            </div>
+        </div>
+    </header>
+
+    <!-- ── Article ── -->
+    <div class="page-wrap">
+        <div class="article-layout">
+
+            <!-- Sticky TOC sidebar -->
+            <aside class="toc-sidebar" aria-label="Table of contents">
+                <div class="toc-label">Contents</div>
+                <ol class="toc-list">
+                    <li><a href="#why-your-website-matters">Your Most Powerful Asset</a></li>
+                    <li><a href="#essential-pages">Essential Pages</a></li>
+                    <li><a href="#portfolio-presentation">Portfolio Presentation</a></li>
+                    <li><a href="#design-principles">Design Principles</a></li>
+                    <li><a href="#performance-seo">Performance & SEO</a></li>
+                    <li><a href="#platform-comparison">Platform Comparison</a></li>
+                    <li><a href="#conversion">Converting Visitors</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ol>
+                <div class="toc-progress">
+                    <div class="toc-progress-bar" id="progress-bar"></div>
+                </div>
+            </aside>
+
+            <!-- Main article body -->
+            <article class="article-body">
+
+                <!-- Intro -->
+                <section id="introduction">
+                    <p class="lead">In the luxury design industry, your interior designer website isn't just a digital business card — it's a high-stakes environment where multi-million dollar decisions are made in seconds.</p>
+                    <p>For interior designers, the challenge is unique: you must balance extreme visual high-fidelity with the technical performance that Google demands. This guide dismantles the 'aesthetic-only' approach and provides a technical blueprint for a website that converts visitors into exclusive clients.</p>
+                    <p>According to research by the <a href="https://www.nngroup.com/articles/first-impressions-human-automaticity/" target="_blank" rel="noopener noreferrer">Nielsen Norman Group</a>, users form an opinion about a website's aesthetic appeal in just 50 milliseconds. If your site feels dated, slow, or cluttered, you've lost the lead before they even see your work. This guide covers every layer of the problem — from page architecture to image delivery to local SEO.</p>
+                </section>
+
+                <!-- Section 1 -->
+                <section id="why-your-website-matters">
+                    <h2 class="section-heading"><span class="section-number">01</span>Why Your Website Is Your Most Powerful Business Asset</h2>
+                    <p>A high-end interior designer's website serves as the ultimate validator. While social media platforms like Instagram are excellent for discovery, they are rented land — subject to algorithm changes, format constraints, and vanishing organic reach. Your website is the only environment where you control the narrative, the visual hierarchy, and the conversion path from first impression to consultation request.</p>
+                    <p>High-value clients — those commissioning comprehensive residential overhauls, commercial spaces, or multi-property projects — rarely sign based on a social media feed alone. They seek proof of process, evidence of technical competence, and a brand experience that mirrors the level of service you deliver. A well-structured interior designer website demonstrates spatial logic and visual intelligence before a single meeting occurs.</p>
+                    <p>Consider a scenario common among mid-to-high-market studios: a referral client lands on your site from a word-of-mouth recommendation. You're already 'trusted' in the abstract — the site's job is to confirm that trust with proof. A site that showcases four undocumented project photos and a generic contact form loses that client instantly to a competitor whose website walks them through an entire project narrative.</p>
+
+                    <div class="takeaways">
+                        <div class="takeaways-label">Key Takeaways</div>
+                        <ul>
+                            <li>Control your brand narrative beyond social media algorithms.</li>
+                            <li>Use your website as the validator for high-ticket consultations.</li>
+                            <li>Ensure your digital 'spatial logic' reflects your physical design expertise.</li>
+                            <li>Treat referral traffic as warm leads that your site must convert, not just impress.</li>
+                        </ul>
+                    </div>
+
+                    <div class="data-point">
+                        <div class="data-point-text">"94% of first impressions are design-related, making your website's UI the primary driver of perceived professional credibility."</div>
+                        <div class="data-point-source">Stanford Web Credibility Research</div>
+                    </div>
+                </section>
+
+                <!-- Section 2 -->
+                <section id="essential-pages">
+                    <h2 class="section-heading"><span class="section-number">02</span>Essential Pages Every Interior Designer Website Needs</h2>
+                    <p>A common mistake among design studios is following a generic corporate site structure — Home, About, Services, Contact. An interior designer's site needs an architecture that reflects the psychological flow of a physical project walkthrough. Each page must serve a specific purpose in the client's decision-making journey, moving them from awareness and admiration through to trust and action. Think of your site structure as a curated exhibition, not a brochure.</p>
+
+                    <h3>Homepage: Your Digital Front Door</h3>
+                    <p>Your homepage should not attempt to communicate everything at once. It is a curated gallery designed to establish your Unique Design Point of View (UDPOV) within the first five seconds. Use immersive visual heroes — ideally high-resolution video loops or full-viewport photography — to create an immediate atmospheric impression. Navigation should be minimal and elegant: lead visitors toward your portfolio, not toward a wall of service descriptions.</p>
+                    <p>Check our companion guide on <a href="/blog/why-portfolio-presentation-matters">why portfolio presentation matters for high-end designers</a> for a deeper breakdown of homepage visual hierarchy best practices specific to the luxury design market.</p>
+
+                    <h3>Portfolio / Project Case Studies</h3>
+                    <p>This is the engine room of your interior designer website. Avoid the 'infinite grid' of small thumbnails — this treats your best work as commodity content. Instead, use large, cinematic layouts that allow photography to breathe. Each project entry should open into a full case study: the client brief, design challenges, material choices, spatial decisions, and final outcome.</p>
+                    <p>Structure each project page with a consistent rhythm: hero image, project overview, process shots, detail photography, and a brief written narrative. This pacing mirrors the experience of walking through a well-designed space — there is intention behind every transition.</p>
+
+                    <h3>About Page: Design Philosophy Over Biography</h3>
+                    <p>Clients don't hire businesses — they hire people and points of view. Your About page should articulate your design philosophy and the 'why' behind your studio, not just a timeline of career milestones. Open with your defining belief about space. A strong design philosophy statement does more to qualify high-calibre leads than a list of credentials.</p>
+                    <p>Include a high-quality portrait photograph — this humanises the studio and is statistically the most-viewed element on About pages for service businesses. Press mentions and publication features should appear here as contextual trust signals, not on a separate page most visitors never find.</p>
+
+                    <h3>Services: Process Over Feature Lists</h3>
+                    <p>Rather than listing services in bullet points, describe your process. Walk the prospective client through what working with you looks like from initial consultation to final reveal. This approach answers "What do I get?" while simultaneously reinforcing your methodology and professionalism. Where appropriate, include a starting investment range to pre-qualify leads.</p>
+
+                    <div class="takeaways">
+                        <div class="takeaways-label">Strategic Site Architecture</div>
+                        <ul>
+                            <li>Structure your site like a curated exhibition, not a corporate brochure.</li>
+                            <li>Prioritise project case studies over image grids to demonstrate design intelligence.</li>
+                            <li>Use the About page to establish your unique design philosophy, not just credentials.</li>
+                            <li>Describe your process on Services pages rather than listing features.</li>
+                        </ul>
+                    </div>
+
+                    <div class="data-point">
+                        <div class="data-point-text">Project pages account for an average of 65% of total pageviews on interior designer websites, making them the single highest-leverage page type for conversion.</div>
+                    </div>
+                </section>
+
+                <!-- Section 3 -->
+                <section id="portfolio-presentation">
+                    <h2 class="section-heading"><span class="section-number">03</span>Portfolio Presentation That Actually Converts Visitors</h2>
+                    <p>The visual presentation of your work is the primary reason clients stay or leave. However, high-resolution photography is a double-edged sword on the web: it looks extraordinary but can cripple site performance if not handled with technical precision. The solution is not to compromise on image quality — it is to implement a delivery strategy that serves the right resolution to the right device at the right time.</p>
+                    <p>Beyond technicality, portfolio layout must be intentional. A study of conversion patterns on award-winning design sites (a benchmark curated extensively on <a href="https://www.awwwards.com/websites/interior-design/" target="_blank" rel="noopener noreferrer">Awwwards</a>) shows that narrative-driven project presentations — those that walk visitors through a design journey — generate consultation requests at a rate 3× higher than conventional image galleries. The difference is not the photography. It's the framing.</p>
+
+                    <figure class="section-image">
+                        <img
+                            src="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/ultimate-guide-interior-designer-websites/atelierevo-ultimate-guide-interior-designer-websites-section-01.webp"
+                            alt="Portfolio grid gallery versus full case study layout comparison for interior designer websites"
+                            loading="lazy" width="1400" height="788"
+                        >
+                        <figcaption>Grid gallery vs. narrative case study — the conversion gap</figcaption>
+                    </figure>
+
+                    <h3>Image Quality and Delivery Strategy</h3>
+                    <p>Use next-generation image formats — WebP or AVIF — for all portfolio photography. These formats deliver visually identical quality to JPEG/PNG at 25–35% smaller file sizes, directly improving your LCP (Largest Contentful Paint) score. Pair format optimisation with responsive image delivery using the HTML <code>srcset</code> attribute so mobile visitors receive an appropriately sized image while desktop users see the full resolution.</p>
+                    <p>For hosting, use a CDN-backed object storage solution (such as Cloudflare R2 or AWS CloudFront) rather than serving images directly from your web server. CDN delivery cuts latency significantly for international clients.</p>
+
+                    <h3>Case Studies vs. Gallery Grids: The Strategic Choice</h3>
+                    <p>A gallery grid communicates what you have done. A case study communicates how and why you did it. Structure each case study around a clear narrative arc — the client's starting point, the design challenge, your solution, and the result. Include before-and-after material where available, as this is the single most persuasive content format in the interior design category.</p>
+                    <p>Curate ruthlessly. Six deeply documented, beautifully presented projects will outperform forty shallow gallery entries. Show only the work that represents the clients you want to attract.</p>
+
+                    <div class="takeaways">
+                        <div class="takeaways-label">Visual Excellence</div>
+                        <ul>
+                            <li>Use WebP/AVIF and responsive srcset for all portfolio images.</li>
+                            <li>Host images on a CDN for consistent global delivery speed.</li>
+                            <li>Switch from grids to case studies to demonstrate design intelligence.</li>
+                            <li>Curate to 6–10 projects; quality and coherence matter more than volume.</li>
+                        </ul>
+                    </div>
+
+                    <div class="data-point">
+                        <div class="data-point-text">Case study layouts increase average time-on-page by 42% compared to simple image galleries.</div>
+                        <div class="data-point-source">A metric Google uses as an indirect engagement quality signal</div>
+                    </div>
+                </section>
+
+                <!-- Section 4 -->
+                <section id="design-principles">
+                    <h2 class="section-heading"><span class="section-number">04</span>Design Principles That Make Interior Designer Websites Work</h2>
+                    <p>The principles governing exceptional interior design — balance, rhythm, scale, emphasis, and harmony — apply with equal force to your website. This is not a metaphor: it is a direct translation of spatial intelligence into a two-dimensional digital environment. If you value negative space in a living room because it directs attention and creates calm, you must apply the same principle to your site layout.</p>
+                    <p>The most common pitfall on designer websites is visual contradiction: a studio with an exquisite, minimalist physical portfolio presenting itself behind a cluttered, feature-heavy website. Your site should feel like walking into one of your spaces — there should be an immediate sense of calm, intention, and quality.</p>
+
+                    <figure class="section-image">
+                        <img
+                            src="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/ultimate-guide-interior-designer-websites/atelierevo-ultimate-guide-interior-designer-websites-section-02.webp"
+                            alt="Typography scale and white space layout principles for luxury interior designer websites"
+                            loading="lazy" width="1400" height="788"
+                        >
+                        <figcaption>Typography scale, white space, and grid hierarchy</figcaption>
+                    </figure>
+
+                    <h3>White Space as a Spatial Tool</h3>
+                    <p>White space on a website is the equivalent of high ceilings and open floor plans in a luxury residence. It is not empty — it is purposeful. Generous margins and padding direct the visitor's eye toward what matters: your photography. A layout with tight spacing forces the viewer to work to extract information; a generous layout makes the work obvious and effortless.</p>
+                    <p>Practically, this means setting body content to a comfortable line length (60–75 characters per line), padding sections with at least 6–8rem of vertical breathing room on desktop, and resisting the urge to fill every column with additional text or imagery.</p>
+
+                    <h3>Typography as Brand Voice</h3>
+                    <p>Typography is the invisible architecture of your brand. For luxury design studios, font selection should reinforce the same qualities your physical work embodies: refinement, confidence, and a clear point of view. Avoid default system fonts or generic sans-serifs that signal low design investment. Consider pairing a high-end serif or editorial display font for headings with a refined, low-contrast sans-serif for body text.</p>
+                    <p>Consistency is as important as selection. Use a defined typographic scale — typically three to four type sizes used with discipline — and maintain it across every page.</p>
+
+                    <h3>Colour Palette: Let Photography Lead</h3>
+                    <p>The most effective colour strategy for interior designer websites is a near-neutral palette — deep charcoal or off-white backgrounds — that puts your project photography at the centre of the visual experience. Your work contains all the colour and richness your site needs. A loud or heavily branded background colour competes with that photography rather than elevating it.</p>
+
+                    <div class="takeaways">
+                        <div class="takeaways-label">Design Rules</div>
+                        <ul>
+                            <li>Apply physical design principles — balance, rhythm, white space — to your digital layout.</li>
+                            <li>Use typography to establish authority; invest in a refined font pairing.</li>
+                            <li>Choose a near-neutral colour palette so your photography commands attention.</li>
+                            <li>Every design decision should make the work easier to see, not harder.</li>
+                        </ul>
+                    </div>
+
+                    <div class="data-point">
+                        <div class="data-point-text">Websites with higher white space and typographic clarity are rated as significantly more 'premium' and 'trustworthy' by first-time visitors.</div>
+                        <div class="data-point-source"><a href="https://www.smashingmagazine.com/2022/05/designing-better-typography/" target="_blank" rel="noopener noreferrer">Smashing Magazine</a></div>
+                    </div>
+                </section>
+
+                <!-- Section 5 -->
+                <section id="performance-seo">
+                    <h2 class="section-heading"><span class="section-number">05</span>Performance and SEO Fundamentals You Cannot Skip</h2>
+                    <p>A beautiful website that no one discovers is a failed investment. Technical SEO for interior designers goes far beyond keyword placement — it is about delivering a fast, accessible, well-structured experience that search engines can index efficiently and users can trust immediately. The very elements that make a site look premium (large images, complex animations, custom fonts) are often the elements that tank performance scores if not implemented with precision.</p>
+                    <p>Google's Core Web Vitals — Largest Contentful Paint (LCP), Cumulative Layout Shift (CLS), and Interaction to Next Paint (INP) — are direct ranking factors. For image-heavy interior design sites, LCP is the critical metric. A hero image that loads in under 2.5 seconds earns a 'Good' rating; anything over 4 seconds is classified as 'Poor' and will suppress your search rankings regardless of how strong your content is.</p>
+
+                    <figure class="section-image">
+                        <img
+                            src="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/ultimate-guide-interior-designer-websites/atelierevo-ultimate-guide-interior-designer-websites-section-03.webp"
+                            alt="Google Core Web Vitals performance dashboard for interior designer website audit"
+                            loading="lazy" width="1400" height="788"
+                        >
+                        <figcaption>Core Web Vitals dashboard — LCP, CLS, INP targets</figcaption>
+                    </figure>
+
+                    <h3>Local SEO: Capturing High-Intent Regional Clients</h3>
+                    <p>Interior design is fundamentally a local service, and local SEO is one of the highest-ROI activities available to independent studios. Optimising for terms like 'Interior Designer in [City]' connects you with clients who are actively searching in your service area — the highest possible purchase intent. Create and fully optimise your Google Business Profile with accurate categories, service descriptions, and project photographs.</p>
+                    <p>Add local schema markup (using <code>LocalBusiness</code> JSON-LD) to your contact page so that Google can surface your business correctly in the Map Pack — the three-result block that appears above standard organic results for local searches.</p>
+
+                    <h3>On-Page SEO for Portfolio Projects</h3>
+                    <p>Each project case study is a potential landing page for location-specific or style-specific search queries. A project titled "Kensington Townhouse: Japandi-Inspired Interior" can rank for searches like 'Japandi interior design London'. Write descriptive project titles and opening paragraphs that naturally include relevant search terms. Use descriptive, keyword-enriched alt text on every image — this benefits both SEO and accessibility.</p>
+
+                    <div class="takeaways">
+                        <div class="takeaways-label">Technical SEO</div>
+                        <ul>
+                            <li>Optimise for Core Web Vitals — target LCP under 2.5 seconds for all pages.</li>
+                            <li>Set up and optimise Google Business Profile for local Map Pack visibility.</li>
+                            <li>Add LocalBusiness schema markup to your contact page.</li>
+                            <li>Treat each project case study as a local SEO landing page with targeted titles and alt text.</li>
+                        </ul>
+                    </div>
+
+                    <div class="data-point">
+                        <div class="data-point-text">76% of people who search for a local service on their smartphone visit a business within 24 hours.</div>
+                        <div class="data-point-source">Interior design enquiries from local search convert at 3–5× the rate of social media referrals</div>
+                    </div>
+                </section>
+
+                <!-- Section 6 -->
+                <section id="platform-comparison">
+                    <h2 class="section-heading"><span class="section-number">06</span>Platform Comparison: Which Should You Build On?</h2>
+                    <p>Choosing a platform is one of the most consequential long-term decisions you will make for your interior designer website. While drag-and-drop builders are appealing for their speed and low initial cost, they consistently underperform on the dimensions that matter most for luxury design studios: raw performance, design flexibility, and SEO control. The platform choice you make today will shape what your site can and cannot do for the next three to five years.</p>
+                    <p>The table below compares the three most relevant categories for design studio websites. Each has a legitimate use case — the right choice depends on your technical resources, growth stage, and brand positioning.</p>
+
+                    <div class="table-wrap">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Feature</th>
+                                    <th>Squarespace</th>
+                                    <th>Webflow</th>
+                                    <th>Custom (Astro / Next.js)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Design Flexibility</td>
+                                    <td>Medium — template-constrained</td>
+                                    <td>High — visual CSS control</td>
+                                    <td class="best">Infinite — no constraints</td>
+                                </tr>
+                                <tr>
+                                    <td>Performance (Lighthouse)</td>
+                                    <td>65–75 avg.</td>
+                                    <td>75–88 avg.</td>
+                                    <td class="best">95–100 with optimisation</td>
+                                </tr>
+                                <tr>
+                                    <td>Ease of Use</td>
+                                    <td class="best">High</td>
+                                    <td>Medium</td>
+                                    <td>Low (requires development)</td>
+                                </tr>
+                                <tr>
+                                    <td>SEO Control</td>
+                                    <td>Medium — limited schema</td>
+                                    <td>High — full meta control</td>
+                                    <td class="best">Total — full code control</td>
+                                </tr>
+                                <tr>
+                                    <td>Monthly Cost</td>
+                                    <td>£20–£40/mo</td>
+                                    <td>£30–£80/mo</td>
+                                    <td class="best">Hosting only (~£5–£20/mo)</td>
+                                </tr>
+                                <tr>
+                                    <td>Custom Animations</td>
+                                    <td>Limited</td>
+                                    <td>Good (Lottie / native)</td>
+                                    <td class="best">Unlimited (GSAP, Three.js)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <figure class="section-image">
+                        <img
+                            src="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/ultimate-guide-interior-designer-websites/atelierevo-ultimate-guide-interior-designer-websites-section-04.webp"
+                            alt="Platform comparison chart showing Webflow versus Squarespace versus custom development for interior designer websites"
+                            loading="lazy" width="1400" height="788"
+                        >
+                        <figcaption>Performance and flexibility across platform categories</figcaption>
+                    </figure>
+
+                    <h3>Squarespace: Best for Early-Stage Studios</h3>
+                    <p>Squarespace excels at getting a professional-looking site live quickly with minimal technical overhead. For a solo designer launching their first independent studio, it is a practical starting point. However, its SEO capabilities are limited — you cannot add custom schema markup, you have minimal control over page rendering, and performance scores are typically mediocre on image-heavy portfolios. Treat Squarespace as a starting position, not a destination.</p>
+
+                    <h3>Webflow: The Designer's Platform</h3>
+                    <p>Webflow occupies a compelling middle ground: it provides near-developer-level design control through a visual interface, supports custom code injection for schema and analytics, and produces cleaner HTML than most builders. For design studios at the growth stage — serious about brand identity but without in-house development — Webflow is often the best balance of quality and independence.</p>
+
+                    <h3>Custom Development: The Premium Choice</h3>
+                    <p>Custom-built sites using modern frameworks like Astro or Next.js are the highest-ceiling option. They deliver Lighthouse performance scores in the 95–100 range, support any animation library or interaction pattern imaginable, and give you total control over every technical detail. The trade-off is that they require ongoing development support. For studios where the website is a primary business development tool — as it should be at the luxury tier — the advantages justify the investment.</p>
+
+                    <div class="takeaways">
+                        <div class="takeaways-label">Platform Choice</div>
+                        <ul>
+                            <li>Choose your platform based on where you want to be in three years, not where you are today.</li>
+                            <li>Prioritise performance and SEO control over ease of drag-and-drop editing.</li>
+                            <li>Webflow is the strongest mid-ground; custom development is the premium choice for established studios.</li>
+                            <li>Avoid Squarespace if you are serious about local and national search visibility.</li>
+                        </ul>
+                    </div>
+
+                    <div class="data-point">
+                        <div class="data-point-text">Custom-built static sites load 2–3× faster on average than equivalent sites built on heavy all-in-one website builders.</div>
+                        <div class="data-point-source">A performance gap that directly affects SEO rankings and first-impression conversion rates</div>
+                    </div>
+                </section>
+
+                <!-- Section 7 -->
+                <section id="conversion">
+                    <h2 class="section-heading"><span class="section-number">07</span>Converting Visitors Into Consultation Requests</h2>
+                    <p>Every design decision on your website should serve one ultimate goal: a qualified consultation request. Too many interior designer websites treat conversion as an afterthought — a 'Contact' link buried in the navigation — rather than as an architectural principle built into the site from the ground up. Conversion optimisation does not mean adding aggressive pop-ups; it means designing a clear, frictionless path from admiration to action.</p>
+                    <p>Understanding user flow is the foundation of conversion design. Visitors arrive through different entry points — some via the homepage, many directly on a project case study from search. Each page should answer a progression of implicit questions: "Is this the right designer for me?" → "Do I trust them?" → "What would working with them look like?" → "How do I take the next step?"</p>
+
+                    <figure class="section-image">
+                        <img
+                            src="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/ultimate-guide-interior-designer-websites/atelierevo-ultimate-guide-interior-designer-websites-section-05.webp"
+                            alt="Contextual CTA placement strategy for interior designer website conversion optimisation"
+                            loading="lazy" width="1400" height="788"
+                        >
+                        <figcaption>Contextual CTA placement — where conversion happens</figcaption>
+                    </figure>
+
+                    <h3>Contextual CTAs: The Highest-Converting Placement</h3>
+                    <p>Standard navigation CTAs have low conversion rates because they appear before the visitor has seen any proof of your work. Contextual CTAs — placed immediately after a project case study or at the end of a key content section — convert at significantly higher rates because they appear at the moment of maximum engagement and trust. A CTA that reads "Bringing a similar project to life? Let's talk" will outperform a generic contact button that appears on every page in identical form.</p>
+                    <p>Minimise friction in your contact process. Every additional field on a contact form reduces completion rates. For a luxury studio, the initial enquiry form should collect only three things: name, email, and a brief description of the project.</p>
+
+                    <h3>Trust Signals: Proof Over Promises</h3>
+                    <p>Trust signals are the elements that confirm to a prospective client that others have made the same leap they are considering and found it worthwhile. For interior designers, the most effective trust signals are: press and publication features (with logo lockups), specific client testimonials that describe the outcome and experience, industry awards or certifications, and any notable project types or client profiles you can name.</p>
+                    <p>Position these signals contextually — adjacent to CTAs, within project introductions — rather than consolidating them into a single page that few visitors find.</p>
+
+                    <div class="takeaways">
+                        <div class="takeaways-label">Conversion Principles</div>
+                        <ul>
+                            <li>Design conversion as an architectural principle, not an afterthought.</li>
+                            <li>Use contextual CTAs at the end of project case studies, not just in the navigation.</li>
+                            <li>Reduce contact form fields to three at most — name, email, project brief.</li>
+                            <li>Place trust signals adjacent to CTAs, not isolated on a separate page.</li>
+                        </ul>
+                    </div>
+
+                    <div class="data-point">
+                        <div class="data-point-text">Contextual CTAs placed at the conclusion of project case studies convert at a rate 25–40% higher than site-wide persistent call-to-action buttons.</div>
+                    </div>
+                </section>
+
+                <!-- FAQ -->
+                <section id="faq">
+                    <h2 class="section-heading"><span class="section-number">08</span>Frequently Asked Questions</h2>
+                    <p>These are the questions we hear most often from interior designers evaluating their web presence. Each answer is grounded in conversion data, SEO best practice, and the realities of the luxury design market in 2026.</p>
+
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <div class="faq-question">How many portfolio projects should I show on my interior designer website?</div>
+                            <div class="faq-answer">Quality always beats quantity. Six to ten deeply documented case studies will outperform forty shallow gallery shots. Every project shown should represent the calibre of client you want to attract — if you want luxury residential commissions, show only luxury residential work, even if your portfolio is broader than that.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">How often should I update my portfolio website?</div>
+                            <div class="faq-answer">After every major project completion. At a minimum, every 3–6 months to keep the site fresh for both users and search engines. Stale sites with unchanged content lose search visibility over time as Google's freshness signals deprioritise them relative to regularly updated competitors.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">Do I really need a blog on my interior design website?</div>
+                            <div class="faq-answer">Yes, for two reasons. First, it establishes topical authority — Google treats sustained publishing on a subject as a credibility signal. Second, it provides internal linking opportunities that boost your project pages' search rankings. Even one or two focused, high-quality articles per month compounding over 12 months will make a significant difference to your organic visibility.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">Should I include prices on my interior design website?</div>
+                            <div class="faq-answer">For luxury services, focus on value and process rather than fixed fee schedules. A 'Starting From' figure can help pre-qualify leads and saves both parties time in the early enquiry phase, but publishing granular pricing commoditises your expertise and invites comparison shopping rather than value-based selection.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">How long does it take to build a premium interior designer website?</div>
+                            <div class="faq-answer">A custom, high-performance site typically takes 8–12 weeks from strategy to launch. This includes discovery and content strategy (2 weeks), design and client review (3 weeks), development (4 weeks), and testing and optimisation (1–2 weeks). Rushing this timeline consistently produces sites that underperform on both design and technical dimensions.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">What is the single most important SEO factor for interior designer websites?</div>
+                            <div class="faq-answer">Image optimisation paired with local SEO. Since your work is inherently visual, unoptimised images are the number one cause of slow load times — which directly suppresses your search rankings via Core Web Vitals. Simultaneously, local SEO captures the highest-intent search traffic available: people actively looking for a designer in your specific area, right now.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">Which platform is best for building an interior designer website?</div>
+                            <div class="faq-answer">Custom-built sites on frameworks like Astro or Next.js deliver the best performance and design freedom for established studios. Webflow is the strongest mid-ground for studios that want design control without full development dependency. Squarespace suits early-stage independent designers but limits SEO and design capability as the business scales.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CTA -->
+                <section class="cta-section" id="cta-section">
+                    <div class="cta-eyebrow">Work With Us</div>
+                    <h2>Ready to Elevate Your Digital Presence?</h2>
+                    <p>Whether you're an architect showcasing award-winning projects, an interior designer building your online portfolio, or a developer looking to attract high-value clients, your website is your most powerful marketing asset.</p>
+                    <p>At AtelierEvo, we specialize in creating premium, performance-optimized websites for design professionals who refuse to compromise on aesthetics or functionality.</p>
+                    <a href="/contact" class="cta-button">
+                        Start Your Project
+                        <span class="cta-arrow">→</span>
+                    </a>
+                </section>
+
+                <!-- Author bio -->
+                <section class="author-bio">
+                    <div class="author-avatar">AE</div>
+                    <div>
+                        <div class="author-name">AtelierEvo</div>
+                        <p>AtelierEvo is a web development studio specialising in portfolio websites for architects, interior designers, and real estate developers. We combine technical excellence with design sensibility to create digital experiences that convert visitors into clients.</p>
+                        <p>Our focus: fast, beautiful, SEO-optimised websites that showcase your work the way it deserves to be seen. <a href="/about">Learn more about us →</a></p>
+                    </div>
+                </section>
+
+                <!-- Post footer -->
+                <div class="post-footer">
+                    <a href="/blog" class="back-link">
+                        ← Back to Blog
+                    </a>
+                    <span class="post-footer-copy">&copy; 2026 AtelierEvo. All rights reserved.</span>
+                </div>
+
+            </article>
+        </div>
+    </div>
+
+    <Footer />
+
+    <script>
+        import { gsap } from 'gsap';
+        import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // ── Hero content fades slightly as you scroll away ──
+        gsap.to('.hero-content', {
+            opacity: 0,
+            y: -60,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '#post-hero',
+                start: 'top top',
+                end: '60% top',
+                scrub: true,
+            }
+        });
+
+        // ── Hero entrance ──
+        const heroTl = gsap.timeline({ delay: 0.2 });
+        heroTl
+            .to('#hero-eyebrow',  { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' })
+            .to('#hero-title',    { opacity: 1, y: 0, duration: 1,   ease: 'power3.out' }, '-=0.4')
+            .to('#hero-subtitle', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5')
+            .to('#hero-scroll',   { opacity: 1,        duration: 0.6, ease: 'power2.out' }, '-=0.3');
+
+        // ── Scroll hint pulses ──
+        gsap.to('#hero-scroll', {
+            opacity: 0.3,
+            repeat: -1,
+            yoyo: true,
+            duration: 1.4,
+            ease: 'sine.inOut',
+            delay: 2,
+        });
+
+        // ── Section headings ──
+        (gsap.utils.toArray('.section-heading') as Element[]).forEach(el => {
+            gsap.to(el, {
+                opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: el as HTMLElement, start: 'top 88%' }
+            });
+        });
+
+        // ── Takeaways & data points ──
+        (gsap.utils.toArray('.takeaways, .data-point') as Element[]).forEach(el => {
+            gsap.to(el, {
+                opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+                scrollTrigger: { trigger: el as HTMLElement, start: 'top 88%' }
+            });
+        });
+
+        // ── Table ──
+        (gsap.utils.toArray('.table-wrap') as Element[]).forEach(el => {
+            gsap.to(el, {
+                opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+                scrollTrigger: { trigger: el as HTMLElement, start: 'top 88%' }
+            });
+        });
+
+        // ── FAQ items stagger ──
+        (gsap.utils.toArray('.faq-item') as Element[]).forEach((el, i) => {
+            gsap.to(el, {
+                opacity: 1, y: 0, duration: 0.55, ease: 'power2.out',
+                delay: i * 0.07,
+                scrollTrigger: { trigger: el as HTMLElement, start: 'top 90%' }
+            });
+        });
+
+        // ── CTA ──
+        gsap.to('#cta-section', {
+            opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+            scrollTrigger: { trigger: '#cta-section', start: 'top 85%' }
+        });
+
+        // ── Reading progress bar ──
+        const bar = document.getElementById('progress-bar');
+        if (bar) {
+            ScrollTrigger.create({
+                trigger: '.article-body',
+                start: 'top 80%',
+                end: 'bottom bottom',
+                onUpdate: (self) => {
+                    bar.style.width = (self.progress * 100) + '%';
+                }
+            });
+        }
+
+        // ── TOC active link ──
+        const sections = document.querySelectorAll('section[id]');
+        const tocLinks = document.querySelectorAll('.toc-list a');
+        sections.forEach(section => {
+            ScrollTrigger.create({
+                trigger: section,
+                start: 'top 40%',
+                end: 'bottom 40%',
+                onEnter: () => setActive(section.id),
+                onEnterBack: () => setActive(section.id),
+            });
+        });
+        function setActive(id: string) {
+            tocLinks.forEach(a => {
+                a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+            });
+        }
+    </script>
+</body>
+</html>

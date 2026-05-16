@@ -31,10 +31,9 @@ export default function SecondaryNav() {
       <div className="menu-overlay">
         <div className="menu-left-side">
           <a href="/" className="menu-item-link" onClick={() => setMenuOpen(false)}>Home</a>
-          <a href="/" className="menu-item-link" onClick={() => setMenuOpen(false)}>Projects</a>
+          <a href="/projects" className="menu-item-link" onClick={() => setMenuOpen(false)}>Projects</a>
           <a href="/services" className="menu-item-link" onClick={() => setMenuOpen(false)}>Services</a>
-          <a href="/" className="menu-item-link" onClick={() => setMenuOpen(false)}>Studio</a>
-          <a href="/" className="menu-item-link" onClick={() => setMenuOpen(false)}>Archive</a>
+          <a href="/blog" className="menu-item-link" onClick={() => setMenuOpen(false)}>Blog</a>
           <a href="/contact" className="menu-item-link" onClick={() => setMenuOpen(false)}>Contact</a>
         </div>
         <div className="menu-footer-right">

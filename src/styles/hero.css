@@ -144,9 +144,38 @@ body, html {
   justify-content: space-between;
 }
 
+.hero-brand-top {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  pointer-events: auto;
+}
+
+.hero-brand-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.hero-brand-link:hover {
+  transform: scale(1.02);
+}
+
+.hero-brand-text {
+  font-family: 'Michroma', sans-serif;
+  color: #fff;
+  font-size: clamp(0.85rem, 1.4vw, 1.35rem);
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .menu-btn {
   position: absolute;
-  top: 40px;
+  top: 15px;
   right: 40px;
   padding: 12px 30px;
   background: rgba(255, 255, 255, 0.15);
@@ -332,8 +361,12 @@ h1 i {
     gap: 32px;
   }
 
+  .hero-brand-top {
+    top: 8px;
+  }
+
   .menu-btn {
-    top: 20px;
+    top: 8px;
     right: 20px;
     padding: 10px 22px;
     font-size: 0.7rem;

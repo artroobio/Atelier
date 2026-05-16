@@ -1,6 +1,6 @@
 ---
-// src/pages/contact.astro
-import ContactSection from '../components/ContactSection.astro';
+// src/pages/projects.astro
+import ProjectsComingSoon from '../components/ProjectsComingSoon.astro';
 import SecondaryNav from '../components/SecondaryNav.jsx';
 import Footer from '../components/Footer.astro';
 import LenisScroll from '../components/LenisScroll.astro';
@@ -11,9 +11,9 @@ import LenisScroll from '../components/LenisScroll.astro';
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contact | Atelier Evo</title>
-    <!-- Preload critical contact background -->
-    <link rel="preload" as="image" href="https://ik.imagekit.io/artroobeo/pexels-ranamatloob567-35203647.jpg" fetchpriority="high">
+    <title>Projects | Atelier Evo</title>
+    <!-- Preload critical hero background -->
+    <link rel="preload" as="image" href="/projects_coming_soon_bg.png" fetchpriority="high">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +25,7 @@ import LenisScroll from '../components/LenisScroll.astro';
     <SecondaryNav client:load />
     
     <main>
-      <ContactSection />
+      <ProjectsComingSoon />
     </main>
 
     <Footer />
@@ -44,7 +44,6 @@ import LenisScroll from '../components/LenisScroll.astro';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-
 </style>
 
 <style>

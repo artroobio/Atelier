@@ -1,0 +1,372 @@
+---
+// src/pages/blog/index.astro
+import '../../styles/hero.css';
+import SecondaryNav from '../../components/SecondaryNav.jsx';
+import Footer from '../../components/Footer.astro';
+import LenisScroll from '../../components/LenisScroll.astro';
+
+const posts = [
+  {
+    title: "Why Portfolio Presentation Matters for High-End Designers",
+    slug: "why-portfolio-presentation-matters",
+    date: "May 16, 2026",
+    readTime: "6 min read",
+    description: "The science of spatial storytelling. Discover why how you present your work is the ultimate validator for high-ticket architecture and design commissions.",
+    image: "/assets/atelierevo-portfolio-presentation-hero.png",
+    category: "Strategy"
+  },
+  {
+    title: "Ultimate Guide to Interior Designer Websites: Everything You Need in 2026",
+    slug: "ultimate-guide-interior-designer-websites",
+    date: "May 16, 2026",
+    readTime: "12 min read",
+    description: "The complete guide to building an interior designer website that attracts high-value clients. Covers structure, portfolio design, SEO, and performance.",
+    image: "https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/ultimate-guide-interior-designer-websites/atelierevo-ultimate-guide-interior-designer-websites-hero-01.webp",
+    category: "Foundation"
+  }
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Blog | Atelier Evo</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Michroma&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap">
+
+    <style is:global>
+      * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+      body {
+        background: #fff;
+        min-height: 100vh;
+      }
+
+      /* ── Parallax BG ── */
+      .parallax-bg-wrapper {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100vh;
+        z-index: -1;
+        overflow: hidden;
+      }
+      .parallax-bg {
+        position: absolute;
+        top: -10%; left: 0;
+        width: 100%; height: 120%;
+        background: #fff;
+        will-change: transform;
+      }
+      .parallax-overlay {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 50% 20%, rgba(240,240,235,0.6) 0%, rgba(255,255,255,0) 70%);
+        z-index: 1;
+      }
+
+      /* ── Layout ── */
+      .blog-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 180px 24px 120px;
+        position: relative;
+        z-index: 2;
+      }
+
+      /* ── Header ── */
+      .blog-header {
+        margin-bottom: 100px;
+        text-align: center;
+      }
+      .blog-kicker {
+        font-family: 'Michroma', sans-serif;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5em;
+        color: rgba(0,0,0,0.4);
+        margin-bottom: 24px;
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      .blog-title {
+        font-family: 'Michroma', sans-serif;
+        font-size: clamp(2.5rem, 8vw, 5.5rem);
+        text-transform: uppercase;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        color: #0a0a0a;
+        text-shadow: none;
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      .blog-title .italic {
+        font-style: italic;
+        color: rgba(0,0,0,0.4);
+        font-family: 'Playfair Display', serif;
+        text-transform: none;
+        letter-spacing: 0;
+      }
+      .blog-title-divider {
+        width: 1px;
+        height: 56px;
+        background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.2), transparent);
+        margin: 36px auto 0;
+        opacity: 0;
+        transform: scaleY(0);
+        transform-origin: top;
+      }
+
+      /* ── Grid ── */
+      .blog-grid {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 40px;
+      }
+      @media (min-width: 768px) {
+        .blog-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+
+      /* ── Card ── */
+      .blog-card {
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+        border: 1px solid rgba(0,0,0,0.08);
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        padding: 0;
+        opacity: 0;
+        transform: translateY(40px);
+        position: relative;
+      }
+      .blog-card:hover {
+        background: #fafafa;
+        border-color: rgba(0,0,0,0.14);
+        transform: translateY(-10px) !important;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.09), 0 4px 16px rgba(0,0,0,0.05);
+      }
+
+      /* bottom-edge shadow line on hover */
+      .blog-card::before {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        z-index: 3;
+      }
+      .blog-card:hover::before { opacity: 1; }
+
+      /* ── Image ── */
+      .blog-image-wrapper {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        background: #f0f0ee;
+      }
+      .blog-image {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+        filter: brightness(0.96);
+      }
+      .blog-card:hover .blog-image {
+        transform: scale(1.06);
+        filter: brightness(1);
+      }
+
+      .blog-category-pill {
+        position: absolute;
+        top: 16px; left: 16px;
+        background: rgba(255,255,255,0.85);
+        backdrop-filter: blur(8px);
+        padding: 6px 14px;
+        font-family: 'Michroma', sans-serif;
+        font-size: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.25em;
+        color: #0a0a0a;
+        border: 1px solid rgba(0,0,0,0.1);
+        border-radius: 99px;
+        z-index: 2;
+      }
+
+      /* ── Content ── */
+      .blog-card-body {
+        padding: 28px 28px 32px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+
+      .blog-card-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: rgba(0,0,0,0.38);
+        margin-bottom: 14px;
+      }
+      .meta-sep { color: rgba(0,0,0,0.18); }
+
+      .blog-card-title {
+        font-family: 'Michroma', sans-serif;
+        font-size: 1.05rem;
+        text-transform: uppercase;
+        line-height: 1.45;
+        margin-bottom: 14px;
+        color: #0a0a0a;
+        letter-spacing: 0.01em;
+        transition: color 0.3s ease;
+      }
+      .blog-card:hover .blog-card-title { color: #000; }
+
+      .blog-card-desc {
+        font-size: 0.85rem;
+        font-weight: 300;
+        color: rgba(0,0,0,0.55);
+        line-height: 1.65;
+        margin-bottom: 28px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        flex: 1;
+      }
+
+      /* ── Footer row ── */
+      .blog-card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 20px;
+        border-top: 1px solid rgba(0,0,0,0.07);
+        margin-top: auto;
+      }
+
+      .blog-card-link {
+        font-family: 'Michroma', sans-serif;
+        font-size: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.3em;
+        color: rgba(0,0,0,0.55);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: color 0.3s ease, gap 0.3s ease;
+      }
+      .blog-card:hover .blog-card-link { color: #000; gap: 16px; }
+
+      .blog-card-readtime {
+        font-size: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: rgba(0,0,0,0.28);
+      }
+    </style>
+  </head>
+  <body class="text-[#0a0a0a]">
+
+    <div class="parallax-bg-wrapper">
+      <div class="parallax-bg" id="parallax-bg"></div>
+      <div class="parallax-overlay"></div>
+    </div>
+
+    <SecondaryNav client:only="react" />
+
+    <main class="blog-container">
+
+      <header class="blog-header">
+        <div class="blog-kicker" id="blog-kicker">Insights &amp; Strategy</div>
+        <h1 class="blog-title" id="blog-title">
+          The Atelier <br/> <span class="italic">Knowledge base.</span>
+        </h1>
+        <div class="blog-title-divider" id="blog-divider"></div>
+      </header>
+
+      <div class="blog-grid" id="blog-grid">
+        {posts.map(post => (
+          <article>
+            <a href={`/blog/${post.slug}`} class="blog-card">
+              <div class="blog-image-wrapper">
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  class="blog-image"
+                  loading="lazy"
+                />
+                <div class="blog-category-pill">{post.category}</div>
+              </div>
+
+              <div class="blog-card-body">
+                <div class="blog-card-meta">
+                  {post.date}
+                  <span class="meta-sep">/</span>
+                  {post.readTime}
+                </div>
+                <h3 class="blog-card-title">{post.title}</h3>
+                <p class="blog-card-desc">{post.description}</p>
+                <div class="blog-card-footer">
+                  <div class="blog-card-link">
+                    Read Article <span style="font-size: 1.1rem;">→</span>
+                  </div>
+                  <span class="blog-card-readtime">Atelier Evo</span>
+                </div>
+              </div>
+            </a>
+          </article>
+        ))}
+      </div>
+
+    </main>
+
+    <Footer />
+    <LenisScroll />
+
+    <script>
+      import { gsap } from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Parallax background
+      gsap.to('#parallax-bg', {
+        yPercent: 15,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: 'body',
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: true
+        }
+      });
+
+      // Header entrance
+      const tl = gsap.timeline({ delay: 0.15 });
+      tl.to('#blog-kicker',  { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' })
+        .to('#blog-title',   { opacity: 1, y: 0, duration: 1,   ease: 'power3.out' }, '-=0.45')
+        .to('#blog-divider', { opacity: 1, scaleY: 1, duration: 0.8, ease: 'power3.out' }, '-=0.4');
+
+      // Cards staggered on scroll
+      gsap.to('.blog-card', {
+        opacity: 1, y: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+        stagger: 0.18,
+        scrollTrigger: { trigger: '#blog-grid', start: 'top 82%' }
+      });
+    </script>
+  </body>
+</html>

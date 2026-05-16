@@ -1,0 +1,27 @@
+{
+  "slug": "why-portfolio-presentation-matters",
+  "title": "Beyond the Grid: Why Portfolio Presentation Matters for High-End Designers",
+  "sections": [
+    {
+      "id": "introduction",
+      "heading": "Introduction",
+      "content": "In the rarefied world of high-end architecture and interior design, your work is your resume..."
+    },
+    {
+      "id": "psychology-of-perception",
+      "heading": "The Psychology of Perception: How Presentation Builds Trust",
+      "content": "Trust in the luxury sector is a fragile commodity..."
+    },
+    {
+      "id": "storytelling-vs-listing",
+      "heading": "Storytelling vs. Listing: Why Case Studies Win Over Grids",
+      "content": "The 'infinite grid' of small thumbnails is a relic of early web design..."
+    }
+  ],
+  "faq": [
+    {
+      "question": "How many projects should I include in my portfolio?",
+      "answer": "Quality over quantity is the absolute rule..."
+    }
+  ]
+}

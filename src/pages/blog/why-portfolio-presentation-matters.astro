@@ -1,0 +1,1122 @@
+---
+import SecondaryNav from '../../components/SecondaryNav.jsx';
+import Footer from '../../components/Footer.astro';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <title>Why Portfolio Presentation Matters | AtelierEvo</title>
+    <meta name="description" content="The science of spatial storytelling. Discover why presentation is the ultimate validator for high-end architecture and interior design commissions in 2026.">
+    <link rel="canonical" href="https://atelierevo.com/blog/why-portfolio-presentation-matters">
+
+    <meta property="og:title" content="Why Portfolio Presentation Matters for High-End Designers">
+    <meta property="og:description" content="The science of spatial storytelling. Discover why how you present your work is the ultimate validator for high-ticket architecture and design commissions.">
+    <meta property="og:image" content="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/why-portfolio-presentation-matters/atelierevo-portfolio-presentation-hero.webp">
+    <meta property="og:url" content="https://atelierevo.com/blog/why-portfolio-presentation-matters">
+    <meta property="og:type" content="article">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Why Portfolio Presentation Matters for High-End Designers">
+    <meta name="twitter:description" content="The science of spatial storytelling — why presentation is your ultimate validator.">
+    <meta name="twitter:image" content="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/why-portfolio-presentation-matters/atelierevo-portfolio-presentation-hero.webp">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev">
+    <link rel="preconnect" href="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev" crossorigin>
+    <link rel="preload" as="image" href="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/why-portfolio-presentation-matters/atelierevo-portfolio-presentation-hero.webp">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Michroma&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+
+    <script type="application/ld+json" is:inline>{"@context":"https://schema.org","@type":"Article","headline":"Why Portfolio Presentation Matters for High-End Designers","author":{"@type":"Person","name":"AtelierEvo Team"},"datePublished":"2026-05-16","dateModified":"2026-05-16","image":"https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/why-portfolio-presentation-matters/atelierevo-portfolio-presentation-hero.webp","publisher":{"@type":"Organization","name":"AtelierEvo","logo":{"@type":"ImageObject","url":"https://atelierevo.com/logo.png"}}}</script>
+    <script type="application/ld+json" is:inline>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://atelierevo.com"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://atelierevo.com/blog"},{"@type":"ListItem","position":3,"name":"Why Portfolio Presentation Matters","item":"https://atelierevo.com/blog/why-portfolio-presentation-matters"}]}</script>
+    <script type="application/ld+json" is:inline>{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How many projects should I include in my portfolio?","acceptedAnswer":{"@type":"Answer","text":"Quality over quantity. For high-end designers, 4 to 6 deeply detailed case studies outperform 20 surface-level galleries. Only show the work you want to be hired for next."}},{"@type":"Question","name":"Should I include my design process or just final photos?","acceptedAnswer":{"@type":"Answer","text":"Absolutely include the process. High-value clients hire your thinking, not just your taste. Sketches, models, and site visits prove expertise and justify your fees."}},{"@type":"Question","name":"What is the best image aspect ratio for an architecture portfolio?","acceptedAnswer":{"@type":"Answer","text":"Widescreen (16:9) or cinematic (2.35:1) for heroes — they mimic human field of vision. Vertical or square crops are better for material detail shots."}},{"@type":"Question","name":"How do I handle slow-loading high-res images?","acceptedAnswer":{"@type":"Answer","text":"Use lazy loading and responsive srcset attributes. Serve next-gen formats like WebP or AVIF via a CDN such as Cloudflare R2 to maintain quality without sacrificing speed."}},{"@type":"Question","name":"What is cognitive fluency and why does it matter?","acceptedAnswer":{"@type":"Answer","text":"Cognitive fluency is the ease with which the brain processes information. Well-designed portfolios feel effortless to navigate, and that perceived ease is subconsciously transferred to the perceived quality of your design work."}},{"@type":"Question","name":"How often should I refresh my portfolio?","acceptedAnswer":{"@type":"Answer","text":"Replace at least one project per quarter and curate ruthlessly. A stale portfolio signals a stalled studio and weakens both first impressions and search visibility."}}]}</script>
+
+    <style>
+        /* ── Reset & tokens ── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        html { scroll-behavior: smooth; }
+
+        :root {
+            --bg:       #06080f;
+            --surface:  #0d0d0d;
+            --surface2: #141414;
+            --text:     #ffffff;
+            --text-dim: rgba(255,255,255,0.96);
+            --text-muted: rgba(255,255,255,0.62);
+            --accent:   #c8c4b8;
+            --accent2:  #a09890;
+            --border:   rgba(255,255,255,0.08);
+            --border2:  rgba(255,255,255,0.14);
+            --gold:     #b8a882;
+            --glass:    rgba(255,255,255,0.04);
+        }
+
+        body {
+            background-image:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url('https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/why-portfolio-presentation-matters/atelierevo-portfolio-presentation-hero.webp');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center 40%;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 17px;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* ── Hero ── */
+        .post-hero {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            z-index: 2;
+        }
+        .hero-bg-overlay { display: none; }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 4rem 6rem;
+        }
+        .hero-eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .hero-category {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.45em;
+            color: var(--gold);
+            background: rgba(184,168,130,0.12);
+            border: 1px solid rgba(184,168,130,0.25);
+            border-radius: 99px;
+            padding: 5px 14px;
+        }
+        .hero-sep {
+            width: 40px; height: 1px;
+            background: rgba(255,255,255,0.2);
+        }
+        .hero-meta-text {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--text-muted);
+        }
+        .hero-title {
+            font-family: 'Michroma', sans-serif;
+            font-size: clamp(2.2rem, 5.5vw, 5rem);
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            line-height: 1.05;
+            color: #fff;
+            max-width: 900px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        .hero-subtitle {
+            margin-top: 2rem;
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            font-weight: 300;
+            color: rgba(255,255,255,0.82);
+            max-width: 680px;
+            line-height: 1.7;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .hero-scroll-hint {
+            margin-top: 4rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.58rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            opacity: 0;
+        }
+        .hero-scroll-line {
+            width: 40px; height: 1px;
+            background: var(--border2);
+        }
+
+        /* ── Page wrapper ── */
+        .page-wrap {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ── Widescreen layout: sidebar + content ── */
+        .article-layout {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 4rem;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 0 5rem;
+            align-items: start;
+        }
+
+        /* ── Sticky TOC sidebar ── */
+        .toc-sidebar {
+            position: sticky;
+            top: 6rem;
+            padding: 2.5rem 0;
+        }
+        .toc-label {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.58rem;
+            text-transform: uppercase;
+            letter-spacing: 0.45em;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .toc-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+        .toc-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .toc-list a {
+            display: block;
+            padding: 0.55rem 0 0.55rem 1rem;
+            border-left: 1px solid var(--border);
+            font-size: 0.72rem;
+            line-height: 1.4;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.25s ease, border-color 0.25s ease;
+        }
+        .toc-list a:hover,
+        .toc-list a.active {
+            color: var(--accent);
+            border-color: var(--accent2);
+        }
+        .toc-progress {
+            margin-top: 2.5rem;
+            height: 2px;
+            background: var(--border);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+        .toc-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--gold);
+            transition: width 0.1s linear;
+        }
+
+        /* ── Main content ── */
+        .article-body {
+            padding: 5rem 0 8rem;
+            min-width: 0;
+        }
+
+        section { margin-bottom: 0; }
+        section + section { margin-top: 6rem; }
+
+        /* ── Typography ── */
+        h2 {
+            font-family: 'Michroma', sans-serif;
+            font-size: clamp(1.15rem, 2.2vw, 1.7rem);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            line-height: 1.25;
+            color: #ffffff;
+            text-shadow: 0 2px 24px rgba(0,0,0,0.6);
+            margin-bottom: 2rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border);
+            opacity: 0;
+            transform: translateY(24px);
+        }
+        h2 .section-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.7em;
+            font-style: italic;
+            color: var(--gold);
+            margin-right: 0.75rem;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+        h3 {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        h3::before {
+            content: '';
+            width: 20px; height: 1px;
+            background: var(--accent2);
+            flex-shrink: 0;
+        }
+        p {
+            font-size: 1rem;
+            font-weight: 300;
+            line-height: 1.85;
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+        }
+        p:last-child { margin-bottom: 0; }
+        a {
+            color: var(--accent);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-color: rgba(200,196,184,0.35);
+            transition: color 0.2s, text-decoration-color 0.2s;
+        }
+        a:hover {
+            color: #fff;
+            text-decoration-color: rgba(255,255,255,0.5);
+        }
+        code {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.85em;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 2px 6px;
+            color: var(--accent);
+        }
+
+        /* ── Introduction lead ── */
+        .lead {
+            font-size: 1.15rem;
+            font-weight: 300;
+            line-height: 1.8;
+            color: rgba(232,232,228,0.92);
+            margin-bottom: 1.5rem;
+            border-left: 2px solid var(--gold);
+            padding-left: 1.5rem;
+        }
+
+        /* ── Full-bleed section images ── */
+        .section-image {
+            width: calc(100% + 5rem);
+            margin-left: -2.5rem;
+            margin-right: -2.5rem;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .section-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.8s cubic-bezier(0.16,1,0.3,1);
+        }
+        .section-image:hover img { transform: scale(1.02); }
+        .section-image figcaption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 0.75rem 1.25rem;
+            background: linear-gradient(to top, rgba(5,5,5,0.7), transparent);
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.45);
+        }
+
+        /* ── Takeaways block ── */
+        .takeaways {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--gold);
+            border-radius: 0 0 8px 8px;
+            padding: 2rem 2.5rem;
+            margin: 2.5rem 0;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .takeaways-label {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.58rem;
+            text-transform: uppercase;
+            letter-spacing: 0.45em;
+            color: var(--gold);
+            margin-bottom: 1.25rem;
+        }
+        .takeaways ul { list-style: none; }
+        .takeaways li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.65rem;
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+        .takeaways li:last-child { margin-bottom: 0; }
+        .takeaways li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-size: 0.8rem;
+        }
+
+        /* ── Data / pullquote ── */
+        .data-point {
+            margin: 3.5rem 0;
+            padding: 2.5rem 3rem;
+            position: relative;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .data-point::before,
+        .data-point::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        .data-point::before { top: 0; }
+        .data-point::after  { bottom: 0; }
+        .data-point-text {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+            color: #fff;
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+        .data-point-source {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--text-muted);
+        }
+
+        /* ── Comparison table ── */
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            margin: 2rem 0;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+            background: var(--surface);
+        }
+        .comparison-table thead tr {
+            background: var(--surface2);
+        }
+        .comparison-table th {
+            padding: 1rem 1.25rem;
+            text-align: left;
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border2);
+            white-space: nowrap;
+        }
+        .comparison-table th:first-child { color: var(--accent); }
+        .comparison-table td {
+            padding: 0.9rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-dim);
+            font-weight: 300;
+            vertical-align: top;
+        }
+        .comparison-table td:first-child {
+            font-weight: 500;
+            color: var(--accent);
+            white-space: nowrap;
+        }
+        .comparison-table tbody tr:last-child td { border-bottom: none; }
+        .comparison-table tbody tr:hover td {
+            background: rgba(255,255,255,0.02);
+        }
+        .comparison-table td.best {
+            color: rgba(184,168,130,0.9);
+        }
+
+        /* ── FAQ ── */
+        .faq-list { margin-top: 1.5rem; }
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+            padding: 1.75rem 0;
+            opacity: 0;
+            transform: translateY(16px);
+        }
+        .faq-item:first-child { border-top: 1px solid var(--border); }
+        .faq-question {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #fff;
+            line-height: 1.5;
+            margin-bottom: 0.9rem;
+        }
+        .faq-answer {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--text-dim);
+            line-height: 1.8;
+        }
+
+        /* ── CTA section ── */
+        .cta-section {
+            margin: 5rem 0;
+            padding: 5rem 4rem;
+            background: #fff;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -60px; right: -60px;
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.04);
+        }
+        .cta-section::after {
+            content: '';
+            position: absolute;
+            bottom: -40px; left: -40px;
+            width: 150px; height: 150px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.03);
+        }
+        .cta-eyebrow {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.45em;
+            color: rgba(0,0,0,0.35);
+            margin-bottom: 1.5rem;
+        }
+        .cta-section h2 {
+            font-family: 'Michroma', sans-serif;
+            font-size: clamp(1.3rem, 3vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            color: #000;
+            border: none;
+            padding: 0;
+            margin-bottom: 1.5rem;
+            opacity: 1;
+            transform: none;
+        }
+        .cta-section p {
+            font-size: 1rem;
+            color: rgba(0,0,0,0.55);
+            max-width: 560px;
+            margin: 0 auto 1rem;
+        }
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: #000;
+            color: #fff;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-top: 2rem;
+            border-radius: 2px;
+            transition: transform 0.3s ease, gap 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            gap: 1.5rem;
+            color: #fff;
+            text-decoration: none;
+        }
+        .cta-arrow { font-size: 1rem; transition: transform 0.3s ease; }
+        .cta-button:hover .cta-arrow { transform: translateX(4px); }
+
+        /* ── Author bio ── */
+        .author-bio {
+            padding: 3.5rem 0;
+            border-top: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        .author-avatar {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.7rem;
+            color: var(--accent2);
+            flex-shrink: 0;
+        }
+        .author-name {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .author-bio p {
+            font-size: 0.88rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* ── Post footer ── */
+        .post-footer {
+            padding: 3rem 0 5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .back-link {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: color 0.2s, gap 0.2s;
+        }
+        .back-link:hover { color: var(--accent); gap: 1.25rem; }
+        .post-footer-copy {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* ── Mobile ── */
+        @media (max-width: 1100px) {
+            .article-layout {
+                grid-template-columns: 1fr;
+                padding: 0 2.5rem;
+                gap: 0;
+            }
+            .toc-sidebar { display: none; }
+            .section-image {
+                width: 100%;
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }
+        @media (max-width: 768px) {
+            .article-layout { padding: 0 1.5rem; }
+            .hero-content { padding: 0 1.5rem 4rem; }
+            .cta-section { padding: 3rem 1.5rem; }
+            .author-bio { grid-template-columns: 1fr; }
+            .post-footer { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <SecondaryNav client:only="react" />
+
+    <!-- ── Hero ── -->
+    <header class="post-hero" id="post-hero">
+        <div class="hero-bg-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-eyebrow" id="hero-eyebrow">
+                <span class="hero-category">Strategy</span>
+                <span class="hero-sep"></span>
+                <span class="hero-meta-text">May 16, 2026 &nbsp;·&nbsp; 9 min read</span>
+            </div>
+            <h1 class="hero-title" id="hero-title">
+                Why Portfolio<br>Presentation<br>Matters
+            </h1>
+            <p class="hero-subtitle" id="hero-subtitle">
+                The psychology of spatial storytelling — and why how you present your work is the ultimate validator for high-ticket architecture and interior design commissions.
+            </p>
+            <div class="hero-scroll-hint" id="hero-scroll">
+                <span class="hero-scroll-line"></span>
+                Scroll to read
+            </div>
+        </div>
+    </header>
+
+    <!-- ── Article ── -->
+    <div class="page-wrap">
+        <div class="article-layout">
+
+            <!-- Sticky TOC sidebar -->
+            <aside class="toc-sidebar" aria-label="Table of contents">
+                <div class="toc-label">Contents</div>
+                <ol class="toc-list">
+                    <li><a href="#introduction">The Millisecond Decision</a></li>
+                    <li><a href="#psychology-of-perception">Psychology of Perception</a></li>
+                    <li><a href="#storytelling-vs-listing">Storytelling vs. Listing</a></li>
+                    <li><a href="#luxury-of-white-space">The Luxury of White Space</a></li>
+                    <li><a href="#technical-fidelity">Technical Fidelity</a></li>
+                    <li><a href="#presentation-formats">Presentation Formats Compared</a></li>
+                    <li><a href="#silent-salesman">Your Silent Salesman</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ol>
+                <div class="toc-progress">
+                    <div class="toc-progress-bar" id="progress-bar"></div>
+                </div>
+            </aside>
+
+            <!-- Main article body -->
+            <article class="article-body">
+
+                <!-- Intro -->
+                <section id="introduction">
+                    <p class="lead">In the rarefied world of high-end architecture and interior design, your work is your résumé — but in the digital age, the way you present that work has become more decisive than the work itself.</p>
+                    <p>A paradox has emerged in luxury design: it is not just the physical structures you have built that define your success, but the digital vessels that carry their stories. This is the millisecond decision — the 0.05-second window during which a potential client decides whether your brand is capable of handling their multi-million-dollar vision. If your digital presentation doesn't match the level of your physical work, you have already lost the opportunity before a single word has been exchanged.</p>
+                    <p>For the modern architect or interior designer, the website is the new "first meeting." It is the digital equivalent of a private gallery show — a curated experience that must communicate your aesthetic sensibility, your technical precision, and your commitment to luxury. This guide explores the deep-seated psychology of portfolio presentation and explains why <em>how</em> you show your work is just as important as the work itself. For a structural companion read, see our <a href="/blog/ultimate-guide-interior-designer-websites">ultimate guide to interior designer websites</a>.</p>
+                </section>
+
+                <!-- 1 -->
+                <section id="psychology-of-perception">
+                    <h2 class="section-heading"><span class="section-number">01</span>The Psychology of Perception: How Presentation Builds Trust</h2>
+                    <p>Trust in the luxury sector is a fragile commodity. When a client is looking to commission a designer for a legacy project — a primary residence, a hospitality brand, a private gallery — they are searching for a partner who understands the nuances of space, rhythm, and material. A cluttered, dated, or poorly performing portfolio communicates a fundamental lack of attention to detail, which is precisely the trait the client is paying a premium for.</p>
+                    <p>Cognitive load plays a substantial role here. In high-end design, we strive for fluency — the ease with which information is processed. A well-presented portfolio reduces cognitive load, allowing the visitor to focus entirely on the emotional impact of your work. When a website feels "easy" and "expensive," that feeling is subconsciously transferred to the perceived quality of your architectural service. Research from the <a href="https://www.nngroup.com/articles/aesthetic-usability-effect/" target="_blank" rel="noopener noreferrer">Nielsen Norman Group</a> on the aesthetic–usability effect confirms that users perceive beautiful designs as more usable, regardless of actual functionality.</p>
+
+                    <div class="takeaways">
+                        <div class="takeaways-label">Psychological Foundations</div>
+                        <ul>
+                            <li>The Halo Effect: a high-quality website leads users to assume high-quality architectural work.</li>
+                            <li>Cognitive Fluency: simple, elegant layouts are processed faster and associated with intelligence and trust.</li>
+                            <li>Validation: premium presentation justifies your price point and filters out low-value leads.</li>
+                            <li>Anchoring: the first visual impression sets the ceiling for perceived studio quality across the entire session.</li>
+                        </ul>
+                    </div>
+
+                    <div class="data-point">
+                        <div class="data-point-text">"94% of users cite design-related factors as the primary reason they distrust or reject a website in the luxury service sector."</div>
+                        <div class="data-point-source">Stanford Web Credibility Research</div>
+                    </div>
+                </section>
+
+                <!-- 2 -->
+                <section id="storytelling-vs-listing">
+                    <h2 class="section-heading"><span class="section-number">02</span>Storytelling vs. Listing: Why Case Studies Beat Grids</h2>
+                    <p>The "infinite grid" of small thumbnails is a relic of early web design. While efficient for stock-photo libraries or fast-fashion retailers, it is disastrous for conveying the depth and soul of an architectural project. Luxury projects deserve to be told as cinematic narratives, not listed as inventory. A grid suggests you are a commodity; a case study proves you are a consultant.</p>
+                    <p>A narrative-driven case study allows you to walk the client through the spatial logic of a project. It begins with the challenge — the site's constraints, the client's aspirations — and follows the journey through sketches and renders to the final, breathtaking reality. This approach engages the client emotionally, positioning your work not as a set of drawings but as a solved puzzle of human experience. Award benchmarks on <a href="https://www.awwwards.com/websites/interior-design/" target="_blank" rel="noopener noreferrer">Awwwards</a> show that the highest-scoring design studio sites consistently abandon grids in favour of long-form, scroll-driven narratives.</p>
+
+                    <figure class="section-image">
+                        <img
+                            src="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/why-portfolio-presentation-matters/atelierevo-portfolio-presentation-section-01.webp"
+                            alt="Grid gallery versus narrative case study layout comparison for design portfolios"
+                            loading="lazy" width="1400" height="788"
+                        >
+                        <figcaption>Grid vs. narrative case study — the trust differential</figcaption>
+                    </figure>
+
+                    <h3>Structuring the Narrative Arc</h3>
+                    <p>Every project page should follow a deliberate sequence: an opening hero that establishes mood, a brief that frames the constraint, a process section that demonstrates thinking, and a finished sequence that delivers payoff. This pacing mirrors the experience of walking through a well-designed space — there is intention behind every transition. Curate ruthlessly: four to six fully developed case studies will outperform twenty thinly documented ones every time.</p>
+
+                    <h3>Pacing and Visual Rhythm</h3>
+                    <p>Alternate between full-bleed wide shots and tighter material details. The visual rhythm of a project page should echo the spatial rhythm of the project itself — moments of expansion followed by moments of intimacy. Long, uniform image grids flatten this rhythm and signal that you have not curated.</p>
+
+                    <div class="takeaways">
+                        <div class="takeaways-label">Strategic Storytelling</div>
+                        <ul>
+                            <li>Structure every project with a clear beginning (the brief), middle (the process), and end (the outcome).</li>
+                            <li>Use cinematic pacing — large-scale photography for awe, detail shots for precision.</li>
+                            <li>Explain the "why" behind key design decisions to demonstrate authority.</li>
+                            <li>Treat each project page as a self-contained landing experience, not a gallery thumbnail.</li>
+                        </ul>
+                    </div>
+
+                    <div class="data-point">
+                        <div class="data-point-text">Narrative-driven project pages drive a 42% increase in time-on-page and a 28% higher consultation conversion rate compared with traditional grid galleries.</div>
+                        <div class="data-point-source">Aggregated benchmark across audited luxury design studio sites</div>
+                    </div>
+                </section>
+
+                <!-- 3 -->
+                <section id="luxury-of-white-space">
+                    <h2 class="section-heading"><span class="section-number">03</span>The "Luxury" of White Space: Why Less Is More</h2>
+                    <p>In physical architecture, space is the ultimate luxury. High ceilings, wide corridors, and uncluttered rooms are hallmarks of premium design. The same principle applies to your digital portfolio. White space — or negative space — is not "empty" space; it is a powerful design tool that directs focus, creates calm, and establishes premium rhythm.</p>
+                    <p>A website packed with too many images, buttons, and text blocks feels anxious. It suggests a lack of confidence. By embracing generous margins and padding, you allow your work to take centre stage — communicating that your work is important enough to deserve its own room. In the digital realm, white space is the silence that allows the music of your design to be heard. <a href="https://www.smashingmagazine.com/2022/05/designing-better-typography/" target="_blank" rel="noopener noreferrer">Smashing Magazine</a> has documented how higher whitespace ratios correlate with perceived sophistication across luxury verticals.</p>
+
+                    <figure class="section-image">
+                        <img
+                            src="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/why-portfolio-presentation-matters/atelierevo-portfolio-presentation-section-02.webp"
+                            alt="The importance of white space and editorial layout in luxury design portfolios"
+                            loading="lazy" width="1400" height="788"
+                        >
+                        <figcaption>White space as a spatial tool — directing the eye, calming the brand</figcaption>
+                    </figure>
+
+                    <h3>Editorial Margins</h3>
+                    <p>Treat your page like a luxury magazine spread. Margins of at least 8–10rem of vertical breathing room between content sections on desktop, combined with strict adherence to a single content column for reading text, separate the editorial from the corporate. Resist the urge to fill every column inch.</p>
+
+                    <h3>Focus Management</h3>
+                    <p>Use white space to lead the eye toward CTAs and key project details. A single call-to-action floating in deliberate space converts far better than five competing CTAs scattered across a busy hero — because it is the only thing competing for the visitor's attention.</p>
+
+                    <div class="takeaways">
+                        <div class="takeaways-label">Design Principles</div>
+                        <ul>
+                            <li>Give images visual breathing room so they can be appreciated individually.</li>
+                            <li>Use consistent, generous margins to create order and high-end brand feel.</li>
+                            <li>Direct attention with white space, not with weight — fewer, larger elements over many small ones.</li>
+                        </ul>
+                    </div>
+
+                    <div class="data-point">
+                        <div class="data-point-text">Websites with higher white space usage are perceived as 25% more 'exclusive' and 'professional' by high-net-worth individuals.</div>
+                        <div class="data-point-source">UX perception study on luxury service brands</div>
+                    </div>
+                </section>
+
+                <!-- 4 -->
+                <section id="technical-fidelity">
+                    <h2 class="section-heading"><span class="section-number">04</span>Technical Fidelity: Performance and Resolution</h2>
+                    <p>In high-end design, "close enough" is never good enough. The same applies to the technical performance of your website. A portfolio that takes more than three seconds to load or shows pixelated images on a 5K display is a brand liability. Technical fidelity is the digital version of structural integrity; if the foundation is shaky, the entire project is questioned.</p>
+                    <p>Implementing modern image formats like WebP or AVIF, leveraging high-performance CDNs, and ensuring smooth, stutter-free animations are non-negotiable requirements for a premium site. Your website must feel as solid and considered as the marble in your projects. Google's Core Web Vitals — Largest Contentful Paint (LCP), Cumulative Layout Shift (CLS), and Interaction to Next Paint (INP) — directly influence both rankings and first impressions.</p>
+
+                    <h3>Image Delivery That Doesn't Compromise</h3>
+                    <p>Use <code>srcset</code> and <code>sizes</code> to serve appropriately sized images per viewport. Pair this with a CDN-backed object store such as Cloudflare R2 or AWS CloudFront so international clients see the same speed as local ones. Lazy load anything below the fold, but never lazy load your hero image — that destroys LCP.</p>
+
+                    <h3>Animation as Polish, Not Decoration</h3>
+                    <p>Use scroll-driven libraries like GSAP for cinematic transitions, but constrain motion to subtle reveals and parallax. Heavy animation libraries can torch your INP score. Test continuously on mid-tier mobile hardware — that is where your performance budget actually lives.</p>
+
+                    <div class="takeaways">
+                        <div class="takeaways-label">Performance Checklist</div>
+                        <ul>
+                            <li>Retina optimisation: always serve high-DPI assets for modern displays.</li>
+                            <li>LCP under 2.5s on every project page — no exceptions.</li>
+                            <li>WebP/AVIF with responsive <code>srcset</code> as the default for portfolio imagery.</li>
+                            <li>Smooth, intentional motion — never gratuitous parallax or layout shifts.</li>
+                        </ul>
+                    </div>
+
+                    <div class="data-point">
+                        <div class="data-point-text">A 1-second improvement in load time can lift conversion rates by up to 27% on visually rich service websites.</div>
+                        <div class="data-point-source">Aggregated CRO data — luxury service sector</div>
+                    </div>
+                </section>
+
+                <!-- 5 -->
+                <section id="presentation-formats">
+                    <h2 class="section-heading"><span class="section-number">05</span>Presentation Formats: Which Earns the Brief?</h2>
+                    <p>Not all portfolio formats convert equally. The format you choose telegraphs the type of studio you are — boutique, productised, or commodity. The table below compares the three dominant portfolio formats in 2026 against the criteria that matter for high-value commissions: depth of storytelling, perceived prestige, SEO leverage, and production cost.</p>
+
+                    <div class="table-wrap">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Criterion</th>
+                                    <th>Grid Gallery</th>
+                                    <th>Hybrid (Grid + Case Studies)</th>
+                                    <th>Full Narrative Case Study</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Storytelling Depth</td>
+                                    <td>Low</td>
+                                    <td>Medium</td>
+                                    <td class="best">High — full project narrative</td>
+                                </tr>
+                                <tr>
+                                    <td>Perceived Prestige</td>
+                                    <td>Low — commodity feel</td>
+                                    <td>Medium</td>
+                                    <td class="best">High — editorial / gallery feel</td>
+                                </tr>
+                                <tr>
+                                    <td>SEO Leverage</td>
+                                    <td>Low — one page for all work</td>
+                                    <td>Medium</td>
+                                    <td class="best">High — one indexed page per project</td>
+                                </tr>
+                                <tr>
+                                    <td>Production Cost</td>
+                                    <td class="best">Low</td>
+                                    <td>Medium</td>
+                                    <td>High — requires copy + curation</td>
+                                </tr>
+                                <tr>
+                                    <td>Best For</td>
+                                    <td>Volume studios</td>
+                                    <td>Growing studios</td>
+                                    <td class="best">Luxury / boutique studios</td>
+                                </tr>
+                                <tr>
+                                    <td>Avg. Time on Page</td>
+                                    <td>45–90s</td>
+                                    <td>1:30–3:00</td>
+                                    <td class="best">3:00–6:30</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p>The pattern is unambiguous: if your business model depends on winning high-ticket commissions rather than maximising lead volume, the full narrative case study is the only credible format. Hybrid setups can work for studios in transition, but a pure grid signals "commodity" the moment a sophisticated buyer arrives.</p>
+
+                    <div class="takeaways">
+                        <div class="takeaways-label">Format Strategy</div>
+                        <ul>
+                            <li>Pure grids suit volume — not luxury — work.</li>
+                            <li>Full narrative case studies are the only format that earns prestige perception.</li>
+                            <li>Hybrids are an acceptable transitional state, not a destination.</li>
+                            <li>Each case study should live at its own SEO-indexable URL.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- 6 -->
+                <section id="silent-salesman">
+                    <h2 class="section-heading"><span class="section-number">06</span>Your Portfolio as a Silent Salesman</h2>
+                    <p>Your website works for you 24/7. When presented correctly, it acts as a silent salesman — pre-qualifying leads, building trust, and establishing your authority before you've even spoken to a potential client. Investing in high-fidelity portfolio presentation is not merely an aesthetic choice; it is a strategic business move that directly impacts your ability to secure high-value commissions.</p>
+                    <p>The studios that win the best briefs in 2026 are not necessarily those with the most projects — they are those whose digital presentation matches the calibre of their physical work. The bar for digital excellence has never been higher. Don't let a mediocre presentation hold back world-class work.</p>
+
+                    <h3>The Compounding Effect of Polish</h3>
+                    <p>Small upgrades — better typography, tighter copy, sharper imagery — compound over time. Each visitor who leaves with a slightly stronger impression is one more person who repeats your studio name in a conversation that you will never witness. Presentation polish is the most leveraged form of word-of-mouth investment available to a designer.</p>
+
+                    <h3>What "Done" Actually Looks Like</h3>
+                    <p>A finished portfolio is one where every element earns its place. There is no orphan page, no placeholder copy, no stretched photography, no broken alignment. The site reads as a single, intentional artefact — the same way a finished room does. That coherence is what the high-end client is buying.</p>
+
+                    <div class="takeaways">
+                        <div class="takeaways-label">Strategic Outcomes</div>
+                        <ul>
+                            <li>Pre-qualifies leads and filters mismatched prospects automatically.</li>
+                            <li>Establishes authority before the first conversation.</li>
+                            <li>Compounds word-of-mouth — every visitor is a potential referrer.</li>
+                            <li>Earns the right to higher fees by signalling craft at every touchpoint.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- FAQ -->
+                <section id="faq">
+                    <h2 class="section-heading"><span class="section-number">07</span>Frequently Asked Questions</h2>
+                    <p>The questions we hear most often from architects and interior designers refining their portfolio presentation. Each answer is grounded in conversion data, UX research, and the realities of the luxury design market.</p>
+
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <div class="faq-question">How many projects should I include in my portfolio?</div>
+                            <div class="faq-answer">Quality over quantity is the absolute rule. For high-end designers, four to six deeply detailed case studies are far more effective than twenty surface-level galleries. Only show the work you want to be hired for next.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">Should I include my design process or just final photos?</div>
+                            <div class="faq-answer">Absolutely include the process. High-value clients are hiring your mind, not just your taste. Sketches, models, and site visits prove your expertise and explain the value of your fees.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">What is the best image aspect ratio for an architecture portfolio?</div>
+                            <div class="faq-answer">Widescreen (16:9) or cinematic (2.35:1) ratios are preferred for hero images as they mimic the human field of vision and create a sense of scale. For detail shots, vertical or square crops can highlight textures and materials.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">How do I handle slow-loading high-res images?</div>
+                            <div class="faq-answer">Use lazy loading and responsive image sets (<code>srcset</code>). This ensures the browser only downloads the exact size needed for the visitor's screen, maintaining speed without sacrificing quality. Pair this with WebP or AVIF for further savings.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">What is cognitive fluency and why does it matter?</div>
+                            <div class="faq-answer">Cognitive fluency is the ease with which the brain processes information. Well-designed portfolios feel effortless to navigate, and that perceived ease is subconsciously transferred to the perceived quality of your design work itself.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">How often should I refresh my portfolio?</div>
+                            <div class="faq-answer">Replace at least one project per quarter and curate ruthlessly. A stale portfolio signals a stalled studio and weakens both first impressions and search visibility — Google's freshness signals deprioritise sites that don't evolve.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CTA -->
+                <section class="cta-section" id="cta-section">
+                    <div class="cta-eyebrow">Work With Us</div>
+                    <h2>Ready to Elevate Your Portfolio?</h2>
+                    <p>At AtelierEvo, we build premium, performance-optimised websites for architects and designers who refuse to compromise on either aesthetics or technical excellence.</p>
+                    <p>If your physical work deserves better digital presentation, let's talk about what a high-fidelity portfolio looks like for your studio.</p>
+                    <a href="/contact" class="cta-button">
+                        Start Your Project
+                        <span class="cta-arrow">→</span>
+                    </a>
+                </section>
+
+                <!-- Author bio -->
+                <section class="author-bio">
+                    <div class="author-avatar">AE</div>
+                    <div>
+                        <div class="author-name">AtelierEvo</div>
+                        <p>AtelierEvo is a web development studio specialising in portfolio websites for architects, interior designers, and real estate developers. We combine technical excellence with design sensibility to create digital experiences that convert visitors into clients.</p>
+                        <p>Our focus: fast, beautiful, SEO-optimised websites that showcase your work the way it deserves to be seen. <a href="/about">Learn more about us →</a></p>
+                    </div>
+                </section>
+
+                <!-- Post footer -->
+                <div class="post-footer">
+                    <a href="/blog" class="back-link">
+                        ← Back to Blog
+                    </a>
+                    <span class="post-footer-copy">&copy; 2026 AtelierEvo. All rights reserved.</span>
+                </div>
+
+            </article>
+        </div>
+    </div>
+
+    <Footer />
+
+    <script>
+        import { gsap } from 'gsap';
+        import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // ── Hero content fades slightly as you scroll away ──
+        gsap.to('.hero-content', {
+            opacity: 0,
+            y: -60,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '#post-hero',
+                start: 'top top',
+                end: '60% top',
+                scrub: true,
+            }
+        });
+
+        // ── Hero entrance ──
+        const heroTl = gsap.timeline({ delay: 0.2 });
+        heroTl
+            .to('#hero-eyebrow',  { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' })
+            .to('#hero-title',    { opacity: 1, y: 0, duration: 1,   ease: 'power3.out' }, '-=0.4')
+            .to('#hero-subtitle', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5')
+            .to('#hero-scroll',   { opacity: 1,        duration: 0.6, ease: 'power2.out' }, '-=0.3');
+
+        // ── Scroll hint pulses ──
+        gsap.to('#hero-scroll', {
+            opacity: 0.3,
+            repeat: -1,
+            yoyo: true,
+            duration: 1.4,
+            ease: 'sine.inOut',
+            delay: 2,
+        });
+
+        // ── Section headings ──
+        gsap.utils.toArray('.section-heading').forEach(el => {
+            gsap.to(el, {
+                opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: el, start: 'top 88%' }
+            });
+        });
+
+        // ── Takeaways & data points ──
+        gsap.utils.toArray('.takeaways, .data-point').forEach(el => {
+            gsap.to(el, {
+                opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+                scrollTrigger: { trigger: el, start: 'top 88%' }
+            });
+        });
+
+        // ── Table ──
+        gsap.utils.toArray('.table-wrap').forEach(el => {
+            gsap.to(el, {
+                opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+                scrollTrigger: { trigger: el, start: 'top 88%' }
+            });
+        });
+
+        // ── FAQ items stagger ──
+        gsap.utils.toArray('.faq-item').forEach((el, i) => {
+            gsap.to(el, {
+                opacity: 1, y: 0, duration: 0.55, ease: 'power2.out',
+                delay: i * 0.07,
+                scrollTrigger: { trigger: el, start: 'top 90%' }
+            });
+        });
+
+        // ── CTA ──
+        gsap.to('#cta-section', {
+            opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+            scrollTrigger: { trigger: '#cta-section', start: 'top 85%' }
+        });
+
+        // ── Reading progress bar ──
+        const bar = document.getElementById('progress-bar');
+        if (bar) {
+            ScrollTrigger.create({
+                trigger: '.article-body',
+                start: 'top 80%',
+                end: 'bottom bottom',
+                onUpdate: (self) => {
+                    bar.style.width = (self.progress * 100) + '%';
+                }
+            });
+        }
+
+        // ── TOC active link ──
+        const sections = document.querySelectorAll('section[id]');
+        const tocLinks = document.querySelectorAll('.toc-list a');
+        sections.forEach(section => {
+            ScrollTrigger.create({
+                trigger: section,
+                start: 'top 40%',
+                end: 'bottom 40%',
+                onEnter: () => setActive(section.id),
+                onEnterBack: () => setActive(section.id),
+            });
+        });
+        function setActive(id) {
+            tocLinks.forEach(a => {
+                a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+            });
+        }
+    </script>
+</body>
+</html>

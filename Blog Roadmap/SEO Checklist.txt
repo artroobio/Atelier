@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="LANGUAGE-CODE">
+
+<head>
+
+<!-- ================================= -->
+<!-- BASIC META -->
+<!-- ================================= -->
+<meta charset="UTF-8">
+<title>PAGE TITLE | SITE NAME</title>
+
+<meta name="description" content="PAGE META DESCRIPTION">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="robots" content="index, follow">
+
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<!-- ================================= -->
+<!-- CANONICAL -->
+<!-- ================================= -->
+<link rel="canonical" href="FULL PAGE URL">
+
+<!-- ================================= -->
+<!-- HREFLANG (MULTI-LANGUAGE SUPPORT) -->
+<!-- ================================= -->
+<link rel="alternate" hreflang="LANGUAGE-CODE" href="PAGE URL">
+<link rel="alternate" hreflang="x-default" href="DEFAULT PAGE URL">
+
+<!-- ================================= -->
+<!-- OPEN GRAPH -->
+<!-- ================================= -->
+<meta property="og:title" content="PAGE TITLE">
+<meta property="og:description" content="PAGE META DESCRIPTION">
+<meta property="og:image" content="FEATURED IMAGE URL">
+<meta property="og:url" content="PAGE URL">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="SITE NAME">
+
+<!-- ================================= -->
+<!-- TWITTER CARD -->
+<!-- ================================= -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PAGE TITLE">
+<meta name="twitter:description" content="PAGE META DESCRIPTION">
+<meta name="twitter:image" content="FEATURED IMAGE URL">
+
+<!-- ================================= -->
+<!-- PERFORMANCE OPTIMIZATION -->
+<!-- ================================= -->
+<link rel="preconnect" href="FONT PROVIDER DOMAIN">
+<link rel="preconnect" href="FONT STATIC DOMAIN" crossorigin>
+
+<link rel="dns-prefetch" href="//EXTERNAL-ASSET-DOMAIN">
+
+<!-- Preload critical assets -->
+<link rel="preload" href="CRITICAL FONT FILE" as="font" crossorigin>
+<link rel="preload" href="HERO IMAGE FILE" as="image">
+
+<!-- Performance Hints -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="EXTERNAL ASSET DOMAIN">
+
+<!-- ================================= -->
+<!-- FAVICON -->
+<!-- ================================= -->
+<link rel="icon" href="FAVICON URL">
+<link rel="apple-touch-icon" href="APPLE TOUCH ICON URL">
+
+<!-- ================================= -->
+<!-- RSS FEED -->
+<!-- ================================= -->
+<link rel="alternate" type="application/rss+xml" title="SITE BLOG TITLE" href="RSS FEED URL">
+
+<!-- ================================= -->
+<!-- SEARCH ENGINE VERIFICATION -->
+<!-- ================================= -->
+<meta name="google-site-verification" content="GOOGLE VERIFICATION CODE">
+<meta name="msvalidate.01" content="BING VERIFICATION CODE">
+
+<!-- ================================= -->
+<!-- STRUCTURED DATA -->
+<!-- ================================= -->
+
+<!-- ORGANIZATION -->
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"Organization",
+ "name":"SITE NAME",
+ "url":"SITE URL",
+ "logo":"LOGO URL",
+ "sameAs":[
+  "SOCIAL PROFILE URL",
+  "SOCIAL PROFILE URL",
+  "SOCIAL PROFILE URL"
+ ]
+}
+</script>
+
+<!-- WEBSITE SEARCH -->
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"WebSite",
+ "url":"SITE URL",
+ "potentialAction":{
+  "@type":"SearchAction",
+  "target":"SEARCH PAGE URL?q={search_term_string}",
+  "query-input":"required name=search_term_string"
+ }
+}
+</script>
+
+<!-- AUTHOR -->
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"Person",
+ "name":"AUTHOR NAME",
+ "jobTitle":"AUTHOR TITLE",
+ "url":"AUTHOR PROFILE PAGE",
+ "affiliation":{
+  "@type":"Organization",
+  "name":"SITE NAME"
+ }
+}
+</script>
+
+<!-- BLOG POST -->
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"BlogPosting",
+ "headline":"PAGE TITLE",
+ "description":"PAGE META DESCRIPTION",
+ "image":"FEATURED IMAGE URL",
+ "author":{
+  "@type":"Person",
+  "name":"AUTHOR NAME"
+ },
+ "publisher":{
+  "@type":"Organization",
+  "name":"SITE NAME",
+  "logo":{
+   "@type":"ImageObject",
+   "url":"LOGO URL"
+  }
+ },
+ "datePublished":"YYYY-MM-DD",
+ "dateModified":"YYYY-MM-DD",
+ "mainEntityOfPage":{
+  "@type":"WebPage",
+  "@id":"PAGE URL"
+ },
+ "articleSection":"ARTICLE CATEGORY",
+ "keywords":"KEYWORDS",
+ "wordCount":"ARTICLE WORD COUNT"
+}
+</script>
+
+<!-- BREADCRUMB -->
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"BreadcrumbList",
+ "itemListElement":[
+  {
+   "@type":"ListItem",
+   "position":1,
+   "name":"Home",
+   "item":"HOMEPAGE URL"
+  },
+  {
+   "@type":"ListItem",
+   "position":2,
+   "name":"CATEGORY NAME",
+   "item":"CATEGORY URL"
+  },
+  {
+   "@type":"ListItem",
+   "position":3,
+   "name":"PAGE TITLE",
+   "item":"PAGE URL"
+  }
+ ]
+}
+</script>
+
+<!-- FAQ SCHEMA (OPTIONAL) -->
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"FAQPage",
+ "mainEntity":[
+  {
+   "@type":"Question",
+   "name":"QUESTION HERE",
+   "acceptedAnswer":{
+    "@type":"Answer",
+    "text":"ANSWER HERE"
+   }
+  }
+ ]
+}
+</script>
+
+<!-- ================================= -->
+<!-- ANALYTICS -->
+<!-- ================================= -->
+
+<!-- Google Analytics -->
+<!-- Insert GA4 script -->
+
+<!-- Google Tag Manager -->
+<!-- Insert GTM script -->
+
+</head>
+
+
+Rule- Body structure
+<body>
+
+<header>
+<nav>
+Main navigation
+</nav>
+</header>
+
+<main>
+
+<article>
+
+<h1>Primary Page Heading</h1>
+
+<!-- Breadcrumb navigation -->
+<nav aria-label="Breadcrumb">
+Home > Category > Page
+</nav>
+
+<!-- Featured Image -->
+<img
+src="IMAGE URL"
+alt="DESCRIPTIVE IMAGE TEXT"
+width="WIDTH"
+height="HEIGHT"
+loading="lazy"
+srcset="
+IMAGE-400 400w,
+IMAGE-800 800w,
+IMAGE-1200 1200w"
+sizes="(max-width: 768px) 100vw, 1200px">
+
+<!-- Table of Contents -->
+<nav>
+<a href="#section1">Section 1</a>
+<a href="#section2">Section 2</a>
+</nav>
+
+<section id="section1">
+<h2>Section Heading</h2>
+<p>Content</p>
+</section>
+
+<section id="section2">
+<h2>Section Heading</h2>
+<p>Content</p>
+</section>
+
+</article>
+
+</main>
+
+<footer>
+Copyright SITE NAME
+</footer>
+
+</footer>
