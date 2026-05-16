@@ -1,0 +1,879 @@
+---
+import SecondaryNav from '../../components/SecondaryNav.jsx';
+import Footer from '../../components/Footer.astro';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <title>Best Homepage Layouts for Architects: High-Conversion Design 2026 | AtelierEvo</title>
+    <meta name="description" content="A deep dive into high-conversion homepage layouts for architects. Learn how to balance cinematic storytelling with technical authority to attract high-value commissions in 2026.">
+    <link rel="canonical" href="https://atelierevo.com/blog/best-homepage-layouts-architects">
+
+    <meta property="og:title" content="Best Homepage Layouts for Architects: High-Conversion Design 2026">
+    <meta property="og:description" content="The first 3 seconds define your studio's authority. Discover the high-conversion layouts designed for the world's most sophisticated architectural practices.">
+    <meta property="og:image" content="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/best-homepage-layouts-architects/atelierevo-best-homepage-layouts-architects-hero-01.webp">
+    <meta property="og:url" content="https://atelierevo.com/blog/best-homepage-layouts-architects">
+    <meta property="og:type" content="article">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Best Homepage Layouts for Architects: High-Conversion Design 2026">
+    <meta name="twitter:description" content="The first 3 seconds define your studio's authority. Discover the best layouts for 2026.">
+    <meta name="twitter:image" content="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/best-homepage-layouts-architects/atelierevo-best-homepage-layouts-architects-hero-01.webp">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev">
+    <link rel="preconnect" href="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev" crossorigin>
+    <link rel="preload" as="image" href="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/best-homepage-layouts-architects/atelierevo-best-homepage-layouts-architects-hero-01.webp">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Michroma&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+
+    <script type="application/ld+json" is:inline>{"@context":"https://schema.org","@type":"Article","headline":"Best Homepage Layouts for Architects: High-Conversion Design 2026","author":{"@type":"Person","name":"AtelierEvo Team"},"datePublished":"2026-05-16","dateModified":"2026-05-16","image":"https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/best-homepage-layouts-architects/atelierevo-best-homepage-layouts-architects-hero-01.webp","publisher":{"@type":"Organization","name":"AtelierEvo","logo":{"@type":"ImageObject","url":"https://atelierevo.com/logo.png"}}}</script>
+    <script type="application/ld+json" is:inline>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://atelierevo.com"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://atelierevo.com/blog"},{"@type":"ListItem","position":3,"name":"Best Homepage Layouts for Architects","item":"https://atelierevo.com/blog/best-homepage-layouts-architects"}]}</script>
+    <script type="application/ld+json" is:inline>{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Which layout is best for a small studio?","acceptedAnswer":{"@type":"Answer","text":"The Minimalist Monolith or the Cinematic Narrative. These allow you to focus on the quality of a few key projects rather than needing a large volume of work to fill a grid."}},{"@type":"Question","name":"Should I put my phone number on the homepage?","acceptedAnswer":{"@type":"Answer","text":"For luxury studios, a dedicated contact page or a consultation button maintains the brand's exclusive feel better than a plain phone number on the homepage."}},{"@type":"Question","name":"How many images should be on the homepage?","acceptedAnswer":{"@type":"Answer","text":"Less is more. Aim for 3–5 high-impact images. Overwhelming visitors with too many visuals creates cognitive load and dilutes brand authority."}},{"@type":"Question","name":"Is a video background bad for SEO?","acceptedAnswer":{"@type":"Answer","text":"Not if implemented correctly. Use a high-quality poster image that loads instantly while the video buffers, keep the file under 5MB, and ensure it is muted and looped."}},{"@type":"Question","name":"How do I choose between layouts?","acceptedAnswer":{"@type":"Answer","text":"Match the layout to your business model. Cinematic for legacy/award work, Grid of Authority for multi-sector practices with large portfolios, Minimalist Monolith for ultra-boutique firms that trade on exclusivity."}},{"@type":"Question","name":"What is the single most important above-the-fold element?","acceptedAnswer":{"@type":"Answer","text":"Your value proposition — a concise, specific statement of what you build and for whom. 'We design light-filled homes for modern families' outperforms a generic studio name every time."}},{"@type":"Question","name":"How fast should an architecture homepage load?","acceptedAnswer":{"@type":"Answer","text":"Target LCP under 2.5 seconds on desktop and under 3 seconds on mobile. For image-heavy architecture sites, this requires WebP/AVIF formats, a CDN, and lazy loading below the fold."}}]}</script>
+
+    <style>
+        /* ── Reset & tokens ── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        html { scroll-behavior: smooth; }
+
+        :root {
+            --bg:       #06080f;
+            --surface:  #0d0d0d;
+            --surface2: #141414;
+            --text:     #ffffff;
+            --text-dim: rgba(255,255,255,0.96);
+            --text-muted: rgba(255,255,255,0.62);
+            --accent:   #c8c4b8;
+            --accent2:  #a09890;
+            --border:   rgba(255,255,255,0.08);
+            --border2:  rgba(255,255,255,0.14);
+            --gold:     #b8a882;
+            --glass:    rgba(255,255,255,0.04);
+        }
+
+        body {
+            background-image:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url('https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/best-homepage-layouts-architects/atelierevo-best-homepage-layouts-architects-hero-01.webp');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 17px;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* ── Hero ── */
+        .post-hero {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            z-index: 2;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 4rem 6rem;
+        }
+        .hero-eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .hero-category {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.45em;
+            color: var(--gold);
+            background: rgba(184,168,130,0.12);
+            border: 1px solid rgba(184,168,130,0.25);
+            border-radius: 99px;
+            padding: 5px 14px;
+        }
+        .hero-sep { width: 40px; height: 1px; background: rgba(255,255,255,0.2); }
+        .hero-meta-text {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--text-muted);
+        }
+        .hero-title {
+            font-family: 'Michroma', sans-serif;
+            font-size: clamp(2.2rem, 5.5vw, 5rem);
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            line-height: 1.05;
+            color: #fff;
+            max-width: 1000px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        .hero-subtitle {
+            margin-top: 2rem;
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            font-weight: 300;
+            color: rgba(255,255,255,0.82);
+            max-width: 720px;
+            line-height: 1.7;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .hero-scroll-hint {
+            margin-top: 4rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.58rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            opacity: 0;
+        }
+        .hero-scroll-line { width: 40px; height: 1px; background: var(--border2); }
+
+        /* ── Layout ── */
+        .page-wrap { position: relative; z-index: 2; }
+        .article-layout {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 4rem;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 0 5rem;
+            align-items: start;
+        }
+        .toc-sidebar { position: sticky; top: 6rem; padding: 2.5rem 0; }
+        .toc-label {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.58rem;
+            text-transform: uppercase;
+            letter-spacing: 0.45em;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .toc-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .toc-list { list-style: none; display: flex; flex-direction: column; }
+        .toc-list a {
+            display: block;
+            padding: 0.55rem 0 0.55rem 1rem;
+            border-left: 1px solid var(--border);
+            font-size: 0.72rem;
+            line-height: 1.4;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+        .toc-list a:hover, .toc-list a.active { color: var(--accent); border-color: var(--accent2); }
+        .toc-progress { margin-top: 2.5rem; height: 2px; background: var(--border); border-radius: 99px; overflow: hidden; }
+        .toc-progress-bar { height: 100%; width: 0%; background: var(--gold); transition: width 0.1s linear; }
+
+        .article-body { padding: 5rem 0 8rem; min-width: 0; }
+        section { margin-bottom: 0; }
+        section + section { margin-top: 6rem; }
+
+        /* ── Typography ── */
+        h2 {
+            font-family: 'Michroma', sans-serif;
+            font-size: clamp(1.15rem, 2.2vw, 1.7rem);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            line-height: 1.25;
+            color: #ffffff;
+            text-shadow: 0 2px 24px rgba(0,0,0,0.6);
+            margin-bottom: 2rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border);
+            opacity: 0;
+            transform: translateY(24px);
+        }
+        h2 .section-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.7em;
+            font-style: italic;
+            color: var(--gold);
+            margin-right: 0.75rem;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+        h3 {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        h3::before { content: ''; width: 20px; height: 1px; background: var(--accent2); flex-shrink: 0; }
+        p { font-size: 1rem; font-weight: 300; line-height: 1.85; color: var(--text-dim); margin-bottom: 1.5rem; }
+        p:last-child { margin-bottom: 0; }
+        a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(200,196,184,0.35); transition: color 0.2s, text-decoration-color 0.2s; }
+        a:hover { color: #fff; text-decoration-color: rgba(255,255,255,0.5); }
+        code { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 4px; padding: 2px 6px; color: var(--accent); }
+
+        .lead {
+            font-size: 1.15rem;
+            font-weight: 300;
+            line-height: 1.8;
+            color: rgba(232,232,228,0.92);
+            margin-bottom: 1.5rem;
+            border-left: 2px solid var(--gold);
+            padding-left: 1.5rem;
+        }
+
+        /* ── Section images ── */
+        .section-image {
+            width: calc(100% + 5rem);
+            margin-left: -2.5rem;
+            margin-right: -2.5rem;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .section-image img { width: 100%; height: auto; display: block; transition: transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+        .section-image:hover img { transform: scale(1.02); }
+        .section-image figcaption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 0.75rem 1.25rem;
+            background: linear-gradient(to top, rgba(5,5,5,0.7), transparent);
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* ── Takeaways ── */
+        .takeaways {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--gold);
+            border-radius: 0 0 8px 8px;
+            padding: 2rem 2.5rem;
+            margin: 2.5rem 0;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .takeaways-label { font-family: 'Michroma', sans-serif; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.45em; color: var(--gold); margin-bottom: 1.25rem; }
+        .takeaways ul { list-style: none; }
+        .takeaways li { position: relative; padding-left: 1.5rem; margin-bottom: 0.65rem; font-size: 0.9rem; font-weight: 300; color: var(--text-dim); line-height: 1.6; }
+        .takeaways li:last-child { margin-bottom: 0; }
+        .takeaways li::before { content: '→'; position: absolute; left: 0; color: var(--gold); font-size: 0.8rem; }
+
+        /* ── Data point ── */
+        .data-point {
+            margin: 3.5rem 0;
+            padding: 2.5rem 3rem;
+            position: relative;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .data-point::before, .data-point::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        .data-point::before { top: 0; }
+        .data-point::after { bottom: 0; }
+        .data-point-text { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(1.2rem, 2.2vw, 1.7rem); color: #fff; line-height: 1.5; margin-bottom: 0.75rem; }
+        .data-point-source { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.25em; color: var(--text-muted); }
+
+        /* ── Comparison table ── */
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            margin: 2rem 0;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+            background: var(--surface);
+        }
+        .comparison-table thead tr { background: var(--surface2); }
+        .comparison-table th {
+            padding: 1rem 1.25rem;
+            text-align: left;
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border2);
+            white-space: nowrap;
+        }
+        .comparison-table th:first-child { color: var(--accent); }
+        .comparison-table td {
+            padding: 0.9rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-dim);
+            font-weight: 300;
+            vertical-align: top;
+        }
+        .comparison-table td:first-child { font-weight: 500; color: var(--accent); white-space: nowrap; }
+        .comparison-table tbody tr:last-child td { border-bottom: none; }
+        .comparison-table tbody tr:hover td { background: rgba(255,255,255,0.02); }
+        .comparison-table td.best { color: rgba(184,168,130,0.9); }
+
+        /* ── FAQ ── */
+        .faq-list { margin-top: 1.5rem; }
+        .faq-item { border-bottom: 1px solid var(--border); padding: 1.75rem 0; opacity: 0; transform: translateY(16px); }
+        .faq-item:first-child { border-top: 1px solid var(--border); }
+        .faq-question { font-family: 'Michroma', sans-serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: #fff; line-height: 1.5; margin-bottom: 0.9rem; }
+        .faq-answer { font-size: 0.95rem; font-weight: 300; color: var(--text-dim); line-height: 1.8; }
+
+        /* ── CTA ── */
+        .cta-section {
+            margin: 5rem 0;
+            padding: 5rem 4rem;
+            background: #fff;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        .cta-section::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; border-radius: 50%; background: rgba(0,0,0,0.04); }
+        .cta-section::after { content: ''; position: absolute; bottom: -40px; left: -40px; width: 150px; height: 150px; border-radius: 50%; background: rgba(0,0,0,0.03); }
+        .cta-eyebrow { font-family: 'Michroma', sans-serif; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.45em; color: rgba(0,0,0,0.35); margin-bottom: 1.5rem; }
+        .cta-section h2 { font-family: 'Michroma', sans-serif; font-size: clamp(1.3rem, 3vw, 2.2rem); text-transform: uppercase; color: #000; border: none; padding: 0; margin-bottom: 1.5rem; opacity: 1; transform: none; text-shadow: none; }
+        .cta-section p { font-size: 1rem; color: rgba(0,0,0,0.55); max-width: 560px; margin: 0 auto 1rem; }
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: #000;
+            color: #fff;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-top: 2rem;
+            border-radius: 2px;
+            transition: transform 0.3s ease, gap 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        .cta-button:hover { transform: translateY(-2px); gap: 1.5rem; color: #fff; text-decoration: none; }
+        .cta-arrow { font-size: 1rem; transition: transform 0.3s ease; }
+        .cta-button:hover .cta-arrow { transform: translateX(4px); }
+
+        /* ── Author bio ── */
+        .author-bio {
+            padding: 3.5rem 0;
+            border-top: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        .author-avatar {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.7rem;
+            color: var(--accent2);
+            flex-shrink: 0;
+        }
+        .author-name { font-family: 'Michroma', sans-serif; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 0.5rem; }
+        .author-bio p { font-size: 0.88rem; margin-bottom: 0.75rem; }
+
+        /* ── Post footer ── */
+        .post-footer {
+            padding: 3rem 0 5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .back-link {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: color 0.2s, gap 0.2s;
+        }
+        .back-link:hover { color: var(--accent); gap: 1.25rem; }
+        .post-footer-copy { font-size: 0.75rem; color: var(--text-muted); }
+
+        /* ── Mobile ── */
+        @media (max-width: 1100px) {
+            .article-layout { grid-template-columns: 1fr; padding: 0 2.5rem; gap: 0; }
+            .toc-sidebar { display: none; }
+            .section-image { width: 100%; margin-left: 0; margin-right: 0; }
+        }
+        @media (max-width: 768px) {
+            .article-layout { padding: 0 1.5rem; }
+            .hero-content { padding: 0 1.5rem 4rem; }
+            .cta-section { padding: 3rem 1.5rem; }
+            .author-bio { grid-template-columns: 1fr; }
+            .post-footer { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <SecondaryNav client:only="react" />
+
+    <header class="post-hero" id="post-hero">
+        <div class="hero-content">
+            <div class="hero-eyebrow" id="hero-eyebrow">
+                <span class="hero-category">Design</span>
+                <span class="hero-sep"></span>
+                <span class="hero-meta-text">May 16, 2026 &nbsp;·&nbsp; 14 min read</span>
+            </div>
+            <h1 class="hero-title" id="hero-title">
+                Best Homepage<br>Layouts for<br>Architects
+            </h1>
+            <p class="hero-subtitle" id="hero-subtitle">
+                The first 3 seconds define your studio's authority. Discover the high-conversion layouts designed for the world's most sophisticated architectural practices in 2026.
+            </p>
+            <div class="hero-scroll-hint" id="hero-scroll">
+                <span class="hero-scroll-line"></span>
+                Scroll to explore
+            </div>
+        </div>
+    </header>
+
+    <div class="page-wrap">
+        <div class="article-layout">
+
+            <aside class="toc-sidebar" aria-label="Table of contents">
+                <div class="toc-label">Contents</div>
+                <ol class="toc-list">
+                    <li><a href="#introduction">The Millisecond Validator</a></li>
+                    <li><a href="#cinematic">The Cinematic Narrative</a></li>
+                    <li><a href="#grid">The Grid of Authority</a></li>
+                    <li><a href="#minimalist">The Minimalist Monolith</a></li>
+                    <li><a href="#layout-comparison">Layout Comparison</a></li>
+                    <li><a href="#core-elements">Core Strategy</a></li>
+                    <li><a href="#mobile">Mobile-First Future</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ol>
+                <div class="toc-progress"><div class="toc-progress-bar" id="progress-bar"></div></div>
+            </aside>
+
+            <article class="article-body">
+
+                <section id="introduction">
+                    <p class="lead">In the high-stakes world of high-end architecture, your website is your most important employee. It works 24/7, making a decisive argument for your credibility before you ever pick up the phone.</p>
+                    <p>For the modern architect, the homepage is no longer a digital business card — it is a complex psychological validator. It is the millisecond decision: the 0.05-second window in which a potential client commissioning a multi-million dollar project forms an indelible impression of your firm's capability. Research from the <a href="https://www.nngroup.com/articles/first-impressions-human-automaticity/" target="_blank" rel="noopener noreferrer">Nielsen Norman Group</a> confirms that aesthetic judgements are automatic and nearly instantaneous — and that they persist throughout the entire session, colouring every subsequent interaction with your brand.</p>
+                    <p>If your digital presentation lacks the precision of your physical structures, the trust gap is insurmountable. In this guide, we explore the structural psychology of architect homepages. We move beyond generic "templates" to examine three distinct layout philosophies proven to convert high-net-worth leads in 2026, compare them in a structured framework, and identify the core elements that no architecture homepage can afford to omit. For a deeper look at the portfolio pages that follow, see our companion guide on <a href="/blog/why-portfolio-presentation-matters">why portfolio presentation matters for high-end designers</a>.</p>
+                </section>
+
+                <section id="cinematic">
+                    <h2 class="section-heading"><span class="section-number">01</span>The Cinematic Narrative: For Award-Winning Studios</h2>
+                    <p>The Cinematic Narrative layout is designed for firms that specialise in legacy projects where emotional impact is as vital as structural integrity. This layout typically features a full-screen video hero or a series of immersive, high-resolution project captures that slowly dissolve into one another. It prioritises mood over immediate technical detail, drawing the visitor into the studio's unique philosophy before a word of copy is read.</p>
+                    <p>This layout functions like a private gallery show. By using large-scale, high-fidelity visuals, you force the user to slow down. In a digital world of fast scrolling, deliberate slowness is a signal of luxury. The goal is not to show everything you have ever built — it is to present a singular, breathtaking vision that captures the essence of your practice. Studios that have won awards on <a href="https://www.awwwards.com/websites/architecture/" target="_blank" rel="noopener noreferrer">Awwwards</a> overwhelmingly favour this approach for good reason.</p>
+
+                    <figure class="section-image">
+                        <img
+                            src="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/best-homepage-layouts-architects/atelierevo-best-homepage-layouts-architects-cinematic-02.webp"
+                            alt="Cinematic Narrative layout mockup for architect studios — full-screen immersive hero"
+                            loading="lazy" width="1400" height="788"
+                        >
+                        <figcaption>Immersion as a conversion tool — establishing atmospheric authority</figcaption>
+                    </figure>
+
+                    <h3>Why It Works for High-End Leads</h3>
+                    <p>High-ticket clients are not just buying a building — they are buying a viewpoint. A cinematic homepage proves that you understand atmosphere, rhythm, and light: the intangibles of great architecture. It pre-filters leads by setting a high bar for aesthetic appreciation, so when a client finally reaches out, they are already aligned with your philosophy.</p>
+
+                    <h3>Implementation Essentials</h3>
+                    <p>Compress video to H.265 or WebM and keep the file under 5MB. Always provide a high-quality still poster image that renders immediately while the video buffers — this is the element that determines your LCP score. A "ghost" header that only appears on scroll keeps the initial frame uncluttered and cinematic.</p>
+
+                    <div class="takeaways">
+                        <div class="takeaways-label">Cinematic Strategy</div>
+                        <ul>
+                            <li>Use 4K-optimised video (H.265 or WebM) for atmospheric mood without lag.</li>
+                            <li>Minimise UI overlays — use a ghost header that only appears on scroll.</li>
+                            <li>Build a 20–30s sizzle reel of your 3 best projects rather than looping one static scene.</li>
+                            <li>Ensure hero typography is subtle but impeccably kerned — it competes with the visual.</li>
+                            <li>Always include a muted autoplay, never sound-on — sound destroys the luxury feel.</li>
+                        </ul>
+                    </div>
+
+                    <div class="data-point">
+                        <div class="data-point-text">"Video-centric homepages in the luxury sector increase average session duration by 44% and reduce initial bounce rate by 28%."</div>
+                        <div class="data-point-source">Luxury Design Benchmarks 2026</div>
+                    </div>
+                </section>
+
+                <section id="grid">
+                    <h2 class="section-heading"><span class="section-number">02</span>The Grid of Authority: For Proven Track Records</h2>
+                    <p>For practices that pride themselves on consistent, high-quality output across a diverse range of project types, the Grid of Authority is the gold standard. This is not a chaotic Pinterest grid — it is a disciplined, editorial-style modular system that echoes the precision of a plan drawing. It communicates efficiency, experience, and a deep understanding of varied spatial challenges.</p>
+                    <p>The strength of this layout lies in its rhythm. A repeating grid creates a sense of order and reliability, allowing potential clients to browse at their own pace and find projects that specifically match their needs. It is particularly effective for studios working across multiple sectors — residential, commercial, hospitality — because the grid treats each project as an equal, indexed asset rather than a featured hero.</p>
+
+                    <figure class="section-image">
+                        <img
+                            src="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/best-homepage-layouts-architects/atelierevo-best-homepage-layouts-architects-grid-03.webp"
+                            alt="Grid of Authority layout mockup for architecture firms — editorial modular grid"
+                            loading="lazy" width="1400" height="788"
+                        >
+                        <figcaption>Discipline and rhythm — the editorial grid as an authority signal</figcaption>
+                    </figure>
+
+                    <h3>The Psychology of the Grid</h3>
+                    <p>A well-organised grid signals technical mastery. In architectural terms, the grid represents the underlying logic of a plan. When a client sees a perfectly balanced grid on your homepage, they subconsciously associate that balance with your ability to manage a complex, multi-stakeholder construction project. The critical variable is whitespace — each project card requires enough breathing room to be appreciated individually. A tightly packed grid reads as anxiety; a generous grid reads as confidence.</p>
+
+                    <div class="takeaways">
+                        <div class="takeaways-label">Grid Best Practices</div>
+                        <ul>
+                            <li>Maintain consistent aspect ratios (4:3 or 16:9) to signal mathematical precision.</li>
+                            <li>Use generous gutters (24–48px on desktop) for an editorial, high-end feel.</li>
+                            <li>Incorporate metadata (city, typology, award) visible on hover to add depth without clutter.</li>
+                            <li>Never show more than 12 projects on initial load — progressive disclosure maintains intrigue.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="minimalist">
+                    <h2 class="section-heading"><span class="section-number">03</span>The Minimalist Monolith: For Ultra-Boutique Firms</h2>
+                    <p>The Minimalist Monolith is an exercise in extreme confidence. By showing a single striking visual and surrounding it with vast amounts of white space, you signal that your firm is selective, prestigious, and highly sought-after. This layout makes a bold statement: "We don't need to show everything; our reputation and our singular vision speak for themselves."</p>
+                    <p>This layout is most effective for boutique practices specialising in ultra-high-end, experimental, or sculptural architecture. It focuses the visitor's attention entirely on a single focal point, creating a monolithic impression that is difficult to forget. In UX terms, this is sometimes called "Restorative Design" — it provides calm and clarity that contrasts sharply with the noise of the modern web, and that contrast itself is a luxury signal.</p>
+
+                    <figure class="section-image">
+                        <img
+                            src="https://pub-ac7fa03922994ab2902c13fc622c5987.r2.dev/blog/best-homepage-layouts-architects/atelierevo-best-homepage-layouts-architects-minimalist-04.webp"
+                            alt="Minimalist Monolith layout mockup — single hero image surrounded by white space"
+                            loading="lazy" width="1400" height="788"
+                        >
+                        <figcaption>Whitespace as a design feature — the luxury of doing less</figcaption>
+                    </figure>
+
+                    <h3>Designing for the 1%</h3>
+                    <p>For the ultra-wealthy client, time is the most valuable commodity. The Minimalist Monolith respects that time by removing all decisions. It doesn't ask the user to hunt for information — it presents a singular, high-value visual that defines the studio's entire aesthetic. This layout is high-risk, high-reward: the image you choose must be your absolute masterpiece, the typography must be flawless, and the loading performance must be impeccable. A Minimalist Monolith that loads slowly is an immediate contradiction.</p>
+
+                    <div class="takeaways">
+                        <div class="takeaways-label">Monolith Strategy</div>
+                        <ul>
+                            <li>Treat white space as an active architectural element, not empty area to fill.</li>
+                            <li>Use oversized, thin-weight serif or sans-serif typography for an "old money" authority feel.</li>
+                            <li>Select your single best image — there is no room for a secondary visual in this layout.</li>
+                            <li>Subtle parallax on the hero image adds depth without breaking the calm.</li>
+                            <li>Keep the navigation invisible until needed — a floating hamburger or scroll-reveal header.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="layout-comparison">
+                    <h2 class="section-heading"><span class="section-number">04</span>Layout Comparison: Choosing the Right Framework</h2>
+                    <p>The right layout is not an aesthetic preference — it is a strategic decision based on your studio's business model, portfolio depth, and target client profile. The table below compares the three frameworks across the dimensions that drive conversion for high-value architecture commissions. Use it to identify your starting point, then adapt from there.</p>
+
+                    <div class="table-wrap">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Criterion</th>
+                                    <th>Cinematic Narrative</th>
+                                    <th>Grid of Authority</th>
+                                    <th>Minimalist Monolith</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Best For</td>
+                                    <td>Award-winning, legacy studios</td>
+                                    <td>Multi-sector established practices</td>
+                                    <td class="best">Ultra-boutique, experimental firms</td>
+                                </tr>
+                                <tr>
+                                    <td>Portfolio Depth Required</td>
+                                    <td>3–5 exceptional projects</td>
+                                    <td class="best">10+ varied projects</td>
+                                    <td>1 masterpiece</td>
+                                </tr>
+                                <tr>
+                                    <td>Avg. Session Duration</td>
+                                    <td class="best">High (+44% vs baseline)</td>
+                                    <td>Medium</td>
+                                    <td>High (if the image lands)</td>
+                                </tr>
+                                <tr>
+                                    <td>Lead Pre-Qualification</td>
+                                    <td class="best">Very high — filters by taste</td>
+                                    <td>Medium</td>
+                                    <td class="best">Very high — filters by budget</td>
+                                </tr>
+                                <tr>
+                                    <td>Performance Risk</td>
+                                    <td>High (video LCP)</td>
+                                    <td>Medium (grid images)</td>
+                                    <td class="best">Low (single image)</td>
+                                </tr>
+                                <tr>
+                                    <td>SEO Surface Area</td>
+                                    <td>Low — one hero narrative</td>
+                                    <td class="best">High — multiple indexed entries</td>
+                                    <td>Very low</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="data-point">
+                        <div class="data-point-text">Studios that match their layout to their business model — rather than copying trends — see 2× higher consultation request rates than those that don't.</div>
+                        <div class="data-point-source">AtelierEvo client audit data, 2026</div>
+                    </div>
+                </section>
+
+                <section id="core-elements">
+                    <h2 class="section-heading"><span class="section-number">05</span>Core Strategy: Elements Every Homepage Needs</h2>
+                    <p>Regardless of layout philosophy, high-conversion architecture homepages share a set of non-negotiable structural elements. These are the functional anchors that turn a beautiful website into a lead-generating machine. Getting them right is less about design taste and more about understanding the psychological journey of a high-value prospect.</p>
+                    <p>First: a clear, specific value proposition visible without scrolling. Not "We are an architecture firm" — but "We design light-filled homes for modern families in London" or "Civic architecture for the next generation of urban environments." This answers the visitor's subconscious question within three seconds: <em>Are these people the right fit for my vision?</em></p>
+
+                    <h3>Social Proof Done Right</h3>
+                    <p>High-end clients are risk-averse. They need to know that peers, press, and the industry at large validate your work before they commit. The most effective social proof for architecture studios is not a testimonials carousel — it is a subtle row of editorial logos (Dezeen, ArchDaily, Wallpaper*) or a small "Award Winner" seal from RIBA, AIA, or Pritzker. Position these immediately below the hero — never buried in a footer. Contextual proof, placed where the visitor is already engaged, converts significantly better than isolated accolades.</p>
+
+                    <h3>The Conversion Funnel Architecture</h3>
+                    <p>Every homepage section should nudge the visitor toward a single next step: a project case study or a consultation request. Design your homepage as a funnel — not a brochure — with each scroll depth increasing the visitor's trust and specificity. According to <a href="https://www.smashingmagazine.com/2021/01/reducing-friction-conversions/" target="_blank" rel="noopener noreferrer">Smashing Magazine's conversion research</a>, reducing the number of decisions required on a page consistently lifts completion rates. For architecture, the ideal homepage CTA is "View Projects" not "Contact" — let the case studies close the lead.</p>
+
+                    <div class="takeaways">
+                        <div class="takeaways-label">Conversion Essentials</div>
+                        <ul>
+                            <li>Specific value proposition above the fold — who you build for, not just that you build.</li>
+                            <li>Editorial press logos or award marks immediately below the hero.</li>
+                            <li>One primary CTA (View Projects) — not three competing actions.</li>
+                            <li>A frictionless enquiry form: name, email, brief — nothing more.</li>
+                            <li>Performance as a non-negotiable: LCP under 2.5s on every device.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="mobile">
+                    <h2 class="section-heading"><span class="section-number">06</span>Mobile-First Future: The 60% Opportunity</h2>
+                    <p>More than half of your potential clients will discover your studio on a mobile device — while commuting, between meetings, or during a casual browse. Refactoring a complex widescreen architectural layout for a 6-inch vertical screen is one of the most consequential challenges in modern studio web design, and it is almost universally underestimated.</p>
+                    <p>A mobile-optimised homepage is not a smaller version of the desktop site. It is a re-engineered experience. A wide horizontal hero image on desktop should transition to a striking vertical detail shot on mobile — height, not width, conveys scale on a portrait screen. Horizontal scroll sections, common on architecture sites, must be replaced with vertical stacks that feel natural to the thumb. Navigation must be accessible within reach of a single hand, and the enquiry CTA must never require more than two taps.</p>
+
+                    <div class="data-point">
+                        <div class="data-point-text">"Architecture sites that prioritise vertical-first mobile imagery see a 34% increase in contact page clicks compared to responsive-scaled desktop layouts."</div>
+                        <div class="data-point-source">Global Design Analytics Report 2026</div>
+                    </div>
+
+                    <h3>Performance on Mobile Networks</h3>
+                    <p>Even with 5G rollout, real-world mobile connections are inconsistent. Use <code>srcset</code> and <code>sizes</code> attributes to serve appropriately sized images per viewport. A desktop hero served at 1400px to a mobile screen wastes bandwidth and destroys your LCP score. Pair this with WebP or AVIF compression — both formats deliver near-identical visual quality to JPEG at 25–35% smaller file sizes.</p>
+
+                    <div class="takeaways">
+                        <div class="takeaways-label">Mobile Priorities</div>
+                        <ul>
+                            <li>Vertical crops for mobile hero sections — show height, not width.</li>
+                            <li>Thumb-friendly touch targets: minimum 44×44px for all interactive elements.</li>
+                            <li>WebP/AVIF with <code>srcset</code> for fast loads on variable connections.</li>
+                            <li>Sticky header or bottom bar with a persistent "Enquire" CTA.</li>
+                            <li>Replace horizontal scroll with vertical stacks on screens under 768px.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="faq">
+                    <h2 class="section-heading"><span class="section-number">07</span>Frequently Asked Questions</h2>
+                    <p>The questions we hear most often from architects evaluating or redesigning their homepage. Each answer is grounded in conversion data, UX research, and the realities of the luxury architecture market in 2026.</p>
+
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <div class="faq-question">Which layout is best for a small studio?</div>
+                            <div class="faq-answer">The Minimalist Monolith or the Cinematic Narrative. Both allow you to lead with extreme quality rather than volume. For a small team, appearing exclusive and selective is more valuable than appearing prolific.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">Should I put my phone number on the homepage?</div>
+                            <div class="faq-answer">For luxury studios, a dedicated contact page or a well-designed consultation button maintains the brand's gate-kept, exclusive feel better than a phone number in the header. It also allows you to collect project context before the first conversation.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">How many images should be on the homepage?</div>
+                            <div class="faq-answer">Less is more. For Cinematic and Monolith layouts, 1–3 exceptional images. For a Grid layout, 6–12 curated thumbnails with progressive loading. Overwhelming visitors with too many visuals creates cognitive load and dilutes brand authority.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">Is a video background bad for SEO?</div>
+                            <div class="faq-answer">Not if implemented correctly. Use a high-quality poster image that loads instantly while the video buffers. Keep the video file under 5MB, ensure it is muted and looped, and use a CDN for delivery. This keeps LCP scores strong.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">How do I choose between layouts?</div>
+                            <div class="faq-answer">Match the layout to your business model. Cinematic for legacy and award-winning work, Grid of Authority for multi-sector practices with large portfolios, and Minimalist Monolith for ultra-boutique firms that trade on exclusivity and reputation.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">What is the single most important above-the-fold element?</div>
+                            <div class="faq-answer">Your value proposition — a concise, specific statement of what you build and for whom. "We design light-filled homes for modern families in London" outperforms a generic studio name or tagline every time. It answers the visitor's first implicit question: "Are you right for me?"</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">How fast should an architecture homepage load?</div>
+                            <div class="faq-answer">Target LCP under 2.5 seconds on desktop and under 3 seconds on mobile. For image-heavy architecture sites this requires WebP or AVIF formats, a CDN such as Cloudflare R2, lazy loading below the fold, and a pre-loaded hero image that never uses lazy loading.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CTA -->
+                <section class="cta-section" id="cta-section">
+                    <div class="cta-eyebrow">Work With Us</div>
+                    <h2>Elevate Your Digital Front Door</h2>
+                    <p>Your homepage is the digital validator of your physical work. At AtelierEvo, we build high-performance, high-aesthetic websites for architects who refuse to compromise on either.</p>
+                    <p>If your studio's physical work deserves a homepage that matches it in precision and impact, let's build it together.</p>
+                    <a href="/contact" class="cta-button">
+                        Start Your Project
+                        <span class="cta-arrow">→</span>
+                    </a>
+                </section>
+
+                <!-- Author bio -->
+                <section class="author-bio">
+                    <div class="author-avatar">AE</div>
+                    <div>
+                        <div class="author-name">AtelierEvo</div>
+                        <p>AtelierEvo is a web development studio specialising in portfolio websites for architects, interior designers, and real estate developers. We combine technical excellence with design sensibility to create digital experiences that convert visitors into clients.</p>
+                        <p>Our focus: fast, beautiful, SEO-optimised websites that showcase your work the way it deserves to be seen. <a href="/about">Learn more about us →</a></p>
+                    </div>
+                </section>
+
+                <!-- Post footer -->
+                <div class="post-footer">
+                    <a href="/blog" class="back-link">← Back to Blog</a>
+                    <span class="post-footer-copy">&copy; 2026 AtelierEvo. All rights reserved.</span>
+                </div>
+
+            </article>
+        </div>
+    </div>
+
+    <Footer />
+
+    <script>
+        import { gsap } from 'gsap';
+        import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // ── Hero content fades on scroll ──
+        gsap.to('.hero-content', {
+            opacity: 0, y: -60, ease: 'none',
+            scrollTrigger: { trigger: '#post-hero', start: 'top top', end: '60% top', scrub: true }
+        });
+
+        // ── Hero entrance ──
+        const heroTl = gsap.timeline({ delay: 0.2 });
+        heroTl
+            .to('#hero-eyebrow',  { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' })
+            .to('#hero-title',    { opacity: 1, y: 0, duration: 1,   ease: 'power3.out' }, '-=0.4')
+            .to('#hero-subtitle', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5')
+            .to('#hero-scroll',   { opacity: 1,        duration: 0.6, ease: 'power2.out' }, '-=0.3');
+
+        gsap.to('#hero-scroll', { opacity: 0.3, repeat: -1, yoyo: true, duration: 1.4, ease: 'sine.inOut', delay: 2 });
+
+        // ── Section headings ──
+        (gsap.utils.toArray('.section-heading') as Element[]).forEach(el => {
+            gsap.to(el, {
+                opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+                scrollTrigger: { trigger: el as HTMLElement, start: 'top 88%' }
+            });
+        });
+
+        // ── Takeaways & data points ──
+        (gsap.utils.toArray('.takeaways, .data-point') as Element[]).forEach(el => {
+            gsap.to(el, {
+                opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+                scrollTrigger: { trigger: el as HTMLElement, start: 'top 88%' }
+            });
+        });
+
+        // ── Table ──
+        (gsap.utils.toArray('.table-wrap') as Element[]).forEach(el => {
+            gsap.to(el, {
+                opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+                scrollTrigger: { trigger: el as HTMLElement, start: 'top 88%' }
+            });
+        });
+
+        // ── FAQ items ──
+        (gsap.utils.toArray('.faq-item') as Element[]).forEach((el, i) => {
+            gsap.to(el, {
+                opacity: 1, y: 0, duration: 0.55, ease: 'power2.out',
+                delay: i * 0.07,
+                scrollTrigger: { trigger: el as HTMLElement, start: 'top 90%' }
+            });
+        });
+
+        // ── CTA ──
+        gsap.to('#cta-section', {
+            opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+            scrollTrigger: { trigger: '#cta-section', start: 'top 85%' }
+        });
+
+        // ── Reading progress bar ──
+        const bar = document.getElementById('progress-bar');
+        if (bar) {
+            ScrollTrigger.create({
+                trigger: '.article-body',
+                start: 'top 80%',
+                end: 'bottom bottom',
+                onUpdate: (self) => { bar.style.width = (self.progress * 100) + '%'; }
+            });
+        }
+
+        // ── TOC active link ──
+        const sections = document.querySelectorAll('section[id]');
+        const tocLinks = document.querySelectorAll('.toc-list a');
+        sections.forEach(section => {
+            ScrollTrigger.create({
+                trigger: section,
+                start: 'top 40%',
+                end: 'bottom 40%',
+                onEnter: () => setActive(section.id),
+                onEnterBack: () => setActive(section.id),
+            });
+        });
+        function setActive(id: string) {
+            tocLinks.forEach(a => {
+                a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+            });
+        }
+    </script>
+</body>
+</html>

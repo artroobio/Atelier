@@ -38,7 +38,6 @@ export default function SecondaryNav() {
         </div>
         <div className="menu-footer-right">
           <span className="brand-title">Atelier Evo</span>
-          <span className="address-line">42nd Penthouse Floor, Void Tower<br />Zurich, Switzerland 8001</span>
         </div>
       </div>
 
@@ -134,14 +133,7 @@ export default function SecondaryNav() {
           display: block;
           margin-bottom: 8px;
         }
-        .address-line {
-          font-size: 0.8rem;
-          font-weight: 300;
-          line-height: 1.6;
-          display: block;
-          letter-spacing: 1px;
-          color: rgba(255,255,255,0.6);
-        }
+
         @media (max-width: 768px) {
           .menu-btn { top: 20px; right: 20px; padding: 10px 22px; font-size: 0.7rem; }
           .menu-overlay { padding: 0 32px; }

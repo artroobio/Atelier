@@ -162,7 +162,6 @@ export default function HeroMobile({ onMenuToggle, menuOpen }) {
           </div>
           <div className="menu-footer-right">
             <span className="brand-title">Atelier Evo</span>
-            <span className="address-line">42nd Penthouse Floor, Void Tower<br />Zurich, Switzerland 8001</span>
           </div>
         </div>
 
